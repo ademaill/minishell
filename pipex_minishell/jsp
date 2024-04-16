@@ -1,0 +1,33 @@
+ char    *here_doc(t_ms *head, t_token *token)
+{
+    char    *line;
+    char    *path_doc;
+    int        tmp_fd;
+    char    *limiter;
+
+    (void) head;
+    limiter = ft_strjoin(token->value[1], "\n");
+    path_doc = get_random_tmp_path();
+    tmp_fd = open(path_doc, O_CREAT | O_TRUNC | O_WRONLY | O_APPEND, 0644);
+    if (tmp_fd == -1)
+        error_exit("Error with fileout");
+    write(STDOUT_FILENO, ">", 1);
+    line = get_next_line(0);
+    if (!line)
+    {
+        free_rest_gnl(tmp_fd, line, limiter);
+        exit(EXIT_FAILURE);
+    }
+    while (ft_strncmp(line, limiter, ft_strlen(limiter) + 1) != 0)
+    {
+        write(STDOUT_FILENO, ">", 1);
+        write(tmp_fd, line, ft_strlen(line));
+        free(line);
+        line = get_next_line(0);
+        if (!line)
+            break ;
+    }
+    free_rest_gnl(tmp_fd, line, limiter);
+    close(tmp_fd);
+	return (path_doc);
+}
