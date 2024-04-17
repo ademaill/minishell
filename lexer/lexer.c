@@ -6,7 +6,7 @@
 /*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 14:01:37 by ademaill          #+#    #+#             */
-/*   Updated: 2024/04/12 14:01:44 by ademaill         ###   ########.fr       */
+/*   Updated: 2024/04/17 10:18:02 by ademaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ t_token	*ft_tokenizer(char *line)
 	char	**tab;
 	t_token *tmp;
 
-	tokens = (t_token *)malloc(sizeof (t_token));
 	tokens = NULL;
+	tokens = (t_token *)malloc(sizeof (t_token));
 	i = 0;
 	tab = ft_split_ms(line, "<>|");
 	while (tab[i])
@@ -67,40 +67,4 @@ t_token	*ft_tokenizer(char *line)
 		tmp = tmp->next;
 	}
 	return (tokens);
-}
-
-#include <stdio.h>
-
-int	main(int argc, char **arg)
-{
-	(void) argc;
-	(void) arg;
-	//char *str;
-	t_token *arr;
-	int	i;
-	//str = arg[1];
-	i = 0;
-	arr = ft_tokenizer("$fnrjksf");
-	while (arr)
-	{
-		printf("token numero %d\n", i);
-		i++;
-		printf("%s\n", arr->value[0]);
-		if (arr->value[1])
-			printf("%s\n", arr->value[1]);
-		if (arr->type == 0)
-			printf("type : _cmdgrp\n\n");
-		else if (arr->type == 1)
-			printf("type : _pipe\n\n");
-		else if (arr->type == 2)
-			printf("type : _redirect\n\n");
-		else if (arr->type == 3)
-			printf("type : _var_env\n\n");
-		else if (arr->type == 4)
-			printf("type : _here_doc\n\n");
-		else if (arr->type == 5)
-			printf("type : _append\n\n");
-		arr = arr->next;
-	}
-	return (0);
 }

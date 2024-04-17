@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 10:12:33 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/04/16 10:12:42 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/04/16 15:52:40 by ademaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 
 # include <stdlib.h>
 # include <unistd.h>
-# include "../Libft/libft.h"
+# include "../../minishell.h"
 
 char	*get_next_line(int fd);
 

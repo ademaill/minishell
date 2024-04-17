@@ -1,22 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstlast.c                                       :+:      :+:    :+:   */
+/*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vnavarre <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/09 14:41:04 by vnavarre          #+#    #+#             */
-/*   Updated: 2023/11/14 09:46:30 by vnavarre         ###   ########.fr       */
+/*   Created: 2024/04/16 15:48:14 by ademaill          #+#    #+#             */
+/*   Updated: 2024/04/16 16:39:48 by ademaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef MINISHELL_H
+# define MINISHELL_H
 
-t_list	*ft_lstlast(t_list *lst)
-{
-	if (!lst)
-		return (NULL);
-	while (lst->next)
-		lst = lst->next;
-	return (lst);
-}
+#include "lexer/lexer.h"
+#include "Libft/libft.h"
+#include "pipex_minishell/pipex.h"
+
+
+#endif

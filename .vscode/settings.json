@@ -1,0 +1,11 @@
+{
+	"files.associations": {
+		"ranges": "c",
+		"lexer.h": "c",
+		"get_next_line.h": "c",
+		"stdio.h": "c",
+		"pipex.h": "c",
+		"libft.h": "c",
+		"unistd.h": "c"
+	}
+}
