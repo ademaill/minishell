@@ -3,19 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:06:28 by ademaill          #+#    #+#             */
-/*   Updated: 2024/04/17 10:48:30 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/04/17 11:49:18 by ademaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-#include <stdlib.h>
 #include <unistd.h>
 #include "../minishell.h"
+
 
 static char	*ft_get_prompt(void)
 {
@@ -25,6 +26,7 @@ static char	*ft_get_prompt(void)
 	tmp_pwd = NULL;
 	prompt = NULL;
 	tmp_pwd = getcwd(tmp_pwd, 0);
+	tmp_pwd = ft_strjoin(tmp_pwd, "$");
 	if (!tmp_pwd)
 		return (NULL);
 	prompt = ft_strjoin("Minishell-ademaill-vnavarre", tmp_pwd);

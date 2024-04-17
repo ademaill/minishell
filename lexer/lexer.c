@@ -6,7 +6,7 @@
 /*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 14:01:37 by ademaill          #+#    #+#             */
-/*   Updated: 2024/04/17 10:18:02 by ademaill         ###   ########.fr       */
+/*   Updated: 2024/04/17 11:41:12 by ademaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ t_token	*ft_tokenizer(char *line)
 	char	**tab;
 	t_token *tmp;
 
-	tokens = NULL;
 	tokens = (t_token *)malloc(sizeof (t_token));
 	i = 0;
 	tab = ft_split_ms(line, "<>|");

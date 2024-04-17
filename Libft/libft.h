@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 10:19:24 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/04/17 10:43:42 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/04/17 11:50:10 by ademaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ void	ft_putchar_fd(char c, int fd);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
-t_token	*ft_lstnew(void *content);
 void	ft_lstadd_front(t_token **lst, t_token *new);
 int		ft_lstsize(t_token *lst);
 t_token	*ft_lstlast(t_token *lst);
@@ -67,5 +66,6 @@ int		ft_size(char *line, int *i);
 void	ft_skip_space(char *line, int *i);
 void	ft_ignore_sep(char *line, int *i);
 char	*ft_strndup(const char *str, int j);
+t_token	*ft_lstnew(char **content);
 
 #endif

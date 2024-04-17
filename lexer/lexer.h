@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 15:38:51 by ademaill          #+#    #+#             */
-/*   Updated: 2024/04/17 10:35:26 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/04/17 11:48:43 by ademaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,16 +37,6 @@ typedef struct s_token
 }	t_token;
 
 t_token	*ft_tokenizer(char *line);
-int		ft_size(char *line, int *i);
-char	**ft_split_ms(char *s, char *sep);
-char	*ft_substr(char const *s, unsigned int start, size_t len);
-//void	*ft_calloc(size_t nmemb, size_t size);
-//void	ft_bzero(void *s, size_t n);
-//size_t	ft_strlen(const char *s);
-//int		ft_strchr(const char *s, int c);
-char	*ft_strndup(const char *str, int j);
-//t_token	*ft_lstnew(char **content);
-//void	ft_lstadd_back(t_token **lst, t_token *new);
-int		ft_isnum(char c);
+
 
 #endif
