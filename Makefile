@@ -1,7 +1,14 @@
-NAME = pipex
+NAME = minishell
 CC = cc
-SRCS = pipex.c utils.c here_doc.c here_doc_utils.c get_next_line/get_next_line.c
-HEADERS = pipex.h
+SRCS = exec/pipex.c \
+		exec/utils.c \
+		exec/here_doc.c \
+		exec/here_doc_utils.c \
+		exec/get_next_line/get_next_line.c \
+		lexer/lexer.c \
+		prompt/prompt.c
+
+HEADERS = minishell.h
 OBJS = $(SRCS:.c=.o)
 CFLAGS = -Wall -Wextra -Werror -g
 LIBFT = Libft/libft.a

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 11:36:21 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/04/16 15:52:07 by ademaill         ###   ########.fr       */
+/*   Updated: 2024/04/17 10:34:33 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 void	exec_cmd(char *av, char **envp);
 void	ft_error(void);
 int		open_file(char	*name, int i);
-void	here_doc(char *limiter);
+char	*here_doc(char *limiter);
 char	*rand_path(void);
 
 #endif

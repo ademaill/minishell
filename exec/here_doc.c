@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 09:05:06 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/04/16 15:06:25 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/04/17 10:34:14 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,8 @@ static void    free_rest_gnl(int fd, char *line, char *limiter)
 	free(line);
 }
 
-void	here_doc(char *limiter)
+char	*here_doc(char *limiter)
 {
-	pid_t	rd;
 	int		fd;
 	char	*line;
 	char	*path;
@@ -45,5 +44,3 @@ void	here_doc(char *limiter)
 	close(fd);
 	return (path);
 }
-}
-

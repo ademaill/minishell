@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 15:48:14 by ademaill          #+#    #+#             */
-/*   Updated: 2024/04/16 16:39:48 by ademaill         ###   ########.fr       */
+/*   Updated: 2024/04/17 10:32:41 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 #include "lexer/lexer.h"
 #include "Libft/libft.h"
-#include "pipex_minishell/pipex.h"
+#include "exec/pipex.h"
 
 
 #endif

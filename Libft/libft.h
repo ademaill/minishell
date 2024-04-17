@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 10:19:24 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/04/17 10:09:05 by ademaill         ###   ########.fr       */
+/*   Updated: 2024/04/17 10:43:42 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,5 +64,8 @@ void	ft_lstiter(t_token *lst, void (*f)(void *));
 t_token	*ft_lstmap(t_token *lst, void *(*f)(void *), void (*del)(void *));
 char	**ft_split_ms(char *str, char *sep);
 int		ft_size(char *line, int *i);
+void	ft_skip_space(char *line, int *i);
+void	ft_ignore_sep(char *line, int *i);
+char	*ft_strndup(const char *str, int j);
 
 #endif

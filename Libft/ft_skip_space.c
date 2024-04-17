@@ -1,29 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   ft_skip_space.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/31 13:55:18 by ademaill          #+#    #+#             */
-/*   Updated: 2024/04/11 14:51:53 by ademaill         ###   ########.fr       */
+/*   Created: 2024/04/03 11:34:59 by ademaill          #+#    #+#             */
+/*   Updated: 2024/04/10 10:48:46 by ademaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../lexer.h"
+#include "libft.h"
 
-int	ft_strchr(const char *s, int c)
+void	ft_skip_space(char *line, int *i)
 {
-	int		i;
-	char	*str;
-
-	i = 0;
-	str = (char *) s;
-	while (str[i] != (char)c)
-	{
-		if (str[i] == '\0')
-			return (0);
-		i++;
-	}
-	return (1);
+	while (line[(*i)] == ' ' || line[(*i)] == '\n' || line[(*i)] == '\t'
+		|| line[(*i)] == '\v' || line[(*i)] == '\f' || line[(*i)] == '\r')
+		(*i)++;
 }

@@ -1,22 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isnum.c                                         :+:      :+:    :+:   */
+/*   ft_strndup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/12 11:09:03 by ademaill          #+#    #+#             */
-/*   Updated: 2024/04/12 11:11:49 by ademaill         ###   ########.fr       */
+/*   Created: 2024/04/11 13:57:50 by ademaill          #+#    #+#             */
+/*   Updated: 2024/04/11 15:22:43 by ademaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../lexer.h"
+#include "libft.h"
 
-int	ft_isnum(char c)
+char	*ft_strndup(const char *str, int j)
 {
-	if (c == '1')
-		return (0);
-	if (c == '2')
-		return (0);
-	return (1);
+	int		i;
+	char	*dest;
+
+	i = 0;
+	dest = malloc(sizeof (char) * (j + 1));
+	if (!dest)
+		return (NULL);
+	while (str[i] && i < j)
+	{
+		dest[i] = str[i];
+		i++;
+	}
+	dest[i] = '\0';
+	return (dest);
 }

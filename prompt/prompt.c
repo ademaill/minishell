@@ -3,27 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:06:28 by ademaill          #+#    #+#             */
-/*   Updated: 2024/04/16 15:49:48 by ademaill         ###   ########.fr       */
+/*   Updated: 2024/04/17 10:48:30 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-#include "../lexer/lexer.h"
-#include "../Libft/libft.h"
 #include <stdlib.h>
 #include <unistd.h>
 #include "../minishell.h"
 
-static char	*ft_get_prompt(char *prompt)
+static char	*ft_get_prompt(void)
 {
 	char	*tmp_pwd;
+	char	*prompt;
 
 	tmp_pwd = NULL;
+	prompt = NULL;
 	tmp_pwd = getcwd(tmp_pwd, 0);
 	if (!tmp_pwd)
 		return (NULL);
@@ -41,7 +41,7 @@ int	main(void)
 	i = 0;
 	while (1)
 	{
-		prompt = ft_get_prompt(prompt);
+		prompt = ft_get_prompt();
 		buffer = readline(prompt);
 		if (buffer == NULL)
 			break;

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../lexer.h"
+#include "libft.h"
 
 void	ft_ignore_sep(char *line, int *i)
 {
