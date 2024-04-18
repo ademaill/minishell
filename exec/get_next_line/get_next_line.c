@@ -6,27 +6,12 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 15:27:18 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/04/16 10:15:52 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/04/17 14:30:25 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static int	ft_strchr_gnl(char *s, int c)
-{
-	int		i;
-
-	i = 0;
-	if (!s)
-		return (0);
-	while (s[i] != '\0')
-	{
-		if (s[i] == (char) c)
-			return (1);
-		i++;
-	}
-	return (0);
-}
 
 static char	*write_line(char *stat)
 {
@@ -38,7 +23,7 @@ static char	*write_line(char *stat)
 		return (NULL);
 	while (stat[i] != '\n' && stat[i] != '\0')
 		i++;
-	str = ft_calloc(sizeof(char), (i + 2));
+	str = ft_calloc_gnl(sizeof(char), (i + 2));
 	if (!str)
 		return (NULL);
 	i = 0;
@@ -68,7 +53,7 @@ static char	*copy(char *stat)
 		free(stat);
 		return (NULL);
 	}
-	str = ft_calloc(sizeof(char), (ft_strlen(stat) - i + 1));
+	str = ft_calloc_gnl(sizeof(char), (ft_strlen_gnl(stat) - i + 1));
 	if (!str)
 		return (NULL);
 	i++;
@@ -86,11 +71,11 @@ static char	*read_line(int fd, char *stat)
 
 	while (1)
 	{
-		buff = ft_calloc(sizeof(char), (BUFFER_SIZE + 1));
+		buff = ft_calloc_gnl(sizeof(char), (BUFFER_SIZE + 1));
 		if (!buff)
 			return (NULL);
 		line = read(fd, buff, BUFFER_SIZE);
-		stat = ft_strjoin(stat, buff);
+		stat = ft_strjoin_gnl(stat, buff);
 		if (line <= 0 || ft_strchr_gnl(stat, '\n'))
 			break ;
 	}

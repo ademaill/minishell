@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 11:34:02 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/04/12 11:32:49 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/04/18 10:28:39 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,27 +70,32 @@ void	parent_process(char **av, char **envp, int *fd)
 
 void	mult_pipe(int ac, char **av, char **envp)
 {
-	int	i;
-	int	in;
-	int	out;
+	int		i;
+	int		in;
+	int		out;
+	char	*path;
 
 	i = 0;
 	if (ft_strncmp(av[1], "here_doc", 9) == 0)
 	{
 		i = 3;
 		out = open_file(av[ac - 1], 0);
-		here_doc(av[2]);
+		path = here_doc(av[2]);
+		in = open_file(path, 2);
+		dup2(in, STDIN_FILENO);
+		close(in);
+		unlink(path);
 	}
 	else
 	{
 		i = 2;
 		in = open_file(av[1], 2);
+		out = open_file(av[ac - 1], 1);
 		dup2(in, STDIN_FILENO);
 		close(in);
 	}
 	while (i < ac - 2)
 		mult_process(av[i++], envp);
-	out = open_file(av[ac - 1], 1);
 	dup2(out, STDOUT_FILENO);
 	close(out);
 	exec_cmd(av[ac - 2], envp);

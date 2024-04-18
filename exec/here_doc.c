@@ -6,16 +6,15 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 09:05:06 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/04/17 10:34:14 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/04/17 15:18:10 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-static void    free_rest_gnl(int fd, char *line, char *limiter)
+static void    free_rest_gnl(int fd, char *line)
 {
 	free(line);
-	free(limiter);
 	close(fd);
 	line = get_next_line(fd);
 	free(line);
@@ -40,7 +39,7 @@ char	*here_doc(char *limiter)
 		if (!line)
 			break;
 	}
-	free_rest_gnl(fd, line, limiter);
+	free_rest_gnl(fd, line);
 	close(fd);
 	return (path);
 }
