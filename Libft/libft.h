@@ -6,7 +6,7 @@
 /*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 10:19:24 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/04/17 11:50:10 by ademaill         ###   ########.fr       */
+/*   Updated: 2024/04/18 10:17:36 by ademaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <unistd.h>
 # include "../minishell.h"
 
-typedef struct s_token t_token;
+typedef struct s_token	t_token;
 
 int		ft_isalpha(int a);
 int		ft_isdigit(int a);
@@ -66,6 +66,7 @@ int		ft_size(char *line, int *i);
 void	ft_skip_space(char *line, int *i);
 void	ft_ignore_sep(char *line, int *i);
 char	*ft_strndup(const char *str, int j);
+void	ft_new_node(t_token **lst, char	**content);
 t_token	*ft_lstnew(char **content);
 
 #endif

@@ -10,7 +10,7 @@ SRCS = exec/pipex.c \
 
 HEADERS = minishell.h
 OBJS = $(SRCS:.c=.o)
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror -g -lreadline
 LIBFT = Libft/libft.a
 LIBFT_PATH = "Libft"
 

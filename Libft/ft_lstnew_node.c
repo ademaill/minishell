@@ -1,25 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstnew.c                                        :+:      :+:    :+:   */
+/*   ft_lstnew_node.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/18 10:16:01 by ademaill          #+#    #+#             */
-/*   Updated: 2024/04/18 10:17:26 by ademaill         ###   ########.fr       */
+/*   Created: 2023/11/09 09:31:53 by vnavarre          #+#    #+#             */
+/*   Updated: 2024/04/18 10:19:02 by ademaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-t_token	*ft_lstnew(char **content)
+void	ft_new_node(t_token **lst, char	**content)
 {
-	t_token	*elmt;
+	t_token	*last;
+	t_token	*new_node;
 
-	elmt = (t_token *)malloc(sizeof(*elmt));
-	if (!elmt)
-		return (NULL);
-	elmt->value = content;
-	elmt->next = NULL;
-	return (elmt);
+	if (lst == NULL)
+		return ;
+	new_node = malloc(sizeof(t_token));
+	if (new_node == NULL)
+		return ;
+	new_node->next = NULL;
+	new_node->value = content;
+	if ((*lst) == NULL)
+	{
+		(*lst) = new_node;
+		new_node->prev = NULL;
+	}
+	else
+	{
+		last = ft_lstlast((*lst));
+		last->next = new_node;
+		new_node->prev = last;
+	}
 }

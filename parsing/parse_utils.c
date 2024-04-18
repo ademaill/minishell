@@ -1,40 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer.h                                            :+:      :+:    :+:   */
+/*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/29 15:38:51 by ademaill          #+#    #+#             */
-/*   Updated: 2024/04/18 10:34:20 by ademaill         ###   ########.fr       */
+/*   Created: 2024/04/18 11:36:12 by ademaill          #+#    #+#             */
+/*   Updated: 2024/04/18 11:44:54 by ademaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LEXER_H
-# define LEXER_H
+#include "parsing.h"
 
-#include "../minishell.h"
-
-typedef enum e_type
+void	str_modify(t_token *token)
 {
-	__cmdgr,
-	__pipe,
-	__redirect,
-	__var_env,
-	__here_doc,
-	__append,
+	char	*str;
+	char	*tmp;
+	int		i;
 
-}	t_type;
-
-typedef struct s_token
-{
-	t_type type;
-	char	**value;
-	struct s_token *prev;
-	struct s_token *next;
-}	t_token;
-
-t_token	*ft_tokenizer(char *line);
-
-
-#endif
+	i = 1;
+	str = token->value[0];
+	while (str[i])
+	{
+		tmp[i - 1] = str[i];
+		i++;
+	}
+	token->value[0][0] = str[0];
+	token->value[0][1] = '\0';
+	token->value[1] = tmp;
+	token->value[2] = NULL;
+}

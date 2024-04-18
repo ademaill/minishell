@@ -1,40 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer.h                                            :+:      :+:    :+:   */
+/*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/29 15:38:51 by ademaill          #+#    #+#             */
-/*   Updated: 2024/04/18 10:34:20 by ademaill         ###   ########.fr       */
+/*   Created: 2024/04/18 10:33:29 by ademaill          #+#    #+#             */
+/*   Updated: 2024/04/18 13:13:14 by ademaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LEXER_H
-# define LEXER_H
+#ifndef PARSING_H
+# define PARSING_H
 
 #include "../minishell.h"
 
-typedef enum e_type
-{
-	__cmdgr,
-	__pipe,
-	__redirect,
-	__var_env,
-	__here_doc,
-	__append,
-
-}	t_type;
-
-typedef struct s_token
-{
-	t_type type;
-	char	**value;
-	struct s_token *prev;
-	struct s_token *next;
-}	t_token;
-
-t_token	*ft_tokenizer(char *line);
-
+void	parse_pipe(t_token *token);
+void	str_modify(t_token *token);
 
 #endif

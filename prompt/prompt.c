@@ -6,7 +6,7 @@
 /*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:06:28 by ademaill          #+#    #+#             */
-/*   Updated: 2024/04/17 13:28:40 by ademaill         ###   ########.fr       */
+/*   Updated: 2024/04/17 16:11:41 by ademaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ int	main(void)
 	{
 		prompt = ft_get_prompt();
 		buffer = readline(prompt);
+		if (buffer)
+			add_history(buffer);
 		free(prompt);
 		if (buffer == NULL)
 		{

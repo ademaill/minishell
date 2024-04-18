@@ -6,7 +6,7 @@
 /*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 14:01:37 by ademaill          #+#    #+#             */
-/*   Updated: 2024/04/17 12:36:22 by ademaill         ###   ########.fr       */
+/*   Updated: 2024/04/18 11:34:14 by ademaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void	token_type(t_token *token)
 {
 	if (token->value[0][0] == '|')
-		token->type = __pipe;
+		parse_pipe(token);
 	else if (token->value[0][0] == '<' && token->value[0][1] == '<')
 		token->type = __here_doc;
 	else if (token->value[0][0] == '>' && token->value[0][1] == '>')
@@ -55,7 +55,7 @@ t_token	*ft_tokenizer(char *line)
 	while (tab[i])
 	{
 		content = ft_split_ms(tab[i], " ");
-		ft_lstadd_back(&tokens, ft_lstnew(content));
+		ft_new_node(&tokens, content);
 		i++;
 	}
 	free_tab(tab);

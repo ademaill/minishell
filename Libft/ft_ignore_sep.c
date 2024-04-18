@@ -6,7 +6,7 @@
 /*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 13:22:08 by ademaill          #+#    #+#             */
-/*   Updated: 2024/04/11 16:23:29 by ademaill         ###   ########.fr       */
+/*   Updated: 2024/04/17 13:59:10 by ademaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,16 @@
 
 void	ft_ignore_sep(char *line, int *i)
 {
-	if (line[(*i)] && line[(*i)] == '\\' && line[(*i) + 1] && line[(*i) + 1] == ';')
+	if (line[(*i)] && line[(*i)] == '\\' && line[(*i) + 1]
+		&& line[(*i) + 1] == ';')
 		(*i)++;
-	else if (line[(*i)] && line[(*i)] == '\\' && line[(*i) + 1] && line[(*i) + 1] == '|')
+	else if (line[(*i)] && line[(*i)] == '\\' && line[(*i) + 1]
+		&& line[(*i) + 1] == '|')
 		(*i)++;
-	else if (line[(*i)] && line[(*i)] == '\\' && line[(*i) + 1] && line[(*i) + 1] == '>')
+	else if (line[(*i)] && line[(*i)] == '\\' && line[(*i) + 1]
+		&& line[(*i) + 1] == '>')
 		(*i)++;
-	else if (line[(*i)] && line[(*i)] == '\\' && line[(*i) + 1] && line[(*i) + 1] == '>'
-		&& line[(*i) + 2] && line[(*i) + 2] == '>')
+	else if (line[(*i)] && line[(*i)] == '\\' && line[(*i) + 1]
+		&& line[(*i) + 1] == '>' && line[(*i) + 2] && line[(*i) + 2] == '>')
 		(*i)++;
 }
