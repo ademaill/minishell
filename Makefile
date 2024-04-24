@@ -5,12 +5,12 @@ SRCS = exec/pipex.c \
 		exec/here_doc.c \
 		exec/here_doc_utils.c \
 		exec/get_next_line/get_next_line.c \
+		exec/get_next_line/get_next_line_utils.c \
 		lexer/lexer.c \
-		prompt/prompt.c
 
 HEADERS = minishell.h
 OBJS = $(SRCS:.c=.o)
-CFLAGS = -Wall -Wextra -Werror -g -lreadline
+CFLAGS = -Wall -Wextra -Werror -g
 LIBFT = Libft/libft.a
 LIBFT_PATH = "Libft"
 
