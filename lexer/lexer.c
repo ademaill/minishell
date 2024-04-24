@@ -6,22 +6,22 @@
 /*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 14:01:37 by ademaill          #+#    #+#             */
-/*   Updated: 2024/04/18 11:34:14 by ademaill         ###   ########.fr       */
+/*   Updated: 2024/04/18 16:47:03 by ademaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 
-static void	token_type(t_token *token)
+void	token_type(t_token *token)
 {
 	if (token->value[0][0] == '|')
 		parse_pipe(token);
 	else if (token->value[0][0] == '<' && token->value[0][1] == '<')
-		token->type = __here_doc;
+		parse_here_doc(token);
 	else if (token->value[0][0] == '>' && token->value[0][1] == '>')
-		token->type = __append;
+		parse_append(token);
 	else if (token->value[0][0] == '>' || token->value[0][0] == '<')
-		token->type = __redirect;
+		parse_redirect(token);
 	else if (token->value[0][0] == '$')
 		token->type = __var_env;
 	else

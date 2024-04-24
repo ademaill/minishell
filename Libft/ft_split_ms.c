@@ -6,7 +6,7 @@
 /*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 16:38:21 by ademaill          #+#    #+#             */
-/*   Updated: 2024/04/12 11:29:31 by ademaill         ###   ########.fr       */
+/*   Updated: 2024/04/22 14:49:17 by ademaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,10 @@ static int	get_next_sep(char *str, char *sep)
 	int	i;
 
 	i = 0;
-	if (ft_strchr(sep, str[i]))
+	if (str[i] && ft_strchr(sep, str[i]))
 	{
 		++i;
-		if (ft_strchr(sep, str[i]))
+		if (str[i] && ft_strchr(sep, str[i]))
 			++i;
 		if (str[0] == '<' || str[0] == '>')
 		{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 10:47:46 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/04/11 10:04:02 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/04/17 13:58:11 by ademaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ void	ft_error(void)
 	perror("Error");
 	exit(EXIT_FAILURE);
 }
-
 
 void	exec_cmd(char *av, char **envp)
 {

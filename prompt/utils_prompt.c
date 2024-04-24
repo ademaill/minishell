@@ -1,35 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   here_doc_utils.c                                   :+:      :+:    :+:   */
+/*   utils_prompt.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/16 13:43:20 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/04/17 13:57:16 by ademaill         ###   ########.fr       */
+/*   Created: 2024/04/23 13:03:20 by ademaill          #+#    #+#             */
+/*   Updated: 2024/04/24 09:53:50 by ademaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "../minishell.h"
 
-char	*rand_path(void)
+void	ft_exit(t_token *token)
 {
-	char	buff[16];
-	char	*path;
-	int		r;
-	int		fd;
+	t_token	*tmp;
+	int	i;
 
-	r = 0;
-	fd = 0;
-	path = NULL;
-	fd = open("/dev/random", O_RDONLY, 0644);
-	//if (fd == -1)
-		//message error
-	r = read(fd, buff, 16);
-	//if (r == -1)
-		//message error
-	path = ft_strjoin("/tmp/minish_here_doc_", buff);
-	//if (path == NULL)
-		//error message
-	return (path);
+	if (token)
+	{
+		token = ft_lstfirst(token);
+		while (token)
+		{
+			tmp = token->next;
+			i = 0;
+			while (token->value[i])
+			{
+				free(token->value[i]);
+				i++;
+			}
+			free(token->value);
+			free(token);
+			token = tmp;
+		}
+		free (token);
+	}
+	printf("exit\n");
+	exit(EXIT_SUCCESS);
 }
