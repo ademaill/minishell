@@ -1,38 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstnew_node.c                                   :+:      :+:    :+:   */
+/*   ft_free_token.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/09 09:31:53 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/04/25 17:03:39 by ademaill         ###   ########.fr       */
+/*   Created: 2024/04/25 17:24:47 by ademaill          #+#    #+#             */
+/*   Updated: 2024/04/25 17:26:09 by ademaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../minishell.h"
 
-void	ft_new_node(t_token **lst, char	**content)
+void	ft_free_token(t_token *token)
 {
-	t_token	*last;
-	t_token	*new_node;
+	int	i;
 
-	if (lst == NULL)
-		return ;
-	new_node = malloc(sizeof(t_token));
-	if (new_node == NULL)
-		return ;
-	new_node->next = NULL;
-	new_node->value = content;
-	if ((*lst) == NULL)
+	i = 0;
+	while (token->value[i])
 	{
-		(*lst) = new_node;
-		new_node->prev = NULL;
+		free(token->value[i]);
+		i++;
 	}
-	else
-	{
-		last = ft_lstlast((*lst));
-		last->next = new_node;
-		new_node->prev = last;
-	}
+	free(token->value);
+	free(token);
 }

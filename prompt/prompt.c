@@ -6,7 +6,7 @@
 /*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:06:28 by ademaill          #+#    #+#             */
-/*   Updated: 2024/04/23 14:56:12 by ademaill         ###   ########.fr       */
+/*   Updated: 2024/04/25 17:47:02 by ademaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	handler_signals(int sign)
 	else if (sign == SIGQUIT)
 	{
 		//rl_on_new_line();
-		rl_redisplay();
+		//rl_redisplay();
 		printf("  \b\b");
 		//minishell_loop();
 	}
@@ -68,7 +68,7 @@ void	minishell_loop(void)
 	while (1)
 	{
 		signal(SIGINT, handler_signals);
-		signal(SIGQUIT, handler_signals);
+		signal(SIGQUIT, SIG_IGN);
 		prompt = ft_get_prompt();
 		buffer = readline(prompt);
 		if (buffer == NULL)
