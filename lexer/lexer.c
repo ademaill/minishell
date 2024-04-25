@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 14:01:37 by ademaill          #+#    #+#             */
-/*   Updated: 2024/04/25 17:56:36 by ademaill         ###   ########.fr       */
+/*   Updated: 2024/04/25 19:02:58 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 
-/*static int	ft_token_join(t_token *src, t_token *add)
+static int	ft_token_join(t_token *src, t_token *add)
 {
 	char	**tab;
 	int		i;
@@ -20,7 +20,7 @@
 
 	i = 0;
 	j = 0;
-	tab = malloc(sizeof (char *) * ft_len_tab(src->value) + ft_len_tab(add->value));
+	tab = malloc(sizeof (char *) * (ft_len_tab(src->value) + ft_len_tab(add->value) + 1));
 	if (!tab)
 		return (1);
 	while (src->value[i])
@@ -40,37 +40,73 @@
 	return (0);
 }
 
-static int	ft_group_cmd(t_token *token)
+/*static int	ft_group_cmd(t_token *token)
 {
 	t_token	*tmp;
 	t_token	*tmp2;
-	t_token	*tmp3;
+	//t_token	*tmp3;
+
+	tmp2 = NULL;
+	//tmp3 = NULL;
+	tmp = token;
+	while(tmp)
+	{
+		tmp2 = tmp->next;
+		while (tmp2 && tmp2->type != __pipe)
+		{
+			if (tmp2->type == __cmdgr && tmp != tmp2)
+			{
+				ft_token_join(tmp2, tmp);
+				if (tmp2->next)
+					tmp2->prev->next = tmp2->next;
+				//else
+					//tmp2->prev->next = NULL;
+				if (tmp2->next)
+					tmp2->next->prev = tmp2->prev->next;
+				//tmp3 = tmp2;
+			}
+			tmp2 = tmp2->next;
+		}
+		tmp = tmp->next;
+	}
+	return (0);
+}*/
+
+static int    ft_group_cmd(t_token *token)
+{
+	t_token    *tmp;
+	t_token    *tmp2;
+	t_token    *tmp3;
 
 	tmp = NULL;
 	tmp2 = NULL;
 	tmp3 = NULL;
 	tmp = token;
-	while(tmp)
+	while(tmp->type != __cmdgr)
 	{
-		tmp2 = tmp;
-		while (tmp2 && tmp2->next && tmp2->type != __pipe)
-		{
-			if (tmp2->type == __cmdgr && tmp != tmp2)
-			{
-				if (ft_token_join(tmp2, tmp))
-					return (1);
-				tmp2->prev->next = tmp2->next;
-				tmp2->next->prev = tmp2->prev->next;
-				tmp3 = tmp2;
-			}
-			tmp2 = tmp2->next;
-		}
 		tmp = tmp->next;
+	}
+	tmp2 = tmp;
+	while (tmp2 && tmp2->type != __pipe)
+	{
+		if (tmp2->type == __cmdgr && tmp != tmp2)
+		{
+			ft_token_join(tmp, tmp2);
+			//    return (1);
+			if (tmp2->next)
+				tmp2->prev->next = tmp2->next;
+			else
+				tmp2->prev->next = NULL;
+			if (tmp2->next)
+				tmp2->next->prev = tmp2->prev->next;
+			tmp3 = tmp2;
+		}
+		tmp2 = tmp2->next;
 		if (tmp3)
-			ft_free_token(tmp3);
+			free(tmp3);
 	}
 	return (0);
-}*/
+}
 
 void	token_type(t_token *token)
 {
