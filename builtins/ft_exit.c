@@ -1,25 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/21 13:35:32 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/04/24 11:07:42 by vnavarre         ###   ########.fr       */
+/*   Created: 2024/04/29 13:57:20 by vnavarre          #+#    #+#             */
+/*   Updated: 2024/04/29 14:54:08 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	ft_pwd(void)
+int	ft_exit(void)
 {
-	char	*dir;
-
-	dir = NULL;
-	dir = getcwd(dir, 0);
-	if (!dir)
-		return (0);
-	printf("%s\n", dir);
-	return (1);
+	
 }

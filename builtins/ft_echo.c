@@ -6,11 +6,11 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 14:47:48 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/03/18 16:38:10 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/04/29 15:00:49 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 static int	option_check(char *str)
 {
@@ -31,7 +31,7 @@ static int	option_check(char *str)
 
 void	ft_echo(char **av)
 {
-	int	i;
+																																																																																																																																																																																																																																																																																																																																																																									int	i;
 	int	option;
 
 	i = 0;
@@ -52,10 +52,10 @@ void	ft_echo(char **av)
 		ft_putstr_fd("\n", 1);
 }
 
-int main(int ac, char **av)
+int	main(int ac, char **av)
 {
-	int i;
-	char **ags;
+	int		i;
+	char	**ags;
 
 	i = 0;
 	ags = malloc((sizeof(char *) * ac));
