@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 13:36:19 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/04/27 16:44:45 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/01 16:19:56 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,19 @@
 #include "builtins.h"
 
 
-static t_list	*ft_lst_new(void *content)
+t_list	*ft_lst_new(void *content)
 {
 	t_list	*new_node;
 
 	new_node = ft_calloc(1, sizeof(t_list));
 	if (!new_node)
 		return (NULL);
-	new_node -> content = content;
-	new_node -> next = NULL;
+	new_node->content = content;
+	new_node->next = NULL;
 	return (new_node);
 }
 
-static void	ft_lst_add_back(t_list **lst, t_list *new)
+void	ft_lst_add_back(t_list **lst, t_list *new)
 {
 	t_list	*curr_node;
 
@@ -36,9 +36,9 @@ static void	ft_lst_add_back(t_list **lst, t_list *new)
 		return ;
 	}
 	curr_node = *lst;
-	while (curr_node && curr_node -> next)
-		curr_node = curr_node -> next;
-	curr_node -> next = new;
+	while (curr_node && curr_node->next)
+		curr_node = curr_node->next;
+	curr_node->next = new;
 }
 
 void	*ft_garbage_collector(void *ptr, bool clean)

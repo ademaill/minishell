@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 14:47:48 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/04/29 15:00:49 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/01 16:18:40 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int	option_check(char *str)
 
 void	ft_echo(char **av)
 {
-																																																																																																																																																																																																																																																																																																																																																																									int	i;
+	int	i;
 	int	option;
 
 	i = 0;
