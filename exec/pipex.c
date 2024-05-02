@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 11:34:02 by vnavarre          #+#    #+#             */
+<<<<<<< HEAD
+/*   Updated: 2024/04/17 13:57:53 by ademaill         ###   ########.fr       */
+=======
 /*   Updated: 2024/04/18 10:28:39 by vnavarre         ###   ########.fr       */
+>>>>>>> ccf0314b711a31f9f62f1f0cf593f3dedfa369e8
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +44,7 @@ void	mult_process(char *cmd, char **envp)
 
 void	child_process(char **av, char **envp, int *fd)
 {
-	int in;
+	int	in;
 
 	in = open(av[1], O_RDONLY, 0777);
 	if (in == -1)
@@ -101,7 +105,6 @@ void	mult_pipe(int ac, char **av, char **envp)
 	exec_cmd(av[ac - 2], envp);
 }
 
-
 int	main(int ac, char **av, char **envp)
 {
 	int		fd[2];
@@ -118,7 +121,6 @@ int	main(int ac, char **av, char **envp)
 			child_process(av, envp, fd);
 		waitpid(pid, NULL, 0);
 		parent_process(av, envp, fd);
-
 	}
 	else if (ac > 5)
 		mult_pipe(ac, av, envp);

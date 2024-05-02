@@ -3,15 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
+<<<<<<< HEAD
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 15:50:46 by vnavarre          #+#    #+#             */
 /*   Updated: 2024/05/01 15:51:01 by vnavarre         ###   ########.fr       */
+=======
+/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/24 15:53:38 by ademaill          #+#    #+#             */
+/*   Updated: 2024/04/25 13:24:25 by ademaill         ###   ########.fr       */
+>>>>>>> 810fed111039ad2cbc8e6f61aec4b5e8e3a92fb4
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+<<<<<<< HEAD
 static bool	ft_is_valid_var_char(char c)
 {
 	if (ft_isalnum(c) || c == '_')
@@ -87,3 +95,5 @@ char	**ft_expand(char *str)
 
 	str = ft_cmd_pre_expand(str);
 }
+=======
+>>>>>>> 810fed111039ad2cbc8e6f61aec4b5e8e3a92fb4

@@ -6,7 +6,7 @@
 /*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 10:19:24 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/04/18 10:17:36 by ademaill         ###   ########.fr       */
+/*   Updated: 2024/04/25 17:28:32 by ademaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,5 +68,8 @@ void	ft_ignore_sep(char *line, int *i);
 char	*ft_strndup(const char *str, int j);
 void	ft_new_node(t_token **lst, char	**content);
 t_token	*ft_lstnew(char **content);
+t_token	*ft_lstfirst(t_token *lst);
+void	ft_free_token(t_token *token);
+int		ft_len_tab(char **tab);
 
 #endif

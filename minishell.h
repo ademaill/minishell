@@ -6,7 +6,11 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 15:48:14 by ademaill          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/05/01 16:30:48 by vnavarre         ###   ########.fr       */
+=======
+/*   Updated: 2024/04/23 13:06:58 by ademaill         ###   ########.fr       */
+>>>>>>> 810fed111039ad2cbc8e6f61aec4b5e8e3a92fb4
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +20,10 @@
 # include "lexer/lexer.h"
 # include "Libft/libft.h"
 # include "exec/pipex.h"
+# include "parsing/parsing.h"
 # include <stdlib.h>
 # include <unistd.h>
+<<<<<<< HEAD
 # include <stdbool.h>
 
 typedef struct s_env
@@ -43,5 +49,12 @@ char	*ft_handle_s_quotes(char *str, int *i);
 char	*ft_handle_d_quotes(char *str, int *i);
 char	*ft_handle_str(char *str, int *i);
 
+=======
+# include <signal.h>
+
+void	minishell_loop(void);
+void	handler_signals(int sign);
+void	ft_exit(t_token *token);
+>>>>>>> 810fed111039ad2cbc8e6f61aec4b5e8e3a92fb4
 
 #endif

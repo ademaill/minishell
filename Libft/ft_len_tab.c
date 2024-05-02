@@ -1,27 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.h                                          :+:      :+:    :+:   */
+/*   ft_len_tab.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/18 10:33:29 by ademaill          #+#    #+#             */
-/*   Updated: 2024/04/18 16:39:38 by ademaill         ###   ########.fr       */
+/*   Created: 2024/04/25 17:27:26 by ademaill          #+#    #+#             */
+/*   Updated: 2024/04/25 17:28:49 by ademaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSING_H
-# define PARSING_H
-
 #include "../minishell.h"
 
-void	parse_pipe(t_token *token);
-void	parse_here_doc(t_token *token);
-void	parse_redirect(t_token *token);
-void	parse_append(t_token *token);
-void	parse_redirect(t_token *token);
-void	error_parse(char *str, t_token *token);
-void	str_modify(t_token *token);
-void	str_modify2(t_token *token);
+int	ft_len_tab(char **tab)
+{
+	int	i;
 
-#endif
+	i = 0;
+	while(tab[i])
+		i++;
+	return (i);
+}

@@ -6,17 +6,40 @@
 /*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:06:28 by ademaill          #+#    #+#             */
-/*   Updated: 2024/04/17 16:11:41 by ademaill         ###   ########.fr       */
+/*   Updated: 2024/04/25 17:47:02 by ademaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <signal.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <unistd.h>
 #include "../minishell.h"
 
+int	g_pid = 0;
+
+void	handler_signals(int sign)
+{
+	if (g_pid)
+		return ;
+	if (sign == SIGINT)
+	{
+		printf("\n");
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+		//minishell_loop();
+	}
+	else if (sign == SIGQUIT)
+	{
+		//rl_on_new_line();
+		//rl_redisplay();
+		printf("  \b\b");
+		//minishell_loop();
+	}
+}
 
 static char	*ft_get_prompt(void)
 {
@@ -34,36 +57,49 @@ static char	*ft_get_prompt(void)
 	return (prompt);
 }
 
-int	main(void)
+void	minishell_loop(void)
 {
 	char	*buffer;
 	char	*prompt;
-	t_token	*arr;
-	int	i;
-	t_token	*tmp;
+	t_token	*tokens;
+	g_pid = 0;
 
-	i = 0;
+	tokens = NULL;
 	while (1)
 	{
+		signal(SIGINT, handler_signals);
+		signal(SIGQUIT, SIG_IGN);
 		prompt = ft_get_prompt();
 		buffer = readline(prompt);
+		if (buffer == NULL)
+		{
+			ft_exit(tokens);
+		}
 		if (buffer)
 			add_history(buffer);
 		free(prompt);
-		if (buffer == NULL)
+		if (ft_strncmp(buffer, "exit", 5) == 0)
 		{
-			printf("Bye \n");
-			return (0);
+			ft_exit(tokens);
+			return ;
 		}
-		arr = ft_tokenizer(buffer);
-		tmp = arr;
+		tokens = ft_tokenizer(buffer);
+		t_token	*arr;
+		int	i;
+		int	j;
+		j= 0;
+		i = 0;
+		arr = tokens;
 		while (arr)
 		{
 			printf("token numero %d\n", i);
 			i++;
-			printf("%s\n", arr->value[0]);
-			if (arr->value[1])
-				printf("%s\n", arr->value[1]);
+			j = 0;
+			while (arr->value[j])
+			{
+				printf("%s\n", arr->value[j]);
+				j++;
+			}
 			if (arr->type == 0)
 				printf("type : _cmdgrp\n\n");
 			else if (arr->type == 1)
@@ -79,22 +115,10 @@ int	main(void)
 			arr = arr->next;
 		}
 	}
-	t_token *lst;
-	lst = tmp;
-	while (lst)
-	{
-		tmp = lst->next;
-		i = 0;
-		while (lst->value[i])
-		{
-			free(lst->value[i]);
-			i++;
-		}
-		free(lst->value);
-		free(lst);
-		lst = tmp;
-	}
-	free(lst);
-	printf("Bye \n");
-	free(buffer);
+}
+
+int	main(void)
+{
+	minishell_loop();
+	return (0);
 }

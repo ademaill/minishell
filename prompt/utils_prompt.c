@@ -1,27 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.h                                          :+:      :+:    :+:   */
+/*   utils_prompt.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/18 10:33:29 by ademaill          #+#    #+#             */
-/*   Updated: 2024/04/18 16:39:38 by ademaill         ###   ########.fr       */
+/*   Created: 2024/04/23 13:03:20 by ademaill          #+#    #+#             */
+/*   Updated: 2024/04/24 09:53:50 by ademaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSING_H
-# define PARSING_H
-
 #include "../minishell.h"
 
-void	parse_pipe(t_token *token);
-void	parse_here_doc(t_token *token);
-void	parse_redirect(t_token *token);
-void	parse_append(t_token *token);
-void	parse_redirect(t_token *token);
-void	error_parse(char *str, t_token *token);
-void	str_modify(t_token *token);
-void	str_modify2(t_token *token);
+void	ft_exit(t_token *token)
+{
+	t_token	*tmp;
+	int	i;
 
-#endif
+	if (token)
+	{
+		token = ft_lstfirst(token);
+		while (token)
+		{
+			tmp = token->next;
+			i = 0;
+			while (token->value[i])
+			{
+				free(token->value[i]);
+				i++;
+			}
+			free(token->value);
+			free(token);
+			token = tmp;
+		}
+		free (token);
+	}
+	printf("exit\n");
+	exit(EXIT_SUCCESS);
+}
