@@ -3,24 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 09:05:06 by vnavarre          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/04/17 13:56:58 by ademaill         ###   ########.fr       */
-=======
-/*   Updated: 2024/04/17 15:18:10 by vnavarre         ###   ########.fr       */
->>>>>>> ccf0314b711a31f9f62f1f0cf593f3dedfa369e8
+/*   Updated: 2024/05/04 14:40:10 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-<<<<<<< HEAD
-static void	free_rest_gnl(int fd, char *line, char *limiter)
-=======
 static void    free_rest_gnl(int fd, char *line)
->>>>>>> ccf0314b711a31f9f62f1f0cf593f3dedfa369e8
 {
 	free(line);
 	close(fd);

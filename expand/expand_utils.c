@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:28:22 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/05/01 16:33:13 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/02 13:43:21 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ char	*ft_handle_str(char *str, int *i)
 	char	*tmp;
 
 	start = *i;
-	while (str[*i] && str[*i] != '\'' && str[*i] != '"' && str[*i] != '$')
+	while (str[*i] && str[*i] != '\'' && str[*i] != '"' && str[*i] != '$' &&
+			str[*i] != '\0')
 		(*i)++;
 	tmp = ft_substr(str, start, *i - start);
 	return (tmp);
@@ -30,9 +31,11 @@ char	*ft_handle_d_quotes(char *str, int *i)
 	char	*tmp;
 
 	start = *i;
-	while (str[*i] != '"' && str[*i] != '$')
+	(*i)++;
+	while (str[*i] != '"' && str[*i] != '$' && str[*i] != '\0')
 		(*i)++;
-	tmp = ft_substr(str, start, *i - start);
+	//(*i)++;
+	tmp = ft_substr(str, start, (*i - start));
 	return (tmp);
 }
 
@@ -43,9 +46,9 @@ char	*ft_handle_s_quotes(char *str, int *i)
 
 	start = *i;
 	(*i)++;
-	while (str[*i] != '\'')
+	while (str[*i] != '\'' && str[*i] != '\0')
 		(*i)++;
 	(*i)++;
-	tmp = ft_substr(str, start, *i - start);
+	tmp = ft_substr(str, start, (*i - start));
 	return (tmp);
 }

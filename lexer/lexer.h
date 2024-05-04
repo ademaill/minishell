@@ -3,17 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 15:38:51 by ademaill          #+#    #+#             */
-/*   Updated: 2024/04/18 16:43:08 by ademaill         ###   ########.fr       */
+/*   Updated: 2024/05/02 12:58:05 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEXER_H
 # define LEXER_H
-
-#include "../minishell.h"
 
 typedef enum e_type
 {
@@ -33,8 +31,6 @@ typedef struct s_token
 	struct s_token *prev;
 	struct s_token *next;
 }	t_token;
-
-t_token	*ft_tokenizer(char *line);
 
 
 #endif

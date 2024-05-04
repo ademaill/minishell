@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 11:34:02 by vnavarre          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/04/17 13:57:53 by ademaill         ###   ########.fr       */
-=======
-/*   Updated: 2024/04/18 10:28:39 by vnavarre         ###   ########.fr       */
->>>>>>> ccf0314b711a31f9f62f1f0cf593f3dedfa369e8
+/*   Updated: 2024/05/04 14:39:31 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +101,7 @@ void	mult_pipe(int ac, char **av, char **envp)
 	exec_cmd(av[ac - 2], envp);
 }
 
-int	main(int ac, char **av, char **envp)
+/*int	main(int ac, char **av, char **envp)
 {
 	int		fd[2];
 	pid_t	pid;
@@ -129,4 +125,4 @@ int	main(int ac, char **av, char **envp)
 		ft_putstr_fd("Error : Wrong number of args.\n", 2);
 	}
 	return (0);
-}
+}*/

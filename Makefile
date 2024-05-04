@@ -7,6 +7,20 @@ SRCS = exec/pipex.c \
 		exec/get_next_line/get_next_line.c \
 		exec/get_next_line/get_next_line_utils.c \
 		lexer/lexer.c \
+		builtins/env_utils.c \
+		builtins/ft_cd.c \
+		builtins/ft_echo.c \
+		builtins/ft_env.c \
+		builtins/ft_export.c \
+		builtins/ft_pwd.c \
+		builtins/ft_unset.c \
+		builtins/utils.c \
+		expand/expand_utils.c \
+		expand/expand.c \
+		prompt/prompt.c \
+		prompt/utils_prompt.c \
+		parsing/parse_pipe.c \
+		parsing/parse_utils.c
 
 HEADERS = minishell.h
 OBJS = $(SRCS:.c=.o)
@@ -17,15 +31,14 @@ LIBFT_PATH = "Libft"
 all: $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT)
-	$(CC) $(CFLAGS) -L$(LIBFT_PATH) -o $@ $^
-
-$(LIBFT):
-	@make -C $(LIBFT_PATH)
-	@make bonus -C $(LIBFT_PATH)
+	$(CC) -o $(NAME) -L$(LIBFT_PATH) -lreadline $@ $^
 
 %.o: %.c $(HEADER)
 	$(CC) $(CFLAGS) $< -c -o $@
 
+$(LIBFT):
+	@make -C $(LIBFT_PATH)
+	@make bonus -C $(LIBFT_PATH)
 
 fclean: clean
 	@make fclean -C $(LIBFT_PATH)
