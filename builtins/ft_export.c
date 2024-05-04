@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 11:14:47 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/04/27 16:36:04 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/04 14:38:29 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,9 +108,3 @@ int	ft_export(char **av, char **envp)
 	return (error_s);
 }
 
-int	main(int ac, char **av, char **envp)
-{
-	(void)ac;
-	ft_export(av, envp);
-	return (0);
-}

@@ -6,13 +6,10 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 15:48:14 by ademaill          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/05/01 16:30:48 by vnavarre         ###   ########.fr       */
-=======
-/*   Updated: 2024/04/23 13:06:58 by ademaill         ###   ########.fr       */
->>>>>>> 810fed111039ad2cbc8e6f61aec4b5e8e3a92fb4
+/*   Updated: 2024/05/02 13:09:02 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -23,8 +20,8 @@
 # include "parsing/parsing.h"
 # include <stdlib.h>
 # include <unistd.h>
-<<<<<<< HEAD
 # include <stdbool.h>
+# include <signal.h>
 
 typedef struct s_env
 {
@@ -48,13 +45,10 @@ bool	ft_env_exists(char *key, char **envp);
 char	*ft_handle_s_quotes(char *str, int *i);
 char	*ft_handle_d_quotes(char *str, int *i);
 char	*ft_handle_str(char *str, int *i);
-
-=======
-# include <signal.h>
-
-void	minishell_loop(void);
+void	minishell_loop(char **envp);
 void	handler_signals(int sign);
+t_token	*ft_tokenizer(char *line, t_env *env, char **envp);
 void	ft_exit(t_token *token);
->>>>>>> 810fed111039ad2cbc8e6f61aec4b5e8e3a92fb4
+char	*ft_cmd_pre_expand(char *str, t_env *env);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:06:28 by ademaill          #+#    #+#             */
-/*   Updated: 2024/04/25 17:47:02 by ademaill         ###   ########.fr       */
+/*   Updated: 2024/05/02 13:08:51 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,14 +57,16 @@ static char	*ft_get_prompt(void)
 	return (prompt);
 }
 
-void	minishell_loop(void)
+void	minishell_loop(char **envp)
 {
 	char	*buffer;
 	char	*prompt;
 	t_token	*tokens;
+	t_env	*env;
 	g_pid = 0;
 
 	tokens = NULL;
+	env = ft_env_int(envp);
 	while (1)
 	{
 		signal(SIGINT, handler_signals);
@@ -83,7 +85,7 @@ void	minishell_loop(void)
 			ft_exit(tokens);
 			return ;
 		}
-		tokens = ft_tokenizer(buffer);
+		tokens = ft_tokenizer(buffer, env, envp);
 		t_token	*arr;
 		int	i;
 		int	j;
@@ -117,8 +119,10 @@ void	minishell_loop(void)
 	}
 }
 
-int	main(void)
+int	main(int ac, char **av, char **envp)
 {
-	minishell_loop();
+	(void)ac;
+	(void)av;
+	minishell_loop(envp);
 	return (0);
 }
