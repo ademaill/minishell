@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 11:36:12 by ademaill          #+#    #+#             */
-/*   Updated: 2024/04/22 14:45:21 by ademaill         ###   ########.fr       */
+/*   Updated: 2024/05/02 13:02:20 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	str_modify2(t_token *token)
 	free(tmp);
 }
 
-void	error_parse(char *str, t_token *token)
+void	error_parse(char *str, t_token *token, char **envp)
 {
 	t_token	*tmp;
 	int	i;
@@ -90,5 +90,5 @@ void	error_parse(char *str, t_token *token)
 	free (token);
 	ft_putstr_fd("Error synthax,\n", 2);
 	ft_putstr_fd(str, 2);
-	minishell_loop();
+	minishell_loop(envp);
 }

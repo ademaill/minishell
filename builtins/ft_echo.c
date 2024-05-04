@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 14:47:48 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/05/01 16:18:40 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/04 14:38:08 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,19 +52,3 @@ void	ft_echo(char **av)
 		ft_putstr_fd("\n", 1);
 }
 
-int	main(int ac, char **av)
-{
-	int		i;
-	char	**ags;
-
-	i = 0;
-	ags = malloc((sizeof(char *) * ac));
-	while (av[i] != NULL)
-	{
-		ags[i] = av[i + 1];
-		i++;
-	}
-	ft_echo(ags);
-	free(ags);
-	return (0);
-}
