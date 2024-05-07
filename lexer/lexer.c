@@ -6,11 +6,12 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 14:01:37 by ademaill          #+#    #+#             */
-/*   Updated: 2024/05/02 13:08:22 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/07 15:31:41 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include "lexer.h"
 
 static int	ft_token_join(t_token *src, t_token *add)
 {
@@ -81,8 +82,10 @@ static int    ft_group_cmd(t_token *token)
 	tmp = NULL;
 	tmp2 = NULL;
 	tmp3 = NULL;
+	if (!token)
+		return (0);
 	tmp = token;
-	while(tmp->type != __cmdgr)
+	while(tmp->type != __cmdgr && tmp->next)
 	{
 		tmp = tmp->next;
 	}
@@ -108,18 +111,18 @@ static int    ft_group_cmd(t_token *token)
 	return (0);
 }
 
-void	token_type(t_token *token, char **envp)
+void	token_type(t_token *token, t_main *main)
 {
 	if (token->value[0][0] == '|')
-		parse_pipe(token, envp);
+		parse_pipe(token, main);
 	else if (token->value[0][0] == '<' && token->value[0][1] == '<')
-		parse_here_doc(token, envp);
+		parse_here_doc(token, main);
 	else if (token->value[0][0] == '>' && token->value[0][1] == '>')
-		parse_append(token, envp);
+		parse_append(token, main);
 	else if (token->value[0][0] == '>' || token->value[0][0] == '<')
-		parse_redirect(token, envp);
-	else if (token->value[0][0] == '$')
-		token->type = __var_env;
+	{
+		parse_redirect(token, main);
+	}
 	else
 		token->type = __cmdgr;
 }
@@ -137,32 +140,31 @@ void	free_tab(char **tab)
 	free(tab);
 }
 
-t_token	*ft_tokenizer(char *line, t_env *env, char **envp)
+t_token	*ft_tokenizer(char *line, t_main *main)
 {
 	int		i;
 	char	**content;
-	t_token	*tokens;
 	char	**tab;
 	t_token *tmp;
 
-	tokens = NULL;
 	i = 0;
 	tab = ft_split_ms(line, "<>|");
 	while (tab[i])
 	{
-		tab[i] = ft_cmd_pre_expand(tab[i], env);
+		tab[i] = ft_cmd_pre_expand(tab[i], main);
 		content = ft_split_ms(tab[i], " ");
-		ft_new_node(&tokens, content);
+		if (content[0] != NULL)
+			ft_new_node(&main->token, content);
 		i++;
 	}
 	free_tab(tab);
-	tmp = tokens;
+	tmp = main->token;
 	while (tmp)
 	{
-		token_type(tmp, envp);
+		token_type(tmp, main);
 		tmp = tmp->next;
 	}
-	ft_group_cmd(tokens);
-	//{}// error*/
-	return (tokens);
+	ft_group_cmd(main->token);
+	return (main->token);
 }
+

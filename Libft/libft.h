@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 10:19:24 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/04/25 17:28:32 by ademaill         ###   ########.fr       */
+/*   Updated: 2024/05/06 11:28:38 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include "../minishell.h"
 
 typedef struct s_token	t_token;
+typedef struct s_main	t_main;
 
 int		ft_isalpha(int a);
 int		ft_isdigit(int a);

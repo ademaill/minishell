@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 14:36:27 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/05/01 16:24:24 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/06 13:16:20 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,19 +21,20 @@ char	*ft_key(char *str)
 	key = NULL;
 	while (str[i])
 	{
-		if (str[i] == '=')
+		if (str[i] == '=' || str[i + 1] == '\0')
 		{
-			key = malloc(sizeof(char) * i);
+			key = malloc(sizeof(char) * i + 1);
 			if (!key)
 				return (NULL);
 			i = 0;
-			while (str[i] != '=')
+			while (str[i] != '=' && str[i] !='\0')
 			{
 				key[i] = str[i];
 				i++;
 			}
+			key[i] = '\0';
 		}
-		if (str[i] == '=')
+		if (str[i] == '=' || str[i] == '\0')
 			break ;
 		i++;
 	}
@@ -46,10 +47,10 @@ char	*ft_value(char *str)
 	int		j;
 	char	*value;
 
-	i = -1;
+	i = 0;
 	j = 0;
 	value = NULL;
-	while (str[++i])
+	while (str[i++])
 	{
 		if (str[i] == '=')
 		{
@@ -58,14 +59,16 @@ char	*ft_value(char *str)
 				return (NULL);
 			i++;
 			while (str[i] != '\0')
-			{
-				value[j++] = str[i];
-				i++;
-			}
+				value[j++] = str[i++];
 		}
 		if (str[i] == '\0')
+		{
+			if (!value)
+				value = malloc(sizeof(char) + 1);
 			break ;
+		}
 	}
+	value[j] = '\0';
 	return (value);
 }
 

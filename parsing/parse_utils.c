@@ -6,11 +6,11 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 11:36:12 by ademaill          #+#    #+#             */
-/*   Updated: 2024/05/02 13:02:20 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/06 11:24:34 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+#include "../minishell.h"
 
 void	str_modify(t_token *token)
 {
@@ -68,7 +68,7 @@ void	str_modify2(t_token *token)
 	free(tmp);
 }
 
-void	error_parse(char *str, t_token *token, char **envp)
+void	error_parse(char *str, t_token *token, t_main *main)
 {
 	t_token	*tmp;
 	int	i;
@@ -90,5 +90,5 @@ void	error_parse(char *str, t_token *token, char **envp)
 	free (token);
 	ft_putstr_fd("Error synthax,\n", 2);
 	ft_putstr_fd(str, 2);
-	minishell_loop(envp);
+	minishell_loop(main);
 }

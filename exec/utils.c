@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 10:47:46 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/04/17 13:58:11 by ademaill         ###   ########.fr       */
+/*   Updated: 2024/05/07 15:32:16 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,4 +98,20 @@ int	open_file(char	*name, int i)
 	if (file == -1)
 		ft_error();
 	return (file);
+}
+
+t_token	*ft_find(t_token *token, int i)
+{
+	int	count;
+
+	count = 0;
+	while (token)
+	{
+		if (token->type == __cmdgr)
+			count++;
+		if (count == i)
+			return (token);
+		token = token->next;
+	}
+	return (token);
 }

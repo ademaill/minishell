@@ -6,18 +6,28 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 10:23:47 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/04/27 16:34:39 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/06 09:42:31 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include "builtins.h"
 
+static int	ft_strcmp(char *s1, char *s2)
+{
+	int	i;
+
+	i = 0;
+	while (s1[i] == s2[i] && s1[i] != '\0')
+		i++;
+	return (s1[i] - s2[i]);
+}
+
 char	*ft_get_envlst_val(char *key, t_env *envlst)
 {
 	while (envlst)
 	{
-		if (!ft_strncmp(key, envlst->key, ft_strlen(key)))
+		if (!ft_strcmp(key, envlst->key))
 			return (envlst->value);
 		envlst = envlst->next;
 	}
@@ -40,17 +50,6 @@ int	check_key(char *str)
 	return (1);
 }
 
-static int	ft_strcmp(char *s1, char *s2)
-{
-	int	i;
-
-	i = 0;
-	while (s1[i] == s2[i] && s1[i] != '\0')
-	{
-		i++;
-	}
-	return (s1[i] - s2[i]);
-}
 
 void	sort_lst(t_env **head)
 {
@@ -74,7 +73,7 @@ void	sort_lst(t_env **head)
 		else
 		{
 			tmp = sorted;
-			while (tmp->next != NULL && ft_strcmp(tmp->next->key, cur->key) < 0)
+			while (tmp->next != NULL && cur->key && ft_strcmp(tmp->next->key, cur->key) < 0)
 				tmp = tmp->next;
 			cur->next = tmp->next;
 			tmp->next = cur;

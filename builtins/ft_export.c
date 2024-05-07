@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 11:14:47 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/05/04 14:38:29 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/06 15:06:36 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,16 +46,21 @@ static	void	ft_export_list(char **envp)
 		k_s = ft_strlen(list->key);
 		if (list->value != NULL && (ft_strncmp(list->key, "_", k_s) != 0))
 		{
-			printf("declare -x %s=\"", list->key);
-			i = 0;
-			while (list->value[i])
+			if (!list->value)
+				printf("declare -x %s\"", list->key);
+			else
 			{
-				if (list->value[i] == '$' || list->value[i] == '"')
-					printf("\\%c", list->value[i++]);
-				else
-					printf("%c", list->value[i++]);
+				printf("declare -x %s=\"", list->key);
+				i = 0;
+				while (list->value[i])
+				{
+					if (list->value[i] == '$' || list->value[i] == '"')
+						printf("\\%c", list->value[i++]);
+					else
+						printf("%c", list->value[i++]);
+				}
+				printf("\"\n");
 			}
-			printf("\"\n");
 		}
 		else if (list->value == NULL && (ft_strncmp(list->key, "_", k_s) != 0))
 			printf("declare -x %s\n", list->key);
@@ -107,4 +112,3 @@ int	ft_export(char **av, char **envp)
 	}
 	return (error_s);
 }
-
