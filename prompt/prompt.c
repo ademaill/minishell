@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:06:28 by ademaill          #+#    #+#             */
-/*   Updated: 2024/05/02 13:08:51 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/07 13:40:28 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,6 @@ void	handler_signals(int sign)
 		rl_redisplay();
 		//minishell_loop();
 	}
-	else if (sign == SIGQUIT)
-	{
-		//rl_on_new_line();
-		//rl_redisplay();
-		printf("  \b\b");
-		//minishell_loop();
-	}
 }
 
 static char	*ft_get_prompt(void)
@@ -57,41 +50,41 @@ static char	*ft_get_prompt(void)
 	return (prompt);
 }
 
-void	minishell_loop(char **envp)
+void	minishell_loop(t_main *main)
 {
 	char	*buffer;
 	char	*prompt;
 	t_token	*tokens;
-	t_env	*env;
 	g_pid = 0;
 
 	tokens = NULL;
-	env = ft_env_int(envp);
+	main->env = ft_env_int(main->envp);
 	while (1)
 	{
+		main->token = tokens;
 		signal(SIGINT, handler_signals);
 		signal(SIGQUIT, SIG_IGN);
 		prompt = ft_get_prompt();
 		buffer = readline(prompt);
 		if (buffer == NULL)
 		{
-			ft_exit(tokens);
+			ft_exit(main->token);
 		}
 		if (buffer)
 			add_history(buffer);
 		free(prompt);
 		if (ft_strncmp(buffer, "exit", 5) == 0)
 		{
-			ft_exit(tokens);
+			ft_exit(main->token);
 			return ;
 		}
-		tokens = ft_tokenizer(buffer, env, envp);
+		main->token = ft_tokenizer(buffer, main);
 		t_token	*arr;
 		int	i;
 		int	j;
 		j= 0;
 		i = 0;
-		arr = tokens;
+		arr = main->token;
 		while (arr)
 		{
 			printf("token numero %d\n", i);
@@ -102,27 +95,35 @@ void	minishell_loop(char **envp)
 				printf("%s\n", arr->value[j]);
 				j++;
 			}
+			//printf("%d\ng\n", tokens->type);
 			if (arr->type == 0)
 				printf("type : _cmdgrp\n\n");
 			else if (arr->type == 1)
 				printf("type : _pipe\n\n");
 			else if (arr->type == 2)
-				printf("type : _redirect\n\n");
+				printf("type : _redirect_in\n\n");
 			else if (arr->type == 3)
-				printf("type : _var_env\n\n");
+				printf("type : _redirect_out\n\n");
 			else if (arr->type == 4)
 				printf("type : _here_doc\n\n");
 			else if (arr->type == 5)
 				printf("type : _append\n\n");
 			arr = arr->next;
 		}
+		free(main->token);
+		//minishell_loop(main);
 	}
 }
 
 int	main(int ac, char **av, char **envp)
 {
+	t_main	*main;
+
 	(void)ac;
 	(void)av;
-	minishell_loop(envp);
+	main = malloc(sizeof(t_main));
+	main->envp = envp;
+	minishell_loop(main);
 	return (0);
 }
+

@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 11:34:02 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/05/04 14:39:31 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/07 13:50:23 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,22 +38,39 @@ void	mult_process(char *cmd, char **envp)
 	}
 }
 
-void	child_process(char **av, char **envp, int *fd)
+void	child_process(t_token *token, t_env *env, int *fd)
 {
 	int	in;
+	int	out;
 
-	in = open(av[1], O_RDONLY, 0777);
-	if (in == -1)
+	if (token->prev->type == __here_doc)
+		in = open_file(here_doc(token->prev->value[1]), 2);
+	else if (token->prev->type == __redirect_in)
+		in = open(token->prev->value[1], O_RDONLY, 0777);
+	else if (token->prev->type == __redirect_out)
+		out = open_file(token->prev->value[1], 1);
+	if (in == -1 || out == -1)
 		ft_error();
-	dup2(fd[1], STDOUT_FILENO);
-	dup2(in, STDIN_FILENO);
-	close(in);
-	close(fd[1]);
+	if (in)
+	{
+		dup2(in, STDIN_FILENO);
+		close(in);
+	}
+	else
+		dup2(fd[0], STDIN_FILENO);
+	if (out)
+	{
+		dup2(out, STDOUT_FILENO);
+		close(out);
+	}
+	else
+		dup2(fd[1], STDOUT_FILENO);
 	close(fd[0]);
-	exec_cmd(av[2], envp);
+	close(fd[1]);
+	exec_cmd(token->value, env);
 }
 
-void	parent_process(char **av, char **envp, int *fd)
+void	parent_process(t_token *token, t_env *env, int *fd)
 {
 	int	out;
 
@@ -101,12 +118,20 @@ void	mult_pipe(int ac, char **av, char **envp)
 	exec_cmd(av[ac - 2], envp);
 }
 
-/*int	main(int ac, char **av, char **envp)
+int	exec(t_main *main)
 {
 	int		fd[2];
 	pid_t	pid;
+	int		pipecount;
 
-	if (ac == 5)
+	pipecount = 0;
+	while (main->token)
+	{
+		if (main->token->type == __pipe)
+			pipecount++;
+		main->token = main->token->next;
+	}
+	if (pipecount == 1)
 	{
 		if (pipe(fd) == -1)
 			ft_error();
@@ -114,15 +139,15 @@ void	mult_pipe(int ac, char **av, char **envp)
 		if (pid == -1)
 			ft_error();
 		if (pid == 0)
-			child_process(av, envp, fd);
+			child_process(ft_find(main->token, 1), main->env, fd);
 		waitpid(pid, NULL, 0);
-		parent_process(av, envp, fd);
+		parent_process(ft_find(main->token, 2), main->env, fd);
 	}
-	else if (ac > 5)
-		mult_pipe(ac, av, envp);
+	else if (pipecount > 1)
+		mult_pipe(pipecount, main->token->value, main->env);
 	else
 	{
 		ft_putstr_fd("Error : Wrong number of args.\n", 2);
 	}
 	return (0);
-}*/
+}

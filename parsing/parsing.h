@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 10:33:29 by ademaill          #+#    #+#             */
-/*   Updated: 2024/05/02 13:04:27 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/06 11:30:15 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,14 @@
 
 #include "../minishell.h"
 
-void	parse_pipe(t_token *token, char **envp);
-void	parse_here_doc(t_token *token, char **envp);
-void	parse_redirect(t_token *token, char **envp);
-void	parse_append(t_token *token, char **envp);
-void	parse_redirect(t_token *token, char **envp);
-void	error_parse(char *str, t_token *token, char **envp);
+typedef struct s_main	t_main;
+
+void	parse_pipe(t_token *token, t_main *main);
+void	parse_here_doc(t_token *token, t_main *main);
+void	parse_redirect(t_token *token, t_main *main);
+void	parse_append(t_token *token, t_main *main);
+void	parse_redirect(t_token *token, t_main *main);
+void	error_parse(char *str, t_token *token, t_main *main);
 void	str_modify(t_token *token);
 void	str_modify2(t_token *token);
 

@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 15:38:51 by ademaill          #+#    #+#             */
-/*   Updated: 2024/05/02 12:58:05 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/07 15:31:41 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 
 typedef enum e_type
 {
+	__redirect_in,
 	__cmdgr,
 	__pipe,
-	__redirect,
-	__var_env,
+	__redirect_out,
 	__here_doc,
 	__append,
 

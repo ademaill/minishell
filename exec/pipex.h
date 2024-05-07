@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 11:36:21 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/04/17 10:34:33 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/07 15:32:10 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,6 @@ void	ft_error(void);
 int		open_file(char	*name, int i);
 char	*here_doc(char *limiter);
 char	*rand_path(void);
+t_token	*ft_find(t_token *token, int i);
 
 #endif

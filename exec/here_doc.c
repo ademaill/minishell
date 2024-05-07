@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 09:05:06 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/05/04 14:40:10 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/07 15:32:23 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*here_doc(char *limiter)
 	char	*line;
 	char	*path;
 
-	path = rand_path();
+	path = rand_spath();
 	fd = open(path, O_CREAT | O_TRUNC | O_WRONLY | O_APPEND, 0644);
 	write(STDOUT_FILENO, ">", 1);
 	line = get_next_line(STDIN_FILENO);

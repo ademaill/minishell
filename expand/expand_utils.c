@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:28:22 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/05/02 13:43:21 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/04 15:53:43 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,16 +39,25 @@ char	*ft_handle_d_quotes(char *str, int *i)
 	return (tmp);
 }
 
-char	*ft_handle_s_quotes(char *str, int *i)
+char	*ft_handle_s_quotes(char *str, int *i, bool dquotes)
 {
 	int		start;
 	char	*tmp;
 
 	start = *i;
-	(*i)++;
-	while (str[*i] != '\'' && str[*i] != '\0')
+	if (!dquotes)
+	{
 		(*i)++;
-	(*i)++;
+		while (str[*i] != '\'' && str[*i] != '\0')
+			(*i)++;
+		(*i)++;
+	}
+	else
+	{
+		(*i)++;
+		while (str[*i] != '\'' && str[*i] != '$' && str[*i] != '\0')
+			(*i)++;
+	}
 	tmp = ft_substr(str, start, (*i - start));
 	return (tmp);
 }

@@ -17,6 +17,7 @@
 		"type_traits": "c",
 		"utility": "c",
 		"parsing.h": "c",
-		"readline.h": "c"
+		"readline.h": "c",
+		"wait.h": "c"
 	}
 }

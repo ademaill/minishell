@@ -27,14 +27,15 @@ OBJS = $(SRCS:.c=.o)
 CFLAGS = -Wall -Wextra -Werror -g
 LIBFT = Libft/libft.a
 LIBFT_PATH = "Libft"
+READLINE_PATH:=	/goinfre/homebrew/opt/readline
 
 all: $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT)
-	$(CC) -o $(NAME) -L$(LIBFT_PATH) -lreadline $@ $^
+	$(CC) -o $(NAME) -L$(LIBFT_PATH) -lft -L$(READLINE_PATH)/lib -lreadline $@ $^
 
 %.o: %.c $(HEADER)
-	$(CC) $(CFLAGS) $< -c -o $@
+	$(CC) $(CFLAGS) -c $< -o $@ -Iinclude -I$(READLINE_PATH)/include
 
 $(LIBFT):
 	@make -C $(LIBFT_PATH)
