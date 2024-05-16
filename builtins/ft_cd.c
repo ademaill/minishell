@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 10:20:37 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/05/04 14:37:53 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/16 12:58:13 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,10 @@ int	ft_cd(char *path, char **envp)
 	ft_update("OLDPWD", ft_get_envlst_val("PWD", env), env, false);
 	ft_change_pwd(env);
 	printf("%s\n", ft_get_envlst_val("PWD", env));
+	printf("%s\n", ft_get_envlst_val("PWD", env));
+	printf("%s\n", ft_get_envlst_val("PWD", env));
+	printf("%s\n", ft_get_envlst_val("PWD", env));
 	printf("%s\n", ft_get_envlst_val("OLDPWD", env));
+
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 15:38:51 by ademaill          #+#    #+#             */
-/*   Updated: 2024/05/07 15:31:41 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/08 10:46:09 by ademaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,8 @@ typedef struct s_token
 	struct s_token *next;
 }	t_token;
 
+int		regroup(t_token *token, t_token	*tmp, t_token *tmp2, t_token *tmp3);
+void	free_tab(char **tab);
+int		ft_token_join(t_token *src, t_token *add);
 
 #endif

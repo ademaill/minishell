@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 10:14:24 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/05/04 14:41:29 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/16 12:58:17 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	ft_unset(char **av, char **envp)
 {
 	int	i;
 
-	i = 0;
+	i = 1;
 	if (!av[1])
 		return (0);
 	while (av[i])

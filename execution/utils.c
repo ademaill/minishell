@@ -6,24 +6,12 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 10:47:46 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/05/07 15:32:16 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/10 09:55:17 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-static void	free_tab(char **tab)
-{
-	int	i;
-
-	i = 0;
-	while (tab[i])
-	{
-		free(tab[i]);
-		i++;
-	}
-	free(tab);
-}
 
 char	*f_path(char *cmd, char **envp)
 {
@@ -57,12 +45,10 @@ void	ft_error(void)
 	exit(EXIT_FAILURE);
 }
 
-void	exec_cmd(char *av, char **envp)
+void	exec_cmd(char **cmd, char **envp)
 {
-	char	**cmd;
 	char	*path;
 
-	cmd = ft_split(av, ' ');
 	if (cmd[0][0] == '/')
 	{
 		if (execve(cmd[0], cmd, envp) == -1)

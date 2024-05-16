@@ -7,6 +7,7 @@ SRCS = exec/pipex.c \
 		exec/get_next_line/get_next_line.c \
 		exec/get_next_line/get_next_line_utils.c \
 		lexer/lexer.c \
+		lexer/lexer_utils.c \
 		builtins/env_utils.c \
 		builtins/ft_cd.c \
 		builtins/ft_echo.c \
@@ -21,6 +22,7 @@ SRCS = exec/pipex.c \
 		prompt/utils_prompt.c \
 		parsing/parse_pipe.c \
 		parsing/parse_utils.c
+
 
 HEADERS = minishell.h
 OBJS = $(SRCS:.c=.o)

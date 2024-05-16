@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 15:48:14 by ademaill          #+#    #+#             */
-/*   Updated: 2024/05/06 15:06:57 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/16 12:58:18 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 # include "lexer/lexer.h"
 # include "Libft/libft.h"
-# include "exec/pipex.h"
+# include "execution/pipex.h"
 # include "parsing/parsing.h"
 # include <stdlib.h>
 # include <unistd.h>
@@ -36,6 +36,7 @@ typedef struct s_main
 	t_token	*token;
 	int		exit_code;
 	int		pipe_count;
+	int		*pid;
 	char	**envp;
 }	t_main;
 
@@ -50,7 +51,9 @@ void	ft_env(char **envp);
 char	*ft_get_envlst_val(char *key, t_env *envlst);
 int		check_key(char *str);
 void	sort_lst(t_env **head);
-bool	ft_env_exists(char *key, char **envp);
+bool	ft_env_exists(char *key, t_main *main);
+char	*handle_next(int *i, char *tmp, char *str, t_main *main);
+char	*ft_handle_dollars(char *str, int *i, t_main *main);
 char	*ft_handle_s_quotes(char *str, int *i, bool dquotes);
 char	*ft_handle_d_quotes(char *str, int *i);
 char	*ft_handle_str(char *str, int *i);
@@ -59,5 +62,10 @@ void	handler_signals(int sign);
 t_token	*ft_tokenizer(char *line, t_main *main);
 void	ft_exit(t_token *token);
 char	*ft_cmd_pre_expand(char *str, t_main *main);
+int		ft_exec(t_main *main);
+void	exec_builtins(t_token *token, t_main *main);
+int		is_builtins(t_token *token);
+
+// bultins
 
 #endif

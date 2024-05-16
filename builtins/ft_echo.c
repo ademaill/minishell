@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 14:47:48 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/05/04 14:38:08 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/16 12:58:18 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	ft_echo(char **av)
 	int	i;
 	int	option;
 
-	i = 0;
+	i = 1;
 	option = 0;
 	while (av[i] != NULL && option_check(av[i]) == 1)
 	{
