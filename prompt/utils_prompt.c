@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_prompt.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 13:03:20 by ademaill          #+#    #+#             */
-/*   Updated: 2024/04/24 09:53:50 by ademaill         ###   ########.fr       */
+/*   Updated: 2024/05/16 15:47:02 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	ft_exit(t_token *token)
 {
 	t_token	*tmp;
-	int	i;
+	int		i;
 
 	if (token)
 	{

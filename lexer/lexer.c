@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 14:01:37 by ademaill          #+#    #+#             */
-/*   Updated: 2024/05/16 12:58:35 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/17 14:17:07 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ t_token	*ft_tokenizer(char *line, t_main *main)
 	int		i;
 	char	**content;
 	char	**tab;
-	t_token *tmp;
+	t_token	*tmp;
 
 	i = 0;
 	tab = ft_split_ms(line, "<>|");
@@ -99,4 +99,3 @@ t_token	*ft_tokenizer(char *line, t_main *main)
 	ft_group_cmd(main->token);
 	return (main->token);
 }
-

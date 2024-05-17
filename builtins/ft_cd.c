@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 10:20:37 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/05/16 12:58:13 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/16 15:33:49 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,22 +50,16 @@ static int	ft_cd_error(char *err_msg)
 	return (1);
 }
 
-int	ft_cd(char *path, char **envp)
+int	ft_cd(char *path, t_main *main)
 {
 	t_env	*env;
 
-	env = ft_env_int(envp);
+	env = main->env;
 	if (!path)
 		return (get_home(env));
 	if (chdir(path) != 0)
 		return (ft_cd_error(path));
 	ft_update("OLDPWD", ft_get_envlst_val("PWD", env), env, false);
 	ft_change_pwd(env);
-	printf("%s\n", ft_get_envlst_val("PWD", env));
-	printf("%s\n", ft_get_envlst_val("PWD", env));
-	printf("%s\n", ft_get_envlst_val("PWD", env));
-	printf("%s\n", ft_get_envlst_val("PWD", env));
-	printf("%s\n", ft_get_envlst_val("OLDPWD", env));
-
 	return (0);
 }

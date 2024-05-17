@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 15:50:46 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/05/16 12:58:38 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/17 12:06:40 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,8 @@ char	*ft_handle_dollars(char *str, int *i, t_main *main)
 	else if (str[*i] == '?')
 	{
 		(*i)++;
-		return(ft_itoa(main->exit_code));
+		tmp = ft_itoa(main->exit_code);
+		return (tmp);
 	}
 	else if (!ft_is_valid_var_char(str[*i]))
 	{

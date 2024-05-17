@@ -6,10 +6,9 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 15:48:14 by ademaill          #+#    #+#             */
-/*   Updated: 2024/05/16 12:58:18 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/17 10:19:45 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -25,8 +24,8 @@
 
 typedef struct s_env
 {
-	char		*key;
-	char		*value;
+	char			*key;
+	char			*value;
 	struct s_env	*next;
 }	t_env;
 
@@ -38,6 +37,7 @@ typedef struct s_main
 	int		pipe_count;
 	int		*pid;
 	char	**envp;
+	char	*heredoc_path;
 }	t_main;
 
 void	*ft_garbage_collector(void *ptr, bool clean);
@@ -65,7 +65,5 @@ char	*ft_cmd_pre_expand(char *str, t_main *main);
 int		ft_exec(t_main *main);
 void	exec_builtins(t_token *token, t_main *main);
 int		is_builtins(t_token *token);
-
-// bultins
 
 #endif

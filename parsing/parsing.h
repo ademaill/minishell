@@ -6,14 +6,15 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 10:33:29 by ademaill          #+#    #+#             */
-/*   Updated: 2024/05/06 11:30:15 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/17 12:21:02 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSING_H
 # define PARSING_H
 
-#include "../minishell.h"
+# include "../minishell.h"
+# include <stdbool.h>
 
 typedef struct s_main	t_main;
 

@@ -1,11 +1,13 @@
 NAME = minishell
 CC = cc
-SRCS = exec/pipex.c \
-		exec/utils.c \
-		exec/here_doc.c \
-		exec/here_doc_utils.c \
-		exec/get_next_line/get_next_line.c \
-		exec/get_next_line/get_next_line_utils.c \
+SRCS = execution/pipex.c \
+		execution/utils.c \
+		execution/redirection.c \
+		execution/utils2.c \
+		execution/here_doc.c \
+		execution/here_doc_utils.c \
+		execution/get_next_line/get_next_line.c \
+		execution/get_next_line/get_next_line_utils.c \
 		lexer/lexer.c \
 		lexer/lexer_utils.c \
 		builtins/env_utils.c \
@@ -29,12 +31,11 @@ OBJS = $(SRCS:.c=.o)
 CFLAGS = -Wall -Wextra -Werror -g
 LIBFT = Libft/libft.a
 LIBFT_PATH = "Libft"
-READLINE_PATH:=	/goinfre/homebrew/opt/readline
 
 all: $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT)
-	$(CC) -o $(NAME) -L$(LIBFT_PATH) -lft -L$(READLINE_PATH)/lib -lreadline $@ $^
+	$(CC) -o $(NAME) -L$(LIBFT_PATH) $^ -o $@ -lreadline
 
 %.o: %.c $(HEADER)
 	$(CC) $(CFLAGS) -c $< -o $@ -Iinclude -I$(READLINE_PATH)/include

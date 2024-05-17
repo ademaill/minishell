@@ -6,36 +6,35 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 14:23:31 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/05/16 12:58:16 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/17 13:56:41 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int	do_in(t_token *token, t_main *main)
+int	do_in(t_token *token, t_main *main, bool *heredoc)
 {
 	t_token	*tmp;
 	int		in;
-	char	*path;
 
 	tmp = token;
 	in = 0;
-	path = NULL;
 	while (tmp->prev)
 		tmp = tmp->prev;
-	//printf("%s\n", tmp->value[1]);
 	while (tmp && tmp->type != __pipe)
 	{
 		if (tmp->type == __redirect_in)
 		{
 			in = open(tmp->value[1], O_RDONLY, 0777);
+			*heredoc = false;
 			if (in == -1)
-				ft_error();
+				ft_error(tmp->value[1], EXIT_FAILURE);
 		}
 		else if (tmp->type == __here_doc)
 		{
-			path = here_doc(tmp->value[1], main);
-			in = open_file(path, 2);
+			main->heredoc_path = here_doc(tmp->value[1], main);
+			in = open_file(main->heredoc_path, 2);
+			*heredoc = true;
 		}
 		tmp = tmp->next;
 	}

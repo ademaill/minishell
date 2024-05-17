@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 11:31:45 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/05/08 11:31:46 by ademaill         ###   ########.fr       */
+/*   Updated: 2024/05/17 14:17:06 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../minishell.h"
 #include "lexer.h"
@@ -17,7 +16,7 @@
 int	regroup(t_token *token, t_token	*tmp, t_token *tmp2, t_token *tmp3)
 {
 	tmp = token;
-	while(tmp->type != __cmdgr && tmp->next)
+	while (tmp->type != __cmdgr && tmp->next)
 	{
 		tmp = tmp->next;
 	}

@@ -6,24 +6,25 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 11:34:02 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/05/16 12:58:26 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/17 13:58:46 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-
 static void	ft_process(t_token *token, t_main *main, int *fd, bool last)
 {
-	int	in;
-	int	out;
+	int		in;
+	int		out;
+	bool	heredoc;
 
-	in = do_in(token, main);
+	heredoc = false;
+	in = do_in(token, main, &heredoc);
 	out = do_out(token);
-	if (in == -1 || out == -1)
-		ft_error();
 	if (in)
 		dup2(in, STDIN_FILENO);
+	if (heredoc)
+		unlink(main->heredoc_path);
 	if (out)
 		dup2(out, STDOUT_FILENO);
 	if (!last && !out)
@@ -32,8 +33,8 @@ static void	ft_process(t_token *token, t_main *main, int *fd, bool last)
 		close(in);
 	if (out)
 		close(out);
-	close(fd[0]);
-	close(fd[1]);
+	if (!last && !out)
+		close(fd[1]);
 	exec_cmd(token->value, main->envp);
 }
 
@@ -43,11 +44,10 @@ int	mult_process(t_token *token, t_main *main, bool last)
 	int		fd[2];
 
 	if (pipe(fd) == -1)
-		ft_error();
+		ft_error("error pipe", EXIT_FAILURE);
 	rd = fork();
 	if (rd == -1)
-		ft_error();
-	printf("%s\n", token->value[0]);
+		ft_error("error fork", EXIT_FAILURE);
 	if (rd == 0)
 	{
 		ft_process(token, main, fd, last);
@@ -88,28 +88,25 @@ void	mult_pipe(int pipecount, t_main *main, int *fd)
 	i = 1;
 	(void)fd;
 	j = 0;
-	printf("%d\n", pipecount);
 	main->pid = malloc(sizeof(int *) * pipecount + 1);
 	while (i <= pipecount + 1)
 	{
 		last = false;
 		if (i == pipecount + 1)
 			last = true;
-		if (is_builtins(ft_find(main->token, i)))
+		if (is_builtins(ft_find(main->token, i)) == 1)
 			exec_builtins(ft_find(main->token, i), main);
 		else
 			main->pid[j] = mult_process(ft_find(main->token, i), main, last);
 		i++;
 		j++;
 	}
-	printf("jsp\n");
-	//ft_process(ft_find(token, i), envp, fd, true, true);
+	main->pid[j] = 0;
 }
 
-int	  ft_exec(t_main *main)
+int	ft_exec(t_main *main)
 {
 	int		fd[2];
-	//pid_t	pid;
 	int		pipecount;
 	int		original_stdint;
 	t_token	*tmp;
@@ -123,26 +120,8 @@ int	  ft_exec(t_main *main)
 			pipecount++;
 		tmp = tmp->next;
 	}
-	/*if (pipecount == 1)
-	{
-		if (pipe(fd) == -1)
-			ft_error();
-		pid = fork();
-		if (pid == -1)
-			ft_error();
-		if (pid == 0)
-			ft_process(ft_find(main->token, 1), main->envp, fd, false);
-		waitpid(pid, NULL, 0);
-		ft_process(ft_find(main->token, 2), main->envp, fd, true);
-	}*/
-	if (pipecount == 0)
-		ft_process(main->token, main, fd, true);
-	else
-		mult_pipe(pipecount, main, fd);
-	//else if (pipecount == 0)
-		//ft_process(ft_find(main->token, 1), main->envp, fd, true);
+	mult_pipe(pipecount, main, fd);
 	dup2(original_stdint, STDIN_FILENO);
 	close(original_stdint);
 	return (0);
 }
-

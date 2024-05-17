@@ -6,11 +6,34 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 14:47:48 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/05/16 12:58:18 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/17 14:39:11 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+static char	*clean_str(char *str)
+{
+	int		i;
+	char	*str_clean;
+	int		j;
+
+	i = 0;
+	j = 0;
+	str_clean = malloc(sizeof(char) * ft_strlen(str) - 1);
+	if (!str)
+		return (NULL);
+	if (str[i] == '"' || str[i] == '\'')
+		i++;
+	while (str[i] && (str[i] != '"' && str[i] != '\''))
+	{
+		str_clean[j] = str[i];
+		i++;
+		j++;
+	}
+	str_clean[j] = '\0';
+	return (str_clean);
+}
 
 static int	option_check(char *str)
 {
@@ -43,7 +66,7 @@ void	ft_echo(char **av)
 	}
 	while (av[i])
 	{
-		ft_putstr_fd(av[i], 1);
+		ft_putstr_fd(clean_str(av[i]), 1);
 		if (av[i + 1])
 			ft_putstr_fd(" ", 1);
 		i++;
@@ -51,4 +74,3 @@ void	ft_echo(char **av)
 	if (option == 0)
 		ft_putstr_fd("\n", 1);
 }
-

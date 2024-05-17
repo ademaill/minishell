@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   prompt.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/16 15:46:21 by vnavarre          #+#    #+#             */
+/*   Updated: 2024/05/17 11:53:02 by vnavarre         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -7,6 +18,27 @@
 #include <unistd.h>
 #include "../minishell.h"
 
+static void	status_exit(t_main *main, int pid)
+{
+	int	status;
+
+	status = 0;
+	if (pid > 0)
+	{
+		//if (g_sig_received)
+			//kill(pid, g_sig_received);
+		waitpid(pid, &status, 0);
+		if (WTERMSIG(status) == SIGQUIT)
+			printf(" Quit (Core dumped)\n");
+		if (WTERMSIG(status) == SIGPIPE)
+			printf(" Broken pipe\n");
+		if (WIFEXITED(status))
+			main->exit_code = WEXITSTATUS(status);
+	}
+	//if (pid == -42)
+		//main->exit_code = EXIT_FAILURE;
+}
+
 void	handler_signals(int sign)
 {
 	if (sign == SIGINT)
@@ -15,7 +47,6 @@ void	handler_signals(int sign)
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
-		//minishell_loop();
 	}
 }
 
@@ -74,10 +105,10 @@ void	minishell_loop(t_main *main)
 		i = 0;
 		while (main->pid[i])
 		{
-			waitpid(main->pid[i], NULL, 0);
+			status_exit(main, main->pid[i]);
 			i++;
 		}
-		t_token	*arr;
+		/*t_token	*arr;
 		int	j;
 		j= 0;
 		i = 0;
@@ -88,7 +119,7 @@ void	minishell_loop(t_main *main)
 			i++;
 			j = 0;
 			while (arr->value[j])
-			{
+			{ lol
 				printf("%s\n", arr->value[j]);
 				j++;
 			}
@@ -105,7 +136,7 @@ void	minishell_loop(t_main *main)
 			else if (arr->type == 5)
 				printf("type : _append\n\n");
 			arr = arr->next;
-		}
+		}*/
 		i = 0;
 		while (main->token)
 		{
@@ -129,4 +160,3 @@ int	main(int ac, char **av, char **envp)
 	free(data);
 	return (0);
 }
-
