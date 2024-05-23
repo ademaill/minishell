@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 14:36:06 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/05/16 14:34:50 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/23 14:25:07 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,16 @@ static char	*ft_strcat(char const *dest, char const *src, char *str)
 	return (str);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
 	size_t	size;
 	char	*str;
 
-	if (!s1 || !s2)
+	if (!s1 && s2)
+		return (s2);
+	if (s1 && !s2)
+		return (s1);
+	if (!s1 && !s2)
 		return (NULL);
 	size = (ft_strlen(s1) + ft_strlen(s2));
 	str = (char *)malloc(sizeof(char) * (size + 1));

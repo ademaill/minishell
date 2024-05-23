@@ -18,6 +18,7 @@
 		"utility": "c",
 		"parsing.h": "c",
 		"readline.h": "c",
-		"wait.h": "c"
+		"wait.h": "c",
+		"minishell.h": "c"
 	}
 }

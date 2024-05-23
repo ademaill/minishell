@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 15:50:46 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/05/17 12:06:40 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/23 14:18:56 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ char	*ft_handle_dollars(char *str, int *i, t_main *main)
 	}
 	else if (!ft_is_valid_var_char(str[*i]))
 	{
-		(*i)++;
+		//(*i)++;
 		tmp = ft_strdup("$");
 		return (tmp);
 	}

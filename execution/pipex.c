@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 11:34:02 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/05/17 13:58:46 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/21 14:06:26 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void	mult_pipe(int pipecount, t_main *main, int *fd)
 	i = 1;
 	(void)fd;
 	j = 0;
-	main->pid = malloc(sizeof(int *) * pipecount + 1);
+	main->pid = malloc(sizeof(int) * pipecount + 2);
 	while (i <= pipecount + 1)
 	{
 		last = false;
@@ -97,9 +97,11 @@ void	mult_pipe(int pipecount, t_main *main, int *fd)
 		if (is_builtins(ft_find(main->token, i)) == 1)
 			exec_builtins(ft_find(main->token, i), main);
 		else
+		{
 			main->pid[j] = mult_process(ft_find(main->token, i), main, last);
+			j++;
+		}
 		i++;
-		j++;
 	}
 	main->pid[j] = 0;
 }

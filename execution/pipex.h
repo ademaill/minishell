@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 11:36:21 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/05/17 13:55:26 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/22 14:38:52 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,12 @@ char	*rand_path(void);
 t_token	*ft_find(t_token *token, int i);
 int		do_in(t_token *token, t_main *main, bool *heredoc);
 int		do_out(t_token *token);
-int		ft_cd(char *path, t_main *main);
+int		ft_cd(char **path, t_main *main);
 int		ft_unset(char **av, char **envp);
 void	ft_echo(char **av);
 void	ft_env(char **envp);
 int		ft_export(char **av, t_main *main);
 int		ft_pwd(void);
+int		ft_exit(t_main *main, char **value);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 11:31:45 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/05/17 14:17:06 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/22 10:31:27 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	regroup(t_token *token, t_token	*tmp, t_token *tmp2, t_token *tmp3)
 	{
 		if (tmp2->type == __cmdgr && tmp != tmp2)
 		{
-			ft_token_join(tmp, tmp2);
+			ft_token_join(tmp, tmp2, 0);
 			//	return (1);
 			if (tmp2->next)
 				tmp2->prev->next = tmp2->next;

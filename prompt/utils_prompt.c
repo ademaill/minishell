@@ -6,13 +6,13 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 13:03:20 by ademaill          #+#    #+#             */
-/*   Updated: 2024/05/16 15:47:02 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/22 13:24:50 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_exit(t_token *token)
+void	ft_fullexit(t_token *token)
 {
 	t_token	*tmp;
 	int		i;

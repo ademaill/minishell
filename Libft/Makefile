@@ -36,7 +36,6 @@ SRCS = ft_isalpha.c \
 		ft_putnbr_fd.c \
 		ft_size.c \
 		ft_skip_space.c \
-		ft_split_ms.c \
 		ft_isnum.c \
 		ft_ignore_sep.c \
 		ft_strndup.c \

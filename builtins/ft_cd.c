@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 10:20:37 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/05/16 15:33:49 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/21 14:04:09 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,15 +50,20 @@ static int	ft_cd_error(char *err_msg)
 	return (1);
 }
 
-int	ft_cd(char *path, t_main *main)
+int	ft_cd(char **path, t_main *main)
 {
 	t_env	*env;
 
 	env = main->env;
-	if (!path)
+	if (path[2])
+	{
+		ft_putstr_fd(" too many arguments\n", 2);
+		return (1);
+	}
+	if (!path[1])
 		return (get_home(env));
-	if (chdir(path) != 0)
-		return (ft_cd_error(path));
+	if (chdir(path[1]) != 0)
+		return (ft_cd_error(path[1]));
 	ft_update("OLDPWD", ft_get_envlst_val("PWD", env), env, false);
 	ft_change_pwd(env);
 	return (0);

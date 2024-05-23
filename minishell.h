@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 15:48:14 by ademaill          #+#    #+#             */
-/*   Updated: 2024/05/17 10:19:45 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/22 13:24:33 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ char	*ft_handle_str(char *str, int *i);
 void	minishell_loop(t_main *main);
 void	handler_signals(int sign);
 t_token	*ft_tokenizer(char *line, t_main *main);
-void	ft_exit(t_token *token);
+void	ft_fullexit(t_token *token);
 char	*ft_cmd_pre_expand(char *str, t_main *main);
 int		ft_exec(t_main *main);
 void	exec_builtins(t_token *token, t_main *main);

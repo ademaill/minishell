@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 10:14:24 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/05/16 15:37:07 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/21 13:48:30 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,6 @@ int	ft_unset(char **av, char **envp)
 	int	i;
 
 	i = 1;
-	if (!av[1])
-		return (0);
 	while (av[i])
 	{
 		if (!check_key(av[i]))
@@ -53,5 +51,5 @@ int	ft_unset(char **av, char **envp)
 			unset_ut(av[i], envp);
 		i++;
 	}
-	return (1);
+	return (0);
 }

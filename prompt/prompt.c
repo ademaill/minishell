@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 15:46:21 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/05/17 11:53:02 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/23 14:26:09 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,16 +88,11 @@ void	minishell_loop(t_main *main)
 		}
 		if (buffer == NULL)
 		{
-			ft_exit(main->token);
+			ft_fullexit(main->token);
 		}
 		if (buffer)
 			add_history(buffer);
 		free(prompt);
-		if (ft_strncmp(buffer, "exit", 5) == 0)
-		{
-			ft_exit(main->token);
-			return ;
-		}
 		main->token = ft_tokenizer(buffer, main);
 		free(buffer);
 		buffer = NULL;
@@ -108,7 +103,7 @@ void	minishell_loop(t_main *main)
 			status_exit(main, main->pid[i]);
 			i++;
 		}
-		/*t_token	*arr;
+		t_token	*arr;
 		int	j;
 		j= 0;
 		i = 0;
@@ -119,7 +114,7 @@ void	minishell_loop(t_main *main)
 			i++;
 			j = 0;
 			while (arr->value[j])
-			{ lol
+			{
 				printf("%s\n", arr->value[j]);
 				j++;
 			}
@@ -136,7 +131,7 @@ void	minishell_loop(t_main *main)
 			else if (arr->type == 5)
 				printf("type : _append\n\n");
 			arr = arr->next;
-		}*/
+		}
 		i = 0;
 		while (main->token)
 		{
@@ -154,6 +149,7 @@ int	main(int ac, char **av, char **envp)
 	(void)ac;
 	(void)av;
 	data = malloc(sizeof(t_main));
+	ft_memset(data, 0, sizeof(t_main));
 	data->envp = envp;
 	data->env = ft_env_int(data->envp);
 	minishell_loop(data);
