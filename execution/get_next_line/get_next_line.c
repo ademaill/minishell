@@ -6,12 +6,11 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 15:27:18 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/04/17 14:30:25 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/17 09:46:34 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-
 
 static char	*write_line(char *stat)
 {
@@ -53,7 +52,7 @@ static char	*copy(char *stat)
 		free(stat);
 		return (NULL);
 	}
-	str = ft_calloc_gnl(sizeof(char), (ft_strlen_gnl(stat) - i + 1));
+	str = ft_calloc_gnl(sizeof(char), (ft_slen_gnl(stat) - i + 1));
 	if (!str)
 		return (NULL);
 	i++;

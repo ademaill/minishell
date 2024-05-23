@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 10:19:24 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/05/06 11:28:38 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/23 14:25:24 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 
 # include <stdlib.h>
 # include <unistd.h>
+# include <stdbool.h>
+# include <stdint.h>
+# include <limits.h>
 # include "../minishell.h"
 
 typedef struct s_token	t_token;
@@ -44,7 +47,7 @@ int		ft_atoi(const char *nptr);
 void	*ft_calloc(size_t nmemb, size_t size);
 char	*ft_strdup(const char *s);
 char	*ft_substr(char const *s, unsigned int strat, size_t len);
-char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_strjoin(char *s1, char *s2);
 char	*ft_strtrim(char const *s1, char const *set);
 char	**ft_split(char const *s, char c);
 char	*ft_itoa(int n);
@@ -62,7 +65,6 @@ void	ft_lstdelone(t_token *lst, void (*del)(void*));
 void	ft_lstclear(t_token **lst, void (*del)(void*));
 void	ft_lstiter(t_token *lst, void (*f)(void *));
 t_token	*ft_lstmap(t_token *lst, void *(*f)(void *), void (*del)(void *));
-char	**ft_split_ms(char *str, char *sep);
 int		ft_size(char *line, int *i);
 void	ft_skip_space(char *line, int *i);
 void	ft_ignore_sep(char *line, int *i);

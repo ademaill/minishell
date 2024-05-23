@@ -6,24 +6,11 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 10:47:46 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/05/07 15:32:16 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/17 13:57:53 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-
-static void	free_tab(char **tab)
-{
-	int	i;
-
-	i = 0;
-	while (tab[i])
-	{
-		free(tab[i]);
-		i++;
-	}
-	free(tab);
-}
 
 char	*f_path(char *cmd, char **envp)
 {
@@ -51,35 +38,43 @@ char	*f_path(char *cmd, char **envp)
 	return (0);
 }
 
-void	ft_error(void)
+void	ft_error(char *str, int code)
 {
-	perror("Error");
-	exit(EXIT_FAILURE);
+	perror(str);
+	free(str);
+	exit(code);
 }
 
-void	exec_cmd(char *av, char **envp)
+void	exec_cmd(char **cmd, char **envp)
 {
-	char	**cmd;
 	char	*path;
+	char	*tmp;
 
-	cmd = ft_split(av, ' ');
+	tmp = NULL;
 	if (cmd[0][0] == '/')
 	{
 		if (execve(cmd[0], cmd, envp) == -1)
-			ft_error();
+			ft_error(cmd[0], EXIT_FAILURE);
+	}
+	else if (cmd[0][0] == '.' && cmd[0][1] == '/')
+	{
+		if (execve(cmd[0], cmd, envp) == -1)
+			ft_error(cmd[0], EXIT_FAILURE);
 	}
 	else
 	{
 		path = f_path(cmd[0], envp);
 		if (!path)
 		{
+			tmp = ft_strdup(cmd[0]);
 			free_tab(cmd);
-			ft_error();
+			ft_error(tmp, 127);
 		}
 		if (execve(path, cmd, envp) == -1)
 		{
+			tmp = cmd[0];
 			free(path);
-			ft_error();
+			ft_error(tmp, EXIT_FAILURE);
 		}
 	}
 }
@@ -96,15 +91,17 @@ int	open_file(char	*name, int i)
 	else if (i == 2)
 		file = open(name, O_RDONLY, 0777);
 	if (file == -1)
-		ft_error();
+		ft_error(name, EXIT_FAILURE);
 	return (file);
 }
 
 t_token	*ft_find(t_token *token, int i)
 {
 	int	count;
+	t_token	*tmp;
 
 	count = 0;
+	tmp = token;
 	while (token)
 	{
 		if (token->type == __cmdgr)
@@ -113,5 +110,5 @@ t_token	*ft_find(t_token *token, int i)
 			return (token);
 		token = token->next;
 	}
-	return (token);
+	return (tmp);
 }

@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 10:14:24 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/05/04 14:41:29 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/21 13:48:30 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void	unset_ut(char *str, char **envp)
 {
 	t_env	*prev;
 	t_env	*act;
-	//t_main	*lst;
 
 	prev = NULL;
 	act = ft_env_int(envp);
@@ -28,8 +27,6 @@ void	unset_ut(char *str, char **envp)
 		{
 			if (prev)
 				prev->next = act->next;
-			//else
-			//	lst->lstenv = act->next;
 			free(act);
 		}
 		prev = act;
@@ -41,9 +38,7 @@ int	ft_unset(char **av, char **envp)
 {
 	int	i;
 
-	i = 0;
-	if (!av[1])
-		return (0);
+	i = 1;
 	while (av[i])
 	{
 		if (!check_key(av[i]))
@@ -56,5 +51,5 @@ int	ft_unset(char **av, char **envp)
 			unset_ut(av[i], envp);
 		i++;
 	}
-	return (1);
+	return (0);
 }

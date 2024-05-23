@@ -6,21 +6,19 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 14:01:37 by ademaill          #+#    #+#             */
-/*   Updated: 2024/05/07 15:31:41 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/23 14:24:37 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include "lexer.h"
 
-static int	ft_token_join(t_token *src, t_token *add)
+int	ft_token_join(t_token *src, t_token *add, int j)
 {
 	char	**tab;
 	int		i;
-	int		j;
 
 	i = 0;
-	j = 0;
 	tab = malloc(sizeof (char *) * (ft_len_tab(src->value) + ft_len_tab(add->value) + 1));
 	if (!tab)
 		return (1);
@@ -32,6 +30,7 @@ static int	ft_token_join(t_token *src, t_token *add)
 	while (add->value[j])
 	{
 		tab[i] = add->value[j];
+		add->value[j] = NULL;
 		i++;
 		j++;
 	}
@@ -41,73 +40,20 @@ static int	ft_token_join(t_token *src, t_token *add)
 	return (0);
 }
 
-/*static int	ft_group_cmd(t_token *token)
+static int	ft_group_cmd(t_token *token)
 {
 	t_token	*tmp;
 	t_token	*tmp2;
-	//t_token	*tmp3;
-
-	tmp2 = NULL;
-	//tmp3 = NULL;
-	tmp = token;
-	while(tmp)
-	{
-		tmp2 = tmp->next;
-		while (tmp2 && tmp2->type != __pipe)
-		{
-			if (tmp2->type == __cmdgr && tmp != tmp2)
-			{
-				ft_token_join(tmp2, tmp);
-				if (tmp2->next)
-					tmp2->prev->next = tmp2->next;
-				//else
-					//tmp2->prev->next = NULL;
-				if (tmp2->next)
-					tmp2->next->prev = tmp2->prev->next;
-				//tmp3 = tmp2;
-			}
-			tmp2 = tmp2->next;
-		}
-		tmp = tmp->next;
-	}
-	return (0);
-}*/
-
-static int    ft_group_cmd(t_token *token)
-{
-	t_token    *tmp;
-	t_token    *tmp2;
-	t_token    *tmp3;
+	t_token	*tmp3;
 
 	tmp = NULL;
 	tmp2 = NULL;
 	tmp3 = NULL;
 	if (!token)
 		return (0);
-	tmp = token;
-	while(tmp->type != __cmdgr && tmp->next)
-	{
-		tmp = tmp->next;
-	}
-	tmp2 = tmp;
-	while (tmp2 && tmp2->type != __pipe)
-	{
-		if (tmp2->type == __cmdgr && tmp != tmp2)
-		{
-			ft_token_join(tmp, tmp2);
-			//    return (1);
-			if (tmp2->next)
-				tmp2->prev->next = tmp2->next;
-			else
-				tmp2->prev->next = NULL;
-			if (tmp2->next)
-				tmp2->next->prev = tmp2->prev->next;
-			tmp3 = tmp2;
-		}
-		tmp2 = tmp2->next;
-		if (tmp3)
-			free(tmp3);
-	}
+	regroup(token, tmp, tmp2, tmp3);
+	//if (regroup(token, tmp, tmp2, tmp3) == 1)
+		//gestion d'erreur
 	return (0);
 }
 
@@ -120,24 +66,45 @@ void	token_type(t_token *token, t_main *main)
 	else if (token->value[0][0] == '>' && token->value[0][1] == '>')
 		parse_append(token, main);
 	else if (token->value[0][0] == '>' || token->value[0][0] == '<')
-	{
 		parse_redirect(token, main);
-	}
 	else
 		token->type = __cmdgr;
 }
 
-void	free_tab(char **tab)
+char	*ft_sort(char **tab, int i)
 {
-	int	i;
+	int	j;
+	char	*str;
+	bool	first_is_cmd;
+	bool	first_is_special;
 
-	i = 0;
-	while (tab[i])
+	str = NULL;
+	j = 0;
+	first_is_cmd = false;
+	first_is_special = false;
+	while (tab[i + j])
 	{
-		free(tab[i]);
-		i++;
+		if (ft_strncmp(tab[i + j], "|", 1) == 0)
+			break;
+		if ((ft_strncmp(tab[i + j], ">" ,1) == 0 || ft_strncmp(tab[i + j], "<" ,1) == 0 || ft_strncmp(tab[i + j], ">>" ,2) == 0 || ft_strncmp(tab[i + j], "<<" ,2) == 0) && !first_is_cmd)
+		{
+			if (j == 0)
+				first_is_special = true;
+			if (tab[i + 1])
+			{
+				str = ft_strjoin(ft_strjoin(tab[i], " "), tab[i + 1]);
+				return (str);
+			}
+		}
+		else
+		{
+			if (j == 0)
+				first_is_cmd = true;
+			str = ft_strjoin(str, tab[i + j]);
+		}
+		j++;
 	}
-	free(tab);
+	return (str);
 }
 
 t_token	*ft_tokenizer(char *line, t_main *main)
@@ -145,19 +112,21 @@ t_token	*ft_tokenizer(char *line, t_main *main)
 	int		i;
 	char	**content;
 	char	**tab;
-	t_token *tmp;
+	t_token	*tmp;
+	char	*str;
 
 	i = 0;
 	tab = ft_split_ms(line, "<>|");
 	while (tab[i])
 	{
-		tab[i] = ft_cmd_pre_expand(tab[i], main);
-		content = ft_split_ms(tab[i], " ");
+		if (ft_strncmp(tab[i], "<<", 2) != 0)
+			tab[i] = ft_cmd_pre_expand(tab[i], main);
+		str = ft_sort(tab, i);
+		content = ft_split_ms(str, " ");
 		if (content[0] != NULL)
 			ft_new_node(&main->token, content);
 		i++;
 	}
-	free_tab(tab);
 	tmp = main->token;
 	while (tmp)
 	{
@@ -165,6 +134,6 @@ t_token	*ft_tokenizer(char *line, t_main *main)
 		tmp = tmp->next;
 	}
 	ft_group_cmd(main->token);
+	//ft_sort(main);
 	return (main->token);
 }
-

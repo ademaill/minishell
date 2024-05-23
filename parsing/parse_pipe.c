@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 09:58:48 by ademaill          #+#    #+#             */
-/*   Updated: 2024/05/07 13:34:22 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/16 15:45:45 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ void	parse_redirect(t_token *token, t_main *main)
 		if (!open(token->value[1], O_RDONLY))
 			error_parse("File doesn't exist\n", token, main);
 		token->type = __redirect_in;
-
 	}
 	if (token->value[0][0] == '>')
 	{

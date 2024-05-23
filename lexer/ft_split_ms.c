@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split_ms.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 16:38:21 by ademaill          #+#    #+#             */
-/*   Updated: 2024/04/22 14:49:17 by ademaill         ###   ########.fr       */
+/*   Updated: 2024/05/21 11:41:56 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../minishell.h"
 
 static int	quotes_jump(char *str)
 {
@@ -65,7 +65,7 @@ static int	get_next_sep(char *str, char *sep)
 		{
 			while (str[i] == ' ')
 				++i;
-			i += get_next_sep(&str[i], " ");
+			i += get_next_sep(&str[i], sep);
 		}
 		return (i);
 	}

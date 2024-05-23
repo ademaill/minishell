@@ -36,13 +36,12 @@ SRCS = ft_isalpha.c \
 		ft_putnbr_fd.c \
 		ft_size.c \
 		ft_skip_space.c \
-		ft_split_ms.c \
 		ft_isnum.c \
 		ft_ignore_sep.c \
 		ft_strndup.c \
 		ft_free_token.c \
 		ft_len_tab.c
-BONUS = ft_lstnew.c ft_lstadd_front.c ft_lstsize.c ft_lstlast.c ft_lstadd_back.c ft_lstdelone.c ft_lstclear.c ft_lstiter.c ft_lstmap.c
+BONUS = ft_lstnew.c ft_lstadd_front.c ft_lstsize.c ft_lstlast.c ft_lstadd_back.c ft_lstdelone.c ft_lstclear.c ft_lstiter.c ft_lstmap.c ft_lstfirst.c ft_lstnew_node.c
 HEADERS = libft.h
 OBJS = $(SRCS:.c=.o)
 BONUSOBJS = $(BONUS:.c=.o)

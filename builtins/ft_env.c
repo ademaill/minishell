@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 14:36:27 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/05/06 13:16:20 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/16 15:34:29 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*ft_key(char *str)
 			if (!key)
 				return (NULL);
 			i = 0;
-			while (str[i] != '=' && str[i] !='\0')
+			while (str[i] != '=' && str[i] != '\0')
 			{
 				key[i] = str[i];
 				i++;
@@ -58,8 +58,14 @@ char	*ft_value(char *str)
 			if (!value)
 				return (NULL);
 			i++;
+			if (str[i] == '"')
+				i++;
 			while (str[i] != '\0')
+			{
 				value[j++] = str[i++];
+				if (str[i] == '"')
+					break ;
+			}
 		}
 		if (str[i] == '\0')
 		{

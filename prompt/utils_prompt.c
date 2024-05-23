@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   utils_prompt.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 13:03:20 by ademaill          #+#    #+#             */
-/*   Updated: 2024/04/24 09:53:50 by ademaill         ###   ########.fr       */
+/*   Updated: 2024/05/22 13:24:50 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_exit(t_token *token)
+void	ft_fullexit(t_token *token)
 {
 	t_token	*tmp;
-	int	i;
+	int		i;
 
 	if (token)
 	{

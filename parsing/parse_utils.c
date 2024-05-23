@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 11:36:12 by ademaill          #+#    #+#             */
-/*   Updated: 2024/05/06 11:24:34 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/16 15:45:55 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	str_modify2(t_token *token)
 void	error_parse(char *str, t_token *token, t_main *main)
 {
 	t_token	*tmp;
-	int	i;
+	int		i;
 
 	token = ft_lstfirst(token);
 	while (token)

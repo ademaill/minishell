@@ -6,13 +6,12 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 13:36:19 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/05/01 16:19:56 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/16 15:37:20 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include "builtins.h"
-
 
 t_list	*ft_lst_new(void *content)
 {
@@ -47,7 +46,6 @@ void	*ft_garbage_collector(void *ptr, bool clean)
 
 	if (clean)
 	{
-		//ft_lstclear(&garbage_list, ft_del);
 		return (NULL);
 	}
 	else

@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 11:14:47 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/05/06 15:06:36 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/16 15:34:52 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,27 +20,27 @@ static int	ft_export_error(char *identifier)
 	return (1);
 }
 
-bool	ft_env_exists(char *key, char **envp)
+bool	ft_env_exists(char *key, t_main *main)
 {
 	t_env	*env;
 
-	env = ft_env_int(envp);
+	env = main->env;
 	while (env)
 	{
-		if (!ft_strncmp(key, env->key, ft_strlen(key)))
+		if (ft_strncmp(key, env->key, ft_strlen(key)) == 0)
 			return (true);
 		env = env->next;
 	}
 	return (false);
 }
 
-static	void	ft_export_list(char **envp)
+static	void	ft_export_list(t_main *main)
 {
 	t_env	*list;
 	int		i;
 	int		k_s;
 
-	list = ft_env_int(envp);
+	list = main->env;
 	while (list)
 	{
 		k_s = ft_strlen(list->key);
@@ -68,19 +68,21 @@ static	void	ft_export_list(char **envp)
 	}
 }
 
-int	ft_export(char **av, char **envp)
+int	ft_export(char **av, t_main *main)
 {
 	char	*key;
 	int		i;
 	int		error_s;
 	t_env	*env;
+	t_env	*head;
 
 	i = 1;
 	error_s = 0;
-	env = ft_env_int(envp);
+	env = main->env;
+	head = main->env;
 	if (!av[1])
 	{
-		ft_export_list(envp);
+		ft_export_list(main);
 		return (0);
 	}
 	while (av[i])
@@ -90,25 +92,24 @@ int	ft_export(char **av, char **envp)
 		else
 		{
 			key = ft_key(av[i]);
-			if (ft_env_exists(av[i], envp))
+			if (ft_env_exists(key, main))
 			{
-				while (ft_strncmp(key, env->key, ft_strlen(key)) != 0)
+				while (env)
 				{
 					if (ft_strncmp(key, env->key, ft_strlen(key)) == 0)
+					{
+						printf("%s\n", env->key);
 						env->value = ft_value(av[i]);
+						break ;
+					}
 					env = env->next;
 				}
 			}
 			else
 				ft_lstadd_back_env(&env, ft_lst_env_new(key, ft_value(av[i])));
+			main->env = head;
 		}
 		i++;
-	}
-	while (env)
-	{
-		if (env->value != NULL)
-			printf("%s=%s\n", env->key, env->value);
-		env = env->next;
 	}
 	return (error_s);
 }

@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 11:20:42 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/04/17 14:29:40 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/16 15:51:24 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*ft_strjoin_gnl(char *s1, char *s2)
 	char	*str;
 
 	i = 0;
-	str = ft_calloc_gnl(sizeof(char), (ft_strlen_gnl(s1) + ft_strlen_gnl(s2) + 1));
+	str = ft_calloc_gnl(sizeof(char), (ft_slen_gnl(s1) + ft_slen_gnl(s2) + 1));
 	if (!str)
 		return (NULL);
 	while (s1 && s1[i] != '\0')
@@ -41,7 +41,7 @@ char	*ft_strjoin_gnl(char *s1, char *s2)
 	return (str);
 }
 
-int	ft_strlen_gnl(char *str)
+int	ft_slen_gnl(char *str)
 {
 	int	i;
 
