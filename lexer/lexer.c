@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 14:01:37 by ademaill          #+#    #+#             */
-/*   Updated: 2024/05/23 14:24:37 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/23 16:22:44 by ademaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ft_token_join(t_token *src, t_token *add, int j)
 	int		i;
 
 	i = 0;
-	tab = malloc(sizeof (char *) * (ft_len_tab(src->value) + ft_len_tab(add->value) + 1));
+	tab = malloc(sizeof (char *) * (ft_len_tab(src->value) + ft_len_tab(add->value) - j + 1));
 	if (!tab)
 		return (1);
 	while (src->value[i])
@@ -71,7 +71,7 @@ void	token_type(t_token *token, t_main *main)
 		token->type = __cmdgr;
 }
 
-char	*ft_sort(char **tab, int i)
+/* char	*ft_sort(char **tab, int i)
 {
 	int	j;
 	char	*str;
@@ -105,6 +105,35 @@ char	*ft_sort(char **tab, int i)
 		j++;
 	}
 	return (str);
+} */
+
+void	ft_sort(t_main *main)
+{
+	t_token *token;
+	t_token *tmp;
+	int		i;
+
+	token = main->token;
+	i = 2;
+	while (token)
+	{
+		if (token->type == __cmdgr && token->next)
+		{
+			tmp = token->next;
+			while (tmp)
+			{
+				if (tmp->type == __redirect_in || tmp->type == __redirect_out || tmp->type == __append || tmp->type == __here_doc)
+				{
+					if (ft_len_tab(tmp->value) > 1)
+						ft_token_join(token, tmp, 2);
+				}
+				if (tmp->type == __pipe)
+					break;
+				tmp = tmp->next;
+			}
+		}
+		token = token->next;
+	}
 }
 
 t_token	*ft_tokenizer(char *line, t_main *main)
@@ -113,16 +142,14 @@ t_token	*ft_tokenizer(char *line, t_main *main)
 	char	**content;
 	char	**tab;
 	t_token	*tmp;
-	char	*str;
 
 	i = 0;
-	tab = ft_split_ms(line, "<>|");
+	tab = ft_split_ms(line, "<>| ");
 	while (tab[i])
 	{
 		if (ft_strncmp(tab[i], "<<", 2) != 0)
 			tab[i] = ft_cmd_pre_expand(tab[i], main);
-		str = ft_sort(tab, i);
-		content = ft_split_ms(str, " ");
+		content = ft_split_ms(tab[i], " ");
 		if (content[0] != NULL)
 			ft_new_node(&main->token, content);
 		i++;
@@ -134,6 +161,6 @@ t_token	*ft_tokenizer(char *line, t_main *main)
 		tmp = tmp->next;
 	}
 	ft_group_cmd(main->token);
-	//ft_sort(main);
+	ft_sort(main);
 	return (main->token);
 }
