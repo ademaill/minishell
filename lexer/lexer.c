@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 14:01:37 by ademaill          #+#    #+#             */
-/*   Updated: 2024/05/29 11:37:28 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/29 12:00:53 by ademaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	ft_token_join(t_token *src, t_token *add, int j)
 	return (0);
 }
 
-static int	ft_group_cmd(t_token *token)
+/*static int	ft_group_cmd(t_token *token)
 {
 	t_token	*tmp;
 	t_token	*tmp2;
@@ -56,7 +56,7 @@ static int	ft_group_cmd(t_token *token)
 	//if (regroup(token, tmp, tmp2, tmp3) == 1)
 		//gestion d'erreur
 	return (0);
-}
+}*/
 
 void	token_type(t_token *token, t_main *main)
 {
@@ -101,12 +101,62 @@ void	ft_sort(t_main *main)
 	}
 }
 
+char	**creat_tab(char **src)
+{
+	int		i;
+	int		j;
+	char	**dest;
+
+	i = 0;
+	j = 2;
+	dest = malloc(sizeof (char *) * ft_len_tab(src) - j + 1);
+	if (!dest)
+		return (NULL);
+	while (src[j])
+	{
+		dest[i] = src[j];
+		src[j] = NULL;
+		j++;
+		i++;
+	}
+	dest[i] = NULL;
+	return (dest);
+}
+
+void	ft_cmd_type(t_main *main)
+{
+	t_token	*tmp;
+	t_token	*tmp2;
+	int		count_cmdgr;
+
+	count_cmdgr = 0;
+	tmp = main->token;
+	while (tmp)
+	{
+		token_type(tmp, main);
+		if (tmp->type == __cmdgr)
+			count_cmdgr++;
+		if (tmp->type == __redirect_in || tmp->type == __redirect_out)
+		{
+			tmp2 = tmp;
+			while (tmp2)
+			{
+				if (tmp2->type == __cmdgr)
+					count_cmdgr++;
+				tmp2 = tmp2->next;
+			}
+			if (count_cmdgr == 0)
+				ft_new_node(&main->token, creat_tab(tmp->value));
+		}
+		tmp = tmp->next;
+	}
+}
+
 t_token	*ft_tokenizer(char *line, t_main *main)
 {
 	int		i;
 	char	**content;
 	char	**tab;
-	t_token	*tmp;
 
 	i = 0;
 	tab = ft_split_ms(line, "<>|");
@@ -119,13 +169,8 @@ t_token	*ft_tokenizer(char *line, t_main *main)
 			ft_new_node(&main->token, content);
 		i++;
 	}
-	tmp = main->token;
-	while (tmp)
-	{
-		token_type(tmp, main);
-		tmp = tmp->next;
-	}
-	ft_group_cmd(main->token);
+	ft_cmd_type(main);
 	ft_sort(main);
+//	clear_token(main);
 	return (main->token);
 }
