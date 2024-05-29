@@ -6,7 +6,7 @@
 /*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 14:01:37 by ademaill          #+#    #+#             */
-/*   Updated: 2024/05/28 17:09:44 by ademaill         ###   ########.fr       */
+/*   Updated: 2024/05/29 12:00:53 by ademaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,71 +100,54 @@ void	ft_sort(t_main *main)
 		token = token->next;
 	}
 }
+
 char	**creat_tab(char **src)
 {
-	char	**tab;
-	int		j;
 	int		i;
+	int		j;
+	char	**dest;
 
-	j = 2;
 	i = 0;
-	tab = malloc(sizeof (char *) * ft_len_tab(src) - j + 1);
-	if (!tab)
+	j = 2;
+	dest = malloc(sizeof (char *) * ft_len_tab(src) - j + 1);
+	if (!dest)
 		return (NULL);
 	while (src[j])
 	{
-		tab[i] = src[j];
+		dest[i] = src[j];
 		src[j] = NULL;
-		i++;
 		j++;
+		i++;
 	}
-	tab[i] = NULL;
-	return (tab);
+	dest[i] = NULL;
+	return (dest);
 }
 
-void	ft_no_cmd(t_main *main)
+void	ft_cmd_type(t_main *main)
 {
 	t_token	*tmp;
-	int		cmd_count;
 	t_token	*tmp2;
+	int		count_cmdgr;
 
-	cmd_count = 0;
+	count_cmdgr = 0;
 	tmp = main->token;
 	while (tmp)
 	{
+		token_type(tmp, main);
 		if (tmp->type == __cmdgr)
-			cmd_count++;
+			count_cmdgr++;
 		if (tmp->type == __redirect_in || tmp->type == __redirect_out)
 		{
 			tmp2 = tmp;
 			while (tmp2)
 			{
 				if (tmp2->type == __cmdgr)
-					cmd_count++;
+					count_cmdgr++;
 				tmp2 = tmp2->next;
 			}
-			if (cmd_count == 0)
-				ft_new_node(&tmp, creat_tab(tmp->value));
+			if (count_cmdgr == 0)
+				ft_new_node(&main->token, creat_tab(tmp->value));
 		}
-		tmp = tmp->next;
-	}
-}
-
-static void	ft_find_type(t_main *main)
-{
-	t_token	*tmp;
-
-	tmp = main->token;
-	while (tmp)
-	{
-		token_type(tmp, main);
-		tmp = tmp->next;
-	}
-	ft_no_cmd(main);
-	tmp = main->token;
-	while (tmp)
-	{
-		token_type(tmp, main);
 		tmp = tmp->next;
 	}
 }
@@ -186,7 +169,7 @@ t_token	*ft_tokenizer(char *line, t_main *main)
 			ft_new_node(&main->token, content);
 		i++;
 	}
-	ft_find_type(main);
+	ft_cmd_type(main);
 	ft_sort(main);
 //	clear_token(main);
 	return (main->token);
