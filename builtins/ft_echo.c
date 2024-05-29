@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 14:47:48 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/05/22 14:38:48 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/29 13:23:45 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static char	*skip_dquotes(char *str)
 		return (NULL);
 	i = -1;
 	j = 0;
-	str_clean = malloc(sizeof(char) * ft_strlen(str) - dquotes);
+	str_clean = malloc(sizeof(char) * ft_strlen(str) - dquotes + 1);
 	while (str[++i])
 	{
 		if (str[i] != '"')
@@ -111,7 +111,7 @@ static int	option_check(char *str)
 	return (1);
 }
 
-void	ft_echo(char **av)
+int	ft_echo(char **av)
 {
 	int		i;
 	int		option;
@@ -134,4 +134,5 @@ void	ft_echo(char **av)
 	}
 	if (option == 0)
 		ft_putstr_fd("\n", 1);
+	return (0);
 }

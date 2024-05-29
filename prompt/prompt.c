@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 15:46:21 by vnavarre          #+#    #+#             */
 /*   Updated: 2024/05/28 16:52:51 by ademaill         ###   ########.fr       */
@@ -70,6 +70,7 @@ void	minishell_loop(t_main *main)
 {
 	char	*buffer;
 	char	*prompt;
+	t_token	*tmp;
 	int		i;
 
 	while (1)
@@ -103,7 +104,7 @@ void	minishell_loop(t_main *main)
 			status_exit(main, main->pid[i]);
 			i++;
 		}
-		t_token	*arr;
+		/*t_token	*arr;
 		int	j;
 		j= 0;
 		i = 0;
@@ -131,12 +132,14 @@ void	minishell_loop(t_main *main)
 			else if (arr->type == 5)
 				printf("type : _append\n\n");
 			arr = arr->next;
-		}
+		}*/
 		i = 0;
 		while (main->token)
 		{
-			free(main->token);
+			tmp = main->token;
 			main->token = main->token->next;
+			free_tab(tmp->value);
+			free(tmp);
 		}
 		free(main->token);
 	}

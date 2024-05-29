@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 14:01:37 by ademaill          #+#    #+#             */
 /*   Updated: 2024/05/29 12:00:53 by ademaill         ###   ########.fr       */
@@ -12,6 +12,7 @@
 
 #include "../minishell.h"
 #include "lexer.h"
+
 
 int	ft_token_join(t_token *src, t_token *add, int j)
 {
@@ -70,7 +71,6 @@ void	token_type(t_token *token, t_main *main)
 	else
 		token->type = __cmdgr;
 }
-
 
 void	ft_sort(t_main *main)
 {

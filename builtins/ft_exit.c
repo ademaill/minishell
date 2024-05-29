@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:36:44 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/05/22 14:46:35 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/29 13:20:42 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,15 @@ int	ft_exit(t_main *main, char **value)
 	bool	error;
 	int		i;
 	char	*str;
+	int		size;
 
 	code = 0;
 	i = 0;
 	error = false;
 	str = NULL;
 	(void)main;
-	if (value[1] && !value[2])
+	size = ft_len_tab(value);
+	if (size == 2)
 	{
 		str = clean_str(value[1]);
 		if(!str)
@@ -87,7 +89,7 @@ int	ft_exit(t_main *main, char **value)
 		}
 		exit(code);
 	}
-	else if (value[2])
+	else if (size > 2)
 	{
 		ft_putstr_fd(" too many arguments", 2);
 		return (1);
