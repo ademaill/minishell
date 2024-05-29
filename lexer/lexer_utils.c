@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 11:31:45 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/05/22 10:31:27 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/24 15:12:50 by ademaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,6 @@ int	regroup(t_token *token, t_token	*tmp, t_token *tmp2, t_token *tmp3)
 			tmp3 = tmp2;
 		}
 		tmp2 = tmp2->next;
-		if (tmp3)
-			free(tmp3);
 	}
 	return (0);
 }
@@ -53,4 +51,24 @@ void	free_tab(char **tab)
 		i++;
 	}
 	free(tab);
+}
+
+void	clear_token(t_main *main)
+{
+	t_token	*tmp;
+
+	tmp = main->token;
+	while (tmp)
+	{
+		if (tmp->value[0] == NULL)
+		{
+			if (tmp->prev)
+				tmp->prev->next = tmp->next;
+			if (tmp->next)
+				tmp->next->prev = tmp->prev;
+			free(tmp);
+		}
+		tmp = tmp->next;
+	}
+	main->token = ft_lstfirst(tmp);
 }
