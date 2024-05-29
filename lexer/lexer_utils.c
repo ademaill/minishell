@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 11:31:45 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/05/22 10:31:27 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/29 11:37:26 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ int	regroup(t_token *token, t_token	*tmp, t_token *tmp2, t_token *tmp3)
 			tmp3 = tmp2;
 		}
 		tmp2 = tmp2->next;
-		if (tmp3)
-			free(tmp3);
+		//if (tmp3)
+			//free(tmp3);
 	}
 	return (0);
 }

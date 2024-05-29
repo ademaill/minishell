@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 10:47:46 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/05/17 13:57:53 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/29 13:49:26 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,12 @@ void	exec_cmd(char **cmd, char **envp)
 	if (cmd[0][0] == '/')
 	{
 		if (execve(cmd[0], cmd, envp) == -1)
-			ft_error(cmd[0], EXIT_FAILURE);
+			ft_error(cmd[0], 126);
 	}
 	else if (cmd[0][0] == '.' && cmd[0][1] == '/')
 	{
 		if (execve(cmd[0], cmd, envp) == -1)
-			ft_error(cmd[0], EXIT_FAILURE);
+			ft_error(cmd[0], 126);
 	}
 	else
 	{

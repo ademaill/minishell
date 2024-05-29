@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 14:01:37 by ademaill          #+#    #+#             */
-/*   Updated: 2024/05/23 16:22:44 by ademaill         ###   ########.fr       */
+/*   Updated: 2024/05/29 11:37:28 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include "lexer.h"
+
 
 int	ft_token_join(t_token *src, t_token *add, int j)
 {
@@ -71,42 +72,6 @@ void	token_type(t_token *token, t_main *main)
 		token->type = __cmdgr;
 }
 
-/* char	*ft_sort(char **tab, int i)
-{
-	int	j;
-	char	*str;
-	bool	first_is_cmd;
-	bool	first_is_special;
-
-	str = NULL;
-	j = 0;
-	first_is_cmd = false;
-	first_is_special = false;
-	while (tab[i + j])
-	{
-		if (ft_strncmp(tab[i + j], "|", 1) == 0)
-			break;
-		if ((ft_strncmp(tab[i + j], ">" ,1) == 0 || ft_strncmp(tab[i + j], "<" ,1) == 0 || ft_strncmp(tab[i + j], ">>" ,2) == 0 || ft_strncmp(tab[i + j], "<<" ,2) == 0) && !first_is_cmd)
-		{
-			if (j == 0)
-				first_is_special = true;
-			if (tab[i + 1])
-			{
-				str = ft_strjoin(ft_strjoin(tab[i], " "), tab[i + 1]);
-				return (str);
-			}
-		}
-		else
-		{
-			if (j == 0)
-				first_is_cmd = true;
-			str = ft_strjoin(str, tab[i + j]);
-		}
-		j++;
-	}
-	return (str);
-} */
-
 void	ft_sort(t_main *main)
 {
 	t_token *token;
@@ -144,7 +109,7 @@ t_token	*ft_tokenizer(char *line, t_main *main)
 	t_token	*tmp;
 
 	i = 0;
-	tab = ft_split_ms(line, "<>| ");
+	tab = ft_split_ms(line, "<>|");
 	while (tab[i])
 	{
 		if (ft_strncmp(tab[i], "<<", 2) != 0)

@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 11:36:21 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/05/22 14:38:52 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/29 13:34:16 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include "get_next_line/get_next_line.h"
 
 typedef struct s_main	t_main;
+typedef struct s_env	t_env;
 
 void	exec_cmd(char **cmd, char **envp);
 void	ft_error(char *str, int code);
@@ -34,8 +35,8 @@ t_token	*ft_find(t_token *token, int i);
 int		do_in(t_token *token, t_main *main, bool *heredoc);
 int		do_out(t_token *token);
 int		ft_cd(char **path, t_main *main);
-int		ft_unset(char **av, char **envp);
-void	ft_echo(char **av);
+int		ft_unset(char **av, t_env *env);
+int		ft_echo(char **av);
 void	ft_env(char **envp);
 int		ft_export(char **av, t_main *main);
 int		ft_pwd(void);
