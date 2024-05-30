@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 11:14:47 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/05/16 15:34:52 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/29 16:16:56 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,6 @@ int	ft_export(char **av, t_main *main)
 				{
 					if (ft_strncmp(key, env->key, ft_strlen(key)) == 0)
 					{
-						printf("%s\n", env->key);
 						env->value = ft_value(av[i]);
 						break ;
 					}

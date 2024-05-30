@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 11:34:02 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/05/29 11:25:49 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/29 17:08:17 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,14 @@ static void	ft_process(t_token *token, t_main *main, int *fd, bool last)
 		close(out);
 	if (!last && !out)
 		close(fd[1]);
-	exec_cmd(token->value, main->envp);
+	if (is_builtins(token) == 1)
+	{
+		exec_builtins(token, main);
+		if (!last)
+			exit(EXIT_SUCCESS);
+	}
+	else
+		exec_cmd(token->value, main->envp);
 }
 
 int	mult_process(t_token *token, t_main *main, bool last)
@@ -43,6 +50,11 @@ int	mult_process(t_token *token, t_main *main, bool last)
 	pid_t	rd;
 	int		fd[2];
 
+	if (ft_strncmp(token->value[0], "exit", 5) == 0 && !token->prev && !token->next)
+	{
+		printf("exit\n");
+		main->exit_code = ft_exit(main, main->token->value);
+	}
 	if (pipe(fd) == -1)
 		ft_error("error pipe", EXIT_FAILURE);
 	rd = fork();
@@ -79,14 +91,14 @@ int	mult_process(t_token *token, t_main *main, bool last)
 	exec_cmd(av[3], envp);
 }*/
 
-void	mult_pipe(int pipecount, t_main *main, int *fd)
+void	mult_pipe(int pipecount, t_main *main)
 {
 	int		i;
 	int		j;
+	int		fd[2];
 	bool	last;
 
 	i = 1;
-	(void)fd;
 	j = 0;
 	main->pid = ft_calloc(sizeof(int), pipecount + 2);
 	while (i <= pipecount + 1)
@@ -94,8 +106,10 @@ void	mult_pipe(int pipecount, t_main *main, int *fd)
 		last = false;
 		if (i == pipecount + 1)
 			last = true;
-		if (is_builtins(ft_find(main->token, i)) == 1)
-			exec_builtins(ft_find(main->token, i), main);
+		if (pipecount == 0 && is_builtins(ft_find(main->token, i)) == 1)
+		{
+			ft_process(ft_find(main->token, i), main, fd, last);
+		}
 		else
 		{
 			main->pid[j] = mult_process(ft_find(main->token, i), main, last);
@@ -108,22 +122,21 @@ void	mult_pipe(int pipecount, t_main *main, int *fd)
 
 int	ft_exec(t_main *main)
 {
-	int		fd[2];
 	int		pipecount;
-	int		original_stdint;
+	int		original_stdin;
 	t_token	*tmp;
 
 	pipecount = 0;
 	tmp = main->token;
-	original_stdint = dup(STDIN_FILENO);
+	original_stdin = dup(STDIN_FILENO);
 	while (tmp)
 	{
 		if (tmp->type == __pipe)
 			pipecount++;
 		tmp = tmp->next;
 	}
-	mult_pipe(pipecount, main, fd);
-	dup2(original_stdint, STDIN_FILENO);
-	close(original_stdint);
+	mult_pipe(pipecount, main);
+	dup2(original_stdin, STDIN_FILENO);
+	close(original_stdin);
 	return (0);
 }

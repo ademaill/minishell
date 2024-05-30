@@ -6,13 +6,13 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 11:36:12 by ademaill          #+#    #+#             */
-/*   Updated: 2024/05/16 15:45:55 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/29 17:18:33 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	str_modify(t_token *token)
+/*void	str_modify(t_token *token)
 {
 	char	*str;
 	char	*tmp;
@@ -37,7 +37,36 @@ void	str_modify(t_token *token)
 	}
 	token->value[1][i] = '\0';
 	token->value[2] = NULL;
+}*/
+void	str_modify(t_token *token)
+{
+	char	**tab;
+	int		i;
+	int		j;
+	int		size;
+
+	i = 0;
+	size = ft_len_tab(token->value);
+	tab = ft_calloc(sizeof(char *), size + 2);
+	tab[0] = ft_calloc(sizeof(char), 2);
+	tab[0][0] = token->value[0][0];
+	tab[1] = ft_calloc(sizeof(char), ft_strlen(token->value[0]));
+	while(token->value[0][i] && token->value[0][i + 1])
+	{
+		tab[1][i] = token->value[0][i + 1];
+		i++;
+	}
+	i = 1;
+	j = 2;
+	while (i < size)
+	{
+		tab[j] = ft_strdup(token->value[i]);
+		i++;
+		j++;
+	}
+	token->value = tab;
 }
+
 
 void	str_modify2(t_token *token)
 {
@@ -46,9 +75,10 @@ void	str_modify2(t_token *token)
 	int		i;
 
 	tmp = ft_calloc(sizeof(char ), ft_strlen(token->value[0]));
-	token->value[1] = ft_calloc(sizeof(char *), 1);
+	token->value[1] = ft_calloc(sizeof(char ), ft_strlen(token->value[0]));
 	i = 2;
 	str = token->value[0];
+	token->value[0] = ft_calloc(sizeof(char), 3);
 	while (str[i])
 	{
 		tmp[i - 2] = str[i];
@@ -56,14 +86,12 @@ void	str_modify2(t_token *token)
 	}
 	token->value[0][0] = str[0];
 	token->value[0][1] = str[1];
-	token->value[0][2] = '\0';
 	i = 0;
 	while (tmp[i])
 	{
 		token->value[1][i] = tmp[i];
 		i++;
 	}
-	token->value[1][i] = '\0';
 	token->value[2] = NULL;
 	free(tmp);
 }
