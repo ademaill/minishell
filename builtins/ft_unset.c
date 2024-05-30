@@ -6,35 +6,33 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 10:14:24 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/05/21 13:48:30 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/29 13:33:20 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	unset_ut(char *str, char **envp)
+void	unset_ut(char *str, t_env *env)
 {
 	t_env	*prev;
-	t_env	*act;
 
 	prev = NULL;
-	act = ft_env_int(envp);
-	if (!act)
+	if (!env)
 		return ;
-	while (act)
+	while (env)
 	{
-		if (!ft_strncmp(str, act->key, ft_strlen(str)))
+		if (!ft_strncmp(str, env->key, ft_strlen(str)))
 		{
 			if (prev)
-				prev->next = act->next;
-			free(act);
+				prev->next = env->next;
+			free(env);
 		}
-		prev = act;
-		act = act->next;
+		prev = env;
+		env = env->next;
 	}
 }
 
-int	ft_unset(char **av, char **envp)
+int	ft_unset(char **av, t_env *env)
 {
 	int	i;
 
@@ -48,7 +46,7 @@ int	ft_unset(char **av, char **envp)
 			ft_putstr_fd("': not a valid identifier\n", 2);
 		}
 		else
-			unset_ut(av[i], envp);
+			unset_ut(av[i], env);
 		i++;
 	}
 	return (0);
