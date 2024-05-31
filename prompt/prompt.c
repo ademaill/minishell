@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 15:46:21 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/05/30 17:33:12 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/31 17:09:09 by ademaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@
 #include <unistd.h>
 #include "../minishell.h"
 
+
+int	g_sig_received;
+
 static void	status_exit(t_main *main, int pid)
 {
 	int	status;
@@ -25,29 +28,16 @@ static void	status_exit(t_main *main, int pid)
 	status = 0;
 	if (pid > 0)
 	{
-		//if (g_sig_received)
-			//kill(pid, g_sig_received);
+		if (g_sig_received)
+			kill(pid, g_sig_received);
 		waitpid(pid, &status, 0);
 		if (WTERMSIG(status) == SIGQUIT)
 			printf(" Quit (Core dumped)\n");
-		if (WTERMSIG(status) == SIGPIPE)
-			printf(" Broken pipe\n");
 		if (WIFEXITED(status))
 			main->exit_code = WEXITSTATUS(status);
 	}
-	//if (pid == -42)
-		//main->exit_code = EXIT_FAILURE;
-}
-
-void	handler_signals(int sign)
-{
-	if (sign == SIGINT)
-	{
-		printf("\n");
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
-	}
+	if (pid == -42)
+		main->exit_code = EXIT_FAILURE;
 }
 
 static char	*ft_get_prompt(void)
@@ -76,21 +66,15 @@ void	minishell_loop(t_main *main)
 	while (1)
 	{
 		main->token = NULL;
-		signal(SIGINT, handler_signals);
-		signal(SIGQUIT, SIG_IGN);
 		prompt = ft_get_prompt();
 		buffer = readline(prompt);
-		if (ft_strncmp(buffer, "", 1) == 0)
+		if (g_sig_received == SIGINT)
 		{
-			rl_on_new_line();
-			rl_replace_line("", 0);
-			rl_redisplay();
-			minishell_loop(main);
+			main->exit_code = 130;
+			g_sig_received = 0;
 		}
 		if (buffer == NULL)
-		{
 			ft_fullexit(main->token);
-		}
 		if (buffer)
 			add_history(buffer);
 		free(prompt);
@@ -157,6 +141,7 @@ int	main(int ac, char **av, char **envp)
 	ft_memset(data, 0, sizeof(t_main));
 	data->envp = envp;
 	data->env = ft_env_int(data->envp);
+	ft_got_signal(1);
 	minishell_loop(data);
 	free(data);
 	return (0);
