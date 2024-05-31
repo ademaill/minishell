@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 14:01:37 by ademaill          #+#    #+#             */
-/*   Updated: 2024/05/29 12:00:53 by ademaill         ###   ########.fr       */
+/*   Updated: 2024/05/30 16:01:42 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ char	**creat_tab(char **src)
 
 	i = 0;
 	j = 2;
-	dest = malloc(sizeof (char *) * ft_len_tab(src) - j + 1);
+	dest = ft_calloc(sizeof (char *), ft_len_tab(src) - j + 2);
 	if (!dest)
 		return (NULL);
 	while (src[j])
@@ -141,11 +141,12 @@ void	ft_cmd_type(t_main *main)
 			tmp2 = tmp;
 			while (tmp2)
 			{
+				token_type(tmp2, main);
 				if (tmp2->type == __cmdgr)
 					count_cmdgr++;
 				tmp2 = tmp2->next;
 			}
-			if (count_cmdgr == 0)
+			if (count_cmdgr == 0 && ft_len_tab(tmp->value) > 2)
 				ft_new_node(&main->token, creat_tab(tmp->value));
 		}
 		tmp = tmp->next;
@@ -157,14 +158,16 @@ t_token	*ft_tokenizer(char *line, t_main *main)
 	int		i;
 	char	**content;
 	char	**tab;
+	char	*str;
 
 	i = 0;
+	str = NULL;
 	tab = ft_split_ms(line, "<>|");
 	while (tab[i])
 	{
 		if (ft_strncmp(tab[i], "<<", 2) != 0)
-			tab[i] = ft_cmd_pre_expand(tab[i], main);
-		content = ft_split_ms(tab[i], " ");
+			str = ft_cmd_pre_expand(tab[i], main);
+		content = ft_split_ms(str, " ");
 		if (content[0] != NULL)
 			ft_new_node(&main->token, content);
 		i++;

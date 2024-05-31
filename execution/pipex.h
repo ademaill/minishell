@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 11:36:21 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/05/29 13:34:16 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/30 17:07:38 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ typedef struct s_main	t_main;
 typedef struct s_env	t_env;
 
 void	exec_cmd(char **cmd, char **envp);
-void	ft_error(char *str, int code);
+void	ft_error(char *str, int code, char *error);
 int		open_file(char	*name, int i);
 char	*here_doc(char *limiter, t_main *main);
 char	*rand_path(void);
@@ -37,9 +37,10 @@ int		do_out(t_token *token);
 int		ft_cd(char **path, t_main *main);
 int		ft_unset(char **av, t_env *env);
 int		ft_echo(char **av);
-void	ft_env(char **envp);
+void	ft_env(t_env *env);
 int		ft_export(char **av, t_main *main);
 int		ft_pwd(void);
 int		ft_exit(t_main *main, char **value);
+char	*clean_str(char *str);
 
 #endif

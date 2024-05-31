@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 16:38:21 by ademaill          #+#    #+#             */
-/*   Updated: 2024/05/21 11:41:56 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/30 11:39:48 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ char	**ft_split_ms(char *str, char *sep)
 	int		j;
 	int		k;
 
-	tab = malloc(sizeof(char *) * ft_count_words(str, sep));
+	tab = ft_calloc(sizeof(char *), ft_count_words(str, sep));
 	if (!tab)
 		return (NULL);
 	i = 0;
@@ -101,6 +101,7 @@ char	**ft_split_ms(char *str, char *sep)
 		}
 		i += j;
 	}
-	tab[++k] = NULL;
+	if (str)
+		free(str);
 	return (tab);
 }

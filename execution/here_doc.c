@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 09:05:06 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/05/16 15:36:46 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/30 17:17:31 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	free_rest_gnl(int fd, char *line)
 
 static char	*ft_expand_here_doc(char *str, t_main *main)
 {
-	char	*ret;
+	char	*ret ;
 	int		i;
 
 	i = 0;
