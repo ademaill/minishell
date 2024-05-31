@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 15:46:21 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/05/29 17:19:40 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/30 17:33:12 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,9 @@ void	minishell_loop(t_main *main)
 			add_history(buffer);
 		free(prompt);
 		main->token = ft_tokenizer(buffer, main);
-		free(buffer);
 		buffer = NULL;
+		if (!main->token)
+			minishell_loop(main);
 		ft_exec(main);
 		i = 0;
 		while (main->pid[i])
@@ -104,6 +105,7 @@ void	minishell_loop(t_main *main)
 			status_exit(main, main->pid[i]);
 			i++;
 		}
+		free(main->pid);
 		/*t_token	*arr;
 		int	j;
 		j= 0;
