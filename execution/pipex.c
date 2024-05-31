@@ -6,36 +6,37 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 11:34:02 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/05/30 17:13:13 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/31 17:45:50 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-/*static char	**clean_tab(char **src)
+static char	**clean_tab(char **src)
 {
 	int		i;
 	char	**tab;
 
-	i = 0;
-	tab = ft_calloc(sizeof(char *), ft_len_tab(src));
+	i = 1;
+	tab = ft_calloc(sizeof(char *), ft_len_tab(src) + 1);
+	tab[0] = src[0];
 	while (src[i])
 	{
 		tab[i] = clean_str(src[i]);
 		i++;
 	}
 	return (tab);
-}*/
+}
 
 static void	ft_process(t_token *token, t_main *main, int *fd, bool last)
 {
 	int		in;
 	int		out;
 	bool	heredoc;
-	//char	**tab;
+	char	**tab;
 
 	heredoc = false;
-	//tab = NULL;
+	tab = NULL;
 	in = do_in(token, main, &heredoc);
 	out = do_out(token);
 	if (in)
@@ -50,8 +51,8 @@ static void	ft_process(t_token *token, t_main *main, int *fd, bool last)
 		close(in);
 	if (out)
 		close(out);
-	if (!last && !out)
-		close(fd[1]);
+	close(fd[1]);
+	close(fd[0]);
 	if (is_builtins(token) == 1)
 	{
 		exec_builtins(token, main);
@@ -59,8 +60,8 @@ static void	ft_process(t_token *token, t_main *main, int *fd, bool last)
 	}
 	else
 	{
-		//tab = clean_tab(token->value);
-		exec_cmd(token->value, main->envp);
+		tab = clean_tab(token->value);
+		exec_cmd(tab, main->envp);
 	}
 }
 
@@ -75,7 +76,7 @@ int	check_parents_builtins(t_token *token, t_main *main)
 		main->exit_code = ft_cd(main->token->value, main);
 	else if (ft_strncmp(token->value[0], "unset", 6) == 0)
 		main->exit_code = ft_unset(main->token->value, main->env);
-	else if (ft_strncmp(token->value[0], "export", 7) == 0 && token->value[1])
+	else if (ft_strncmp(token->value[0], "export", 7) == 0 && token->value[1] && !token->prev && !token->next)
 		main->exit_code = ft_export(main->token->value, main);
 	else
 		return (0);
@@ -100,7 +101,7 @@ int	mult_process(t_token *token, t_main *main, bool last)
 	}
 	else
 	{
-		if (!last)
+		if	(!last)
 			dup2(fd[0], STDIN_FILENO);
 		else
 			close(STDIN_FILENO);

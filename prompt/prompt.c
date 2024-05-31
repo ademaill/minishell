@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 15:46:21 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/05/30 17:33:12 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/31 18:32:03 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@ static void	status_exit(t_main *main, int pid)
 		waitpid(pid, &status, 0);
 		if (WTERMSIG(status) == SIGQUIT)
 			printf(" Quit (Core dumped)\n");
-		if (WTERMSIG(status) == SIGPIPE)
-			printf(" Broken pipe\n");
 		if (WIFEXITED(status))
 			main->exit_code = WEXITSTATUS(status);
 	}
