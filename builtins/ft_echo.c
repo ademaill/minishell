@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 14:47:48 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/05/29 13:23:45 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/30 13:49:03 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static char	*skip_dquotes(char *str)
 		return (NULL);
 	i = -1;
 	j = 0;
-	str_clean = malloc(sizeof(char) * ft_strlen(str) - dquotes + 1);
+	str_clean = ft_calloc(sizeof(char), ft_strlen(str) - dquotes + 1);
 	while (str[++i])
 	{
 		if (str[i] != '"')
@@ -60,7 +60,7 @@ static char	*skip_squotes(char *str)
 		return (NULL);
 	i = -1;
 	j = 0;
-	str_clean = malloc(sizeof(char) * ft_strlen(str) - squotes);
+	str_clean = ft_calloc(sizeof(char), ft_strlen(str) - squotes);
 	while (str[++i])
 	{
 		if (str[i] != '\'')

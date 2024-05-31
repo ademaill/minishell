@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 10:47:46 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/05/29 16:36:05 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/30 17:46:17 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ char	*f_path(char *cmd, char **envp)
 	return (0);
 }
 
-void	ft_error(char *str, int code)
+void	ft_error(char *str, int code, char *error)
 {
-	ft_putstr_fd(" command not found\n", 2);
+	ft_putstr_fd(error, 2);
 	free(str);
 	exit(code);
 }
@@ -49,17 +49,20 @@ void	exec_cmd(char **cmd, char **envp)
 {
 	char	*path;
 	char	*tmp;
-
+	DIR*	directory;
 	tmp = NULL;
-	if (cmd[0][0] == '/')
+
+	if (cmd[0][0] == '/' || (cmd[0][0] == '.' && cmd[0][1] == '/'))
 	{
-		if (execve(cmd[0], cmd, envp) == -1)
-			ft_error(cmd[0], 126);
-	}
-	else if (cmd[0][0] == '.' && cmd[0][1] == '/')
-	{
-		if (execve(cmd[0], cmd, envp) == -1)
-			ft_error(cmd[0], 126);
+		directory = opendir(cmd[0]);
+		if(directory != NULL)
+			ft_error(cmd[0], 126, " Is a directory\n");
+		if (access(cmd[0], F_OK) != 0)
+			ft_error(cmd[0], 127, " No such file or directory\n");
+		if (access(cmd[0], R_OK) != 0)
+			ft_error(cmd[0], 126, " Permission denied\n");
+ 		if (execve(cmd[0], cmd, envp) == -1)
+			ft_error(cmd[0], 126, " command not found\n");
 	}
 	else
 	{
@@ -68,13 +71,13 @@ void	exec_cmd(char **cmd, char **envp)
 		{
 			tmp = ft_strdup(cmd[0]);
 			free_tab(cmd);
-			ft_error(tmp, 127);
+			ft_error(tmp, 127, " command not found\n");
 		}
 		if (execve(path, cmd, envp) == -1)
 		{
 			tmp = cmd[0];
 			free(path);
-			ft_error(tmp, EXIT_FAILURE);
+			ft_error(tmp, EXIT_FAILURE, " command not found\n");
 		}
 	}
 }
@@ -91,7 +94,7 @@ int	open_file(char *name, int i)
 	else if (i == 2)
 		file = open(name, O_RDONLY, 0777);
 	if (file == -1)
-		ft_error(name, EXIT_FAILURE);
+		ft_error(name, EXIT_FAILURE, " Permission denied\n");
 	return (file);
 }
 

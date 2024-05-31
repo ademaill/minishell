@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 14:36:27 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/05/16 15:34:29 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/30 10:36:24 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,11 +132,11 @@ t_env	*ft_env_int(char **envp)
 	return (lst);
 }
 
-void	ft_env(char **envp)
+void	ft_env(t_env *env)
 {
 	t_env	*list;
 
-	list = ft_env_int(envp);
+	list = env;
 	while (list)
 	{
 		if (list->value != NULL)

@@ -6,19 +6,36 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 11:34:02 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/05/29 17:08:17 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/30 17:13:13 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+/*static char	**clean_tab(char **src)
+{
+	int		i;
+	char	**tab;
+
+	i = 0;
+	tab = ft_calloc(sizeof(char *), ft_len_tab(src));
+	while (src[i])
+	{
+		tab[i] = clean_str(src[i]);
+		i++;
+	}
+	return (tab);
+}*/
 
 static void	ft_process(t_token *token, t_main *main, int *fd, bool last)
 {
 	int		in;
 	int		out;
 	bool	heredoc;
+	//char	**tab;
 
 	heredoc = false;
+	//tab = NULL;
 	in = do_in(token, main, &heredoc);
 	out = do_out(token);
 	if (in)
@@ -38,11 +55,31 @@ static void	ft_process(t_token *token, t_main *main, int *fd, bool last)
 	if (is_builtins(token) == 1)
 	{
 		exec_builtins(token, main);
-		if (!last)
-			exit(EXIT_SUCCESS);
+		exit(EXIT_SUCCESS);
 	}
 	else
+	{
+		//tab = clean_tab(token->value);
 		exec_cmd(token->value, main->envp);
+	}
+}
+
+int	check_parents_builtins(t_token *token, t_main *main)
+{
+	if (ft_strncmp(token->value[0], "exit", 5) == 0 && !token->prev && !token->next)
+	{
+		printf("exit\n");
+		main->exit_code = ft_exit(main, main->token->value);
+	}
+	else if (ft_strncmp(token->value[0], "cd", 3) == 0)
+		main->exit_code = ft_cd(main->token->value, main);
+	else if (ft_strncmp(token->value[0], "unset", 6) == 0)
+		main->exit_code = ft_unset(main->token->value, main->env);
+	else if (ft_strncmp(token->value[0], "export", 7) == 0 && token->value[1])
+		main->exit_code = ft_export(main->token->value, main);
+	else
+		return (0);
+	return (1);
 }
 
 int	mult_process(t_token *token, t_main *main, bool last)
@@ -50,16 +87,13 @@ int	mult_process(t_token *token, t_main *main, bool last)
 	pid_t	rd;
 	int		fd[2];
 
-	if (ft_strncmp(token->value[0], "exit", 5) == 0 && !token->prev && !token->next)
-	{
-		printf("exit\n");
-		main->exit_code = ft_exit(main, main->token->value);
-	}
+	if (check_parents_builtins(token, main))
+		return (0);
 	if (pipe(fd) == -1)
-		ft_error("error pipe", EXIT_FAILURE);
+		ft_error("error pipe", EXIT_FAILURE, "pipe\n");
 	rd = fork();
 	if (rd == -1)
-		ft_error("error fork", EXIT_FAILURE);
+		ft_error("error fork", EXIT_FAILURE, "fork\n");
 	if (rd == 0)
 	{
 		ft_process(token, main, fd, last);
@@ -95,26 +129,30 @@ void	mult_pipe(int pipecount, t_main *main)
 {
 	int		i;
 	int		j;
-	int		fd[2];
+	//int		fd[2];
+	t_token	*tmp;
 	bool	last;
 
 	i = 1;
 	j = 0;
+	tmp = NULL;
 	main->pid = ft_calloc(sizeof(int), pipecount + 2);
 	while (i <= pipecount + 1)
 	{
 		last = false;
 		if (i == pipecount + 1)
 			last = true;
-		if (pipecount == 0 && is_builtins(ft_find(main->token, i)) == 1)
+		/* if (pipecount == 0 && is_builtins(ft_find(main->token, i)) == 1)
 		{
-			ft_process(ft_find(main->token, i), main, fd, last);
-		}
-		else
-		{
-			main->pid[j] = mult_process(ft_find(main->token, i), main, last);
-			j++;
-		}
+			tmp = ft_find(main->token, i);
+			ft_process(tmp, main, fd, last);
+		} */
+		//else
+		//{
+		tmp = ft_find(main->token, i);
+		main->pid[j] = mult_process(tmp, main, last);
+		j++;
+		//}
 		i++;
 	}
 	main->pid[j] = 0;

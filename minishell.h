@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 15:48:14 by ademaill          #+#    #+#             */
-/*   Updated: 2024/05/22 13:24:33 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/30 17:04:22 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <unistd.h>
 # include <stdbool.h>
 # include <signal.h>
+# include <dirent.h>
 
 typedef struct s_env
 {
@@ -47,7 +48,7 @@ char	*ft_value(char *str);
 t_env	*ft_lst_env_new(char *key, char *value);
 void	ft_lstadd_back_env(t_env **lst, t_env *new);
 t_env	*ft_env_int(char **envp);
-void	ft_env(char **envp);
+void	ft_env(t_env *env);
 char	*ft_get_envlst_val(char *key, t_env *envlst);
 int		check_key(char *str);
 void	sort_lst(t_env **head);
@@ -65,5 +66,6 @@ char	*ft_cmd_pre_expand(char *str, t_main *main);
 int		ft_exec(t_main *main);
 void	exec_builtins(t_token *token, t_main *main);
 int		is_builtins(t_token *token);
+char	*clean_str(char *str);
 
 #endif

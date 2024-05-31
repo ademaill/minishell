@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 11:31:45 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/05/24 15:12:50 by ademaill         ###   ########.fr       */
+/*   Updated: 2024/05/30 11:19:12 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,15 @@ int	regroup(t_token *token, t_token	*tmp, t_token *tmp2, t_token *tmp3)
 void	free_tab(char **tab)
 {
 	int	i;
+	int	height;
 
 	i = 0;
-	while (tab[i])
+	height = ft_len_tab(tab);
+	if (!height)
+		return ;
+	if (tab == NULL || *tab == NULL)
+		return ;
+	while (i < height)
 	{
 		free(tab[i]);
 		i++;
