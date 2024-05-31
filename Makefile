@@ -25,7 +25,8 @@ SRCS = execution/pipex.c \
 		prompt/prompt.c \
 		prompt/utils_prompt.c \
 		parsing/parse_pipe.c \
-		parsing/parse_utils.c
+		parsing/parse_utils.c \
+		prompt/signal.c
 
 
 HEADERS = minishell.h

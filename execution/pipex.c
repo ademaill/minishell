@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 11:34:02 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/05/30 17:13:13 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/31 17:09:00 by ademaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,7 +173,9 @@ int	ft_exec(t_main *main)
 			pipecount++;
 		tmp = tmp->next;
 	}
+	ft_got_signal(0);
 	mult_pipe(pipecount, main);
+	ft_got_signal(1);
 	dup2(original_stdin, STDIN_FILENO);
 	close(original_stdin);
 	return (0);
