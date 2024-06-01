@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 09:58:48 by ademaill          #+#    #+#             */
-/*   Updated: 2024/05/16 15:45:45 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/31 17:13:59 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ void	parse_redirect(t_token *token, t_main *main)
 			str_modify(token);
 		if (token->value[1] && token->value[1][0] == '|')
 			error_parse("Redirect cannot be followed by a pipe\n", token, main);
+		if (token->value[1] && (token->value[1][0] == '<' || token->value[1][0] == '>'))
+			error_parse(" syntax error near unexpected token\n", token, main);
 		if (!token->value[1])
 			error_parse("Redirect need file\n", token, main);
 		if (!open(token->value[1], O_RDONLY))
@@ -65,8 +67,14 @@ void	parse_redirect(t_token *token, t_main *main)
 	{
 		if (token->value[0][1] != '\0')
 			str_modify(token);
-		if (token->value[1][0] == '|')
+		if (token->value[1] && token->value[1][0] == '|')
 			error_parse("Redirect cannot be followed by a pipe\n", token, main);
+		if (token->value[1] && (token->value[1][0] == '<' || token->value[1][0] == '>'))
+			error_parse(" syntax error near unexpected token\n", token, main);
+		if (!token->value[1])
+			error_parse("Redirect need file\n", token, main);
+		if (!open(token->value[1], O_RDONLY))
+			error_parse("File doesn't exist\n", token, main);
 		token->type = __redirect_out;
 	}
 }

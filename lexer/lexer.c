@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 14:01:37 by ademaill          #+#    #+#             */
-/*   Updated: 2024/05/30 16:01:42 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/31 18:29:29 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void	ft_sort(t_main *main)
 						ft_token_join(token, tmp, 2);
 				}
 				if (tmp->type == __pipe)
-					break;
+					break ;
 				tmp = tmp->next;
 			}
 		}
@@ -134,6 +134,8 @@ void	ft_cmd_type(t_main *main)
 	while (tmp)
 	{
 		token_type(tmp, main);
+		if (tmp->type == __pipe)
+			count_cmdgr = 0;
 		if (tmp->type == __cmdgr)
 			count_cmdgr++;
 		if (tmp->type == __redirect_in || tmp->type == __redirect_out)
@@ -167,8 +169,10 @@ t_token	*ft_tokenizer(char *line, t_main *main)
 	{
 		if (ft_strncmp(tab[i], "<<", 2) != 0)
 			str = ft_cmd_pre_expand(tab[i], main);
+		else
+			str = tab[i];
 		content = ft_split_ms(str, " ");
-		if (content[0] != NULL)
+		if (content && content[0] != NULL)
 			ft_new_node(&main->token, content);
 		i++;
 	}
