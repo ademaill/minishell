@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 16:38:21 by ademaill          #+#    #+#             */
-/*   Updated: 2024/05/30 11:39:48 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/31 17:21:09 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,9 @@ static int	quotes_jump(char *str)
 	int		i;
 	char	c;
 
-	if (str[0] != '\'' && str[0] != '"')
+	if (!str)
+		return (0);
+	if (str && str[0] != '\'' && str[0] != '"')
 		return (0);
 	c = str[0];
 	i = 1;
@@ -33,7 +35,9 @@ static int	ft_count_words(char *str, char *sep)
 
 	i = 0;
 	count = 1;
-	while (str[i])
+	if (!str)
+		return (0);
+	while (str && str[i])
 	{
 		i += quotes_jump(&str[i]);
 		if (ft_strchr(sep, str[i]) && str[i] == str[i + 1] && str[i] == '|')
@@ -89,7 +93,7 @@ char	**ft_split_ms(char *str, char *sep)
 		return (NULL);
 	i = 0;
 	k = -1;
-	while (str[i] && (i == 0 || str[i - 1]))
+	while (str && str[i] && (i == 0 || str[i - 1]))
 	{
 		if (str[i] == ' ' && ++i)
 			continue ;
