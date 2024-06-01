@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 15:48:14 by ademaill          #+#    #+#             */
-/*   Updated: 2024/05/30 17:04:22 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/05/31 14:46:34 by ademaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,10 @@
 # include <stdbool.h>
 # include <signal.h>
 # include <dirent.h>
+#include <readline/readline.h>
+#include <readline/history.h>
+
+extern int	g_sig_received;
 
 typedef struct s_env
 {
@@ -59,7 +63,6 @@ char	*ft_handle_s_quotes(char *str, int *i, bool dquotes);
 char	*ft_handle_d_quotes(char *str, int *i);
 char	*ft_handle_str(char *str, int *i);
 void	minishell_loop(t_main *main);
-void	handler_signals(int sign);
 t_token	*ft_tokenizer(char *line, t_main *main);
 void	ft_fullexit(t_token *token);
 char	*ft_cmd_pre_expand(char *str, t_main *main);
@@ -67,5 +70,6 @@ int		ft_exec(t_main *main);
 void	exec_builtins(t_token *token, t_main *main);
 int		is_builtins(t_token *token);
 char	*clean_str(char *str);
+void	ft_got_signal(int handle);
 
 #endif
