@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 09:05:06 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/05/30 17:17:31 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/06/01 15:43:04 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static char	*clean_limiter(char *limiter)
 
 	i = 0;
 	j = 0;
-	str = malloc(sizeof(char) * ft_strlen(limiter) - 1);
+	str = ft_calloc(sizeof(char), ft_strlen(limiter));
 	if (!str)
 		return (NULL);
 	if (limiter[i] == '"')
@@ -60,7 +60,8 @@ static char	*clean_limiter(char *limiter)
 		i++;
 		j++;
 	}
-	str[j] = '\0';
+	str[j] = '\n';
+	str[j + 1] = '\0';
 	return (str);
 }
 
@@ -77,11 +78,18 @@ char	*here_doc(char *limiter, t_main *main)
 	fd = open(path, O_CREAT | O_TRUNC | O_WRONLY | O_APPEND, 0644);
 	write(STDOUT_FILENO, ">", 1);
 	line = get_next_line(STDIN_FILENO);
-	while (ft_strncmp(line, limiter, ft_strlen(limiter)) != 0)
+	printf("%zu\n", ft_strlen(limiter));
+	while (ft_strncmp(line, limiter, ft_strlen(limiter)) != 0 || (ft_strlen(line) - 1) == ft_strlen(limiter))
 	{
+		printf("%zu\n", ft_strlen(line));
 		write(STDOUT_FILENO, ">", 1);
 		if ((tmp[0] != '"' && tmp[ft_strlen(tmp) - 1] != '"') && (tmp[0] != '\'' && tmp[ft_strlen(tmp) - 1] != '\''))
 			line = ft_expand_here_doc(line, main);
+		if (ft_strncmp(line, "^\\", 2) == 0)
+			{
+				free(line);
+				continue ;
+			}
 		write(fd, line, ft_strlen(line));
 		free(line);
 		line = get_next_line(STDIN_FILENO);
