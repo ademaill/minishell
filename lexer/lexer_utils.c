@@ -6,12 +6,49 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 11:31:45 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/05/30 11:19:12 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/06/03 12:17:21 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include "lexer.h"
+
+/*void	free_all(t_main *main)
+{
+	int		i;
+	t_token	*tmp;
+	t_env	*tmpe;
+
+
+	if (main->env)
+	{
+		i = 0;
+		while (main->env)
+		{
+			tmpe = main->env;
+			main->env = main->env->next;
+			free(tmpe->key);
+			free(tmpe->value);
+			free(tmpe);
+		}
+		free(main->token);
+	}
+	if (main->token)
+	{
+		i = 0;
+		while (main->token)
+		{
+			tmp = main->token;
+			main->token = main->token->next;
+			free_tab(tmp->value);
+			free(tmp);
+		}
+		free(main->token);
+	}
+	if (main->pid)
+		free(main->pid);
+	free(main);
+}*/
 
 int	regroup(t_token *token, t_token	*tmp, t_token *tmp2, t_token *tmp3)
 {

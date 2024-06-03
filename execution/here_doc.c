@@ -37,7 +37,7 @@ static void	free_rest_gnl(int fd, char *line)
 {
 	free(line);
 	close(fd);
-	line = get_next_line(fd);
+	line = readline(fd);
 	free(line);
 }
 
@@ -70,7 +70,7 @@ static char	*clean_limiter(char *limiter)
 
 	i = 0;
 	j = 0;
-	str = malloc(sizeof(char) * ft_strlen(limiter) - 1);
+	str = ft_calloc(sizeof(char), ft_strlen(limiter) + 2);
 	if (!str)
 		return (NULL);
 	if (limiter[i] == '"')
@@ -81,7 +81,8 @@ static char	*clean_limiter(char *limiter)
 		i++;
 		j++;
 	}
-	str[j] = '\0';
+	str[j] = '\n';
+	str[j + 1] = '\0';
 	return (str);
 }
 
@@ -99,12 +100,7 @@ char	*here_doc(char *limiter, t_main *main)
 	limiter = clean_limiter(limiter);
 	fd = open(path, O_CREAT | O_TRUNC | O_WRONLY | O_APPEND, 0644);
 	line = readline("> ");
-	if (!line)
-	{
-		printf ("\n");
-		return (path);
-	}
-	while (ft_strncmp(line, limiter, ft_strlen(limiter)) != 0)
+  while (ft_strncmp(line, limiter, ft_strlen(limiter)) != 0 || (ft_strlen(line) - 1) == ft_strlen(limiter))
 	{
 		signal(SIGQUIT, SIG_IGN);
 		if ((tmp[0] != '"' && tmp[ft_strlen(tmp) - 1] != '"') && (tmp[0] != '\'' && tmp[ft_strlen(tmp) - 1] != '\''))

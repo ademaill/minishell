@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 15:48:14 by ademaill          #+#    #+#             */
-/*   Updated: 2024/05/31 14:46:34 by ademaill         ###   ########.fr       */
+/*   Updated: 2024/06/03 12:08:34 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,5 +71,6 @@ void	exec_builtins(t_token *token, t_main *main);
 int		is_builtins(t_token *token);
 char	*clean_str(char *str);
 void	ft_got_signal(int handle);
+void	free_all(t_main *main);
 
 #endif
