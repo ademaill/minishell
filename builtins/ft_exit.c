@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:36:44 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/05/29 13:20:42 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/06/03 12:17:34 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ int	ft_exit(t_main *main, char **value)
 		if(!str)
 		{
 				ft_putstr_fd(" numeric argument required", 2);
+				free(str);
 				exit(2);
 		}
 		if (str[i] == '-' || str[i] == '+')
@@ -77,6 +78,7 @@ int	ft_exit(t_main *main, char **value)
 			if (ft_isdigit(str[i]) != 1)
 			{
 				ft_putstr_fd(" numeric argument required", 2);
+				free(str);
 				exit(2);
 			}
 			i++;
@@ -85,8 +87,10 @@ int	ft_exit(t_main *main, char **value)
 		if (error)
 		{
 			ft_putstr_fd(" numeric argument required", 2);
+			free(str);
 			exit(2);
 		}
+		//free_all(main);
 		exit(code);
 	}
 	else if (size > 2)
@@ -94,5 +98,6 @@ int	ft_exit(t_main *main, char **value)
 		ft_putstr_fd(" too many arguments", 2);
 		return (1);
 	}
+	//free_all(main);
 	exit(0);
 }

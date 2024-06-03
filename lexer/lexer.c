@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 14:01:37 by ademaill          #+#    #+#             */
-/*   Updated: 2024/05/31 18:29:29 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/06/03 14:15:55 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,7 @@ void	ft_cmd_type(t_main *main)
 			count_cmdgr = 0;
 		if (tmp->type == __cmdgr)
 			count_cmdgr++;
-		if (tmp->type == __redirect_in || tmp->type == __redirect_out)
+		if (tmp->type == __redirect_in || tmp->type == __redirect_out || tmp->type == __here_doc || tmp->type == __append )
 		{
 			tmp2 = tmp;
 			while (tmp2)
