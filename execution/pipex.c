@@ -6,7 +6,7 @@
 /*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 11:34:02 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/05/31 17:45:50 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/06/03 14:58:27 by ademaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,26 +111,11 @@ int	mult_process(t_token *token, t_main *main, bool last)
 	}
 	return (0);
 }
-/*void	process(t_token *token, t_env *env, int *fd)
-{
-	int	out;
-
-	out = open(av[4], O_WRONLY | O_CREAT | O_TRUNC, 0777);
-	if (out == -1)
-		ft_error();
-	dup2(fd[0], STDIN_FILENO);
-	dup2(out, STDOUT_FILENO);
-	close(out);
-	close(fd[0]);
-	close(fd[1]);
-	exec_cmd(av[3], envp);
-}*/
 
 void	mult_pipe(int pipecount, t_main *main)
 {
 	int		i;
 	int		j;
-	//int		fd[2];
 	t_token	*tmp;
 	bool	last;
 
@@ -143,17 +128,9 @@ void	mult_pipe(int pipecount, t_main *main)
 		last = false;
 		if (i == pipecount + 1)
 			last = true;
-		/* if (pipecount == 0 && is_builtins(ft_find(main->token, i)) == 1)
-		{
-			tmp = ft_find(main->token, i);
-			ft_process(tmp, main, fd, last);
-		} */
-		//else
-		//{
 		tmp = ft_find(main->token, i);
 		main->pid[j] = mult_process(tmp, main, last);
 		j++;
-		//}
 		i++;
 	}
 	main->pid[j] = 0;
