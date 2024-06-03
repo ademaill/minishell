@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 11:14:47 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/05/29 16:16:56 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/06/03 16:17:22 by ademaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,39 +34,10 @@ bool	ft_env_exists(char *key, t_main *main)
 	return (false);
 }
 
-static	void	ft_export_list(t_main *main)
+/*static int ft_export_next()
 {
-	t_env	*list;
-	int		i;
-	int		k_s;
 
-	list = main->env;
-	while (list)
-	{
-		k_s = ft_strlen(list->key);
-		if (list->value != NULL && (ft_strncmp(list->key, "_", k_s) != 0))
-		{
-			if (!list->value)
-				printf("declare -x %s\"", list->key);
-			else
-			{
-				printf("declare -x %s=\"", list->key);
-				i = 0;
-				while (list->value[i])
-				{
-					if (list->value[i] == '$' || list->value[i] == '"')
-						printf("\\%c", list->value[i++]);
-					else
-						printf("%c", list->value[i++]);
-				}
-				printf("\"\n");
-			}
-		}
-		else if (list->value == NULL && (ft_strncmp(list->key, "_", k_s) != 0))
-			printf("declare -x %s\n", list->key);
-		list = list->next;
-	}
-}
+}*/
 
 int	ft_export(char **av, t_main *main)
 {

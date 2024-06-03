@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 11:36:12 by ademaill          #+#    #+#             */
-/*   Updated: 2024/06/03 11:02:12 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/06/03 17:13:29 by ademaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,9 +91,8 @@ void	str_modify2(t_token *token)
 	j = 2;
 	while (i < size)
 	{
-		tab[j] = ft_strdup(token->value[i]);
+		tab[j++] = ft_strdup(token->value[i]);
 		i++;
-		j++;
 	}
 	token->value = tab;
 }

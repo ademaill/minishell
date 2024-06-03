@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 10:47:46 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/06/01 14:12:59 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/06/03 17:19:53 by ademaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,19 +50,11 @@ void	exec_cmd(char **cmd, char **envp)
 	char	*path;
 	char	*tmp;
 	DIR*	directory;
-	tmp = NULL;
 
 	if (cmd[0][0] == '/' || (cmd[0][0] == '.' && cmd[0][1] == '/'))
 	{
 		directory = opendir(cmd[0]);
-		if(directory != NULL)
-			ft_error(cmd[0], 126, " Is a directory\n");
-		if (access(cmd[0], F_OK) != 0)
-			ft_error(cmd[0], 127, " No such file or directory\n");
-		if (access(cmd[0], R_OK) != 0)
-			ft_error(cmd[0], 126, " Permission denied\n");
- 		if (execve(cmd[0], cmd, envp) == -1)
-			ft_error(cmd[0], 126, " command not found\n");
+		exec_cmd_error(directory, cmd, envp);
 	}
 	else
 	{

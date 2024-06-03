@@ -20,6 +20,8 @@ SRCS = execution/pipex.c \
 		builtins/ft_unset.c \
 		builtins/ft_exit.c \
 		builtins/utils.c \
+		builtins/ft_env_next.c \
+		builtins/ft_export_utils.c \
 		expand/expand_utils.c \
 		expand/expand.c \
 		prompt/prompt.c \

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 11:01:11 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/05/30 10:34:53 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/06/03 17:22:37 by ademaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,16 @@ void	exec_builtins(t_token *token, t_main *main)
 		printf("exit\n");
 		main->exit_code = ft_exit(main, token->value);
 	}
+}
+
+void	exec_cmd_error(void *directory, char **cmd, char **envp)
+{
+	if(directory != NULL)
+		ft_error(cmd[0], 126, " Is a directory\n");
+	if (access(cmd[0], F_OK) != 0)
+		ft_error(cmd[0], 127, " No such file or directory\n");
+	if (access(cmd[0], R_OK) != 0)
+		ft_error(cmd[0], 126, " Permission denied\n");
+ 	if (execve(cmd[0], cmd, envp) == -1)
+		ft_error(cmd[0], 126, " command not found\n");
 }

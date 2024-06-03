@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 14:23:31 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/06/01 14:12:48 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/06/03 17:45:28 by ademaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ int	do_in(t_token *token, t_main *main, bool *heredoc)
 			in = open(clean_str(tmp->value[1]), O_RDONLY, 0777);
 			*heredoc = false;
 			if (in == -1)
-				ft_error(tmp->value[1], EXIT_FAILURE, " No such file or directory\n");
+				ft_error(tmp->value[1], EXIT_FAILURE,
+					" No such file or directory\n");
 		}
 		else if (tmp->type == __here_doc)
 		{

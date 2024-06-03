@@ -6,7 +6,7 @@
 /*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 14:01:37 by ademaill          #+#    #+#             */
-/*   Updated: 2024/06/03 14:58:49 by ademaill         ###   ########.fr       */
+/*   Updated: 2024/06/03 17:07:40 by ademaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,38 +106,6 @@ char	**creat_tab(char **src)
 	}
 	dest[i] = NULL;
 	return (dest);
-}
-
-void	ft_cmd_type(t_main *main)
-{
-	t_token	*tmp;
-	t_token	*tmp2;
-	int		count_cmdgr;
-
-	count_cmdgr = 0;
-	tmp = main->token;
-	while (tmp)
-	{
-		token_type(tmp, main);
-		if (tmp->type == __pipe)
-			count_cmdgr = 0;
-		if (tmp->type == __cmdgr)
-			count_cmdgr++;
-		if (tmp->type != __pipe && tmp->type != __cmdgr)
-		{
-			tmp2 = tmp;
-			while (tmp2)
-			{
-				token_type(tmp2, main);
-				if (tmp2->type == __cmdgr)
-					count_cmdgr++;
-				tmp2 = tmp2->next;
-			}
-			if (count_cmdgr == 0 && ft_len_tab(tmp->value) > 2)
-				ft_new_node(&main->token, creat_tab(tmp->value));
-		}
-		tmp = tmp->next;
-	}
 }
 
 t_token	*ft_tokenizer(char *line, t_main *main)

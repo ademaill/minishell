@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 10:23:47 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/05/16 15:33:35 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/06/03 17:26:31 by ademaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,17 +50,11 @@ int	check_key(char *str)
 	return (1);
 }
 
-void	sort_lst(t_env **head)
+void	sort_lst_next(t_env **head, t_env *sorted, t_env *cur)
 {
-	t_env	*sorted;
-	t_env	*cur;
 	t_env	*next;
 	t_env	*tmp;
 
-	if (*head == NULL || (*head)->next == NULL)
-		return ;
-	sorted = NULL;
-	cur = *head;
 	while (cur != NULL)
 	{
 		next = cur->next;
@@ -81,4 +75,16 @@ void	sort_lst(t_env **head)
 		cur = next;
 	}
 	*head = sorted;
+}
+
+void	sort_lst(t_env **head)
+{
+	t_env	*sorted;
+	t_env	*cur;
+
+	if (*head == NULL || (*head)->next == NULL)
+		return ;
+	sorted = NULL;
+	cur = *head;
+	sort_lst_next(head, sorted, cur);
 }

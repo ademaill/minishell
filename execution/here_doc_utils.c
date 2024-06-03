@@ -3,14 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:43:20 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/05/30 17:13:07 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/06/03 16:27:22 by ademaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+char	*clean_limiter(char *limiter)
+{
+	int		i;
+	char	*str;
+	int		j;
+
+	i = 0;
+	j = 0;
+	str = ft_calloc(sizeof(char), ft_strlen(limiter) + 2);
+	if (!str)
+		return (NULL);
+	if (limiter[i] == '"')
+		i++;
+	while (limiter[i] && limiter[i] != '"')
+	{
+		str[j] = limiter[i];
+		i++;
+		j++;
+	}
+	str[j] = '\n';
+	str[j + 1] = '\0';
+	return (str);
+}
 
 char	*rand_path(void)
 {

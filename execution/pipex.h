@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 11:36:21 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/05/30 17:07:38 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/06/03 17:22:48 by ademaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,7 @@ int		ft_export(char **av, t_main *main);
 int		ft_pwd(void);
 int		ft_exit(t_main *main, char **value);
 char	*clean_str(char *str);
+char	*clean_limiter(char *limiter);
+void	exec_cmd_error(void *directory, char **cmd, char **envp);
 
 #endif

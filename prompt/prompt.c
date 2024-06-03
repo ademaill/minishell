@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 15:46:21 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/06/03 15:13:44 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/06/03 17:30:46 by ademaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void	minishell_loop(t_main *main)
 			i++;
 		}
 		free(main->pid);
-		t_token	*arr;
+		/*t_token	*arr;
 		int	j;
 		j= 0;
 		i = 0;
@@ -118,7 +118,7 @@ void	minishell_loop(t_main *main)
 			else if (arr->type == 5)
 				printf("type : _append\n\n");
 			arr = arr->next;
-		}
+		}*/
 		i = 0;
 		while (main->token)
 		{

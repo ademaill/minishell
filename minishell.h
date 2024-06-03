@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 15:48:14 by ademaill          #+#    #+#             */
-/*   Updated: 2024/06/03 12:08:34 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/06/03 17:03:54 by ademaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,5 +72,10 @@ int		is_builtins(t_token *token);
 char	*clean_str(char *str);
 void	ft_got_signal(int handle);
 void	free_all(t_main *main);
+char	*ft_value(char *str);
+void	ft_export_list(t_main *main);
+void	ft_cmd_type(t_main *main);
+void	token_type(t_token *token, t_main *main);
+char	**creat_tab(char **src);
 
 #endif

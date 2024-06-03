@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 14:36:27 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/05/30 10:36:24 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/06/03 15:46:12 by ademaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,43 +39,6 @@ char	*ft_key(char *str)
 		i++;
 	}
 	return (key);
-}
-
-char	*ft_value(char *str)
-{
-	int		i;
-	int		j;
-	char	*value;
-
-	i = 0;
-	j = 0;
-	value = NULL;
-	while (str[i++])
-	{
-		if (str[i] == '=')
-		{
-			value = malloc(sizeof(char) * (ft_strlen(str) - i));
-			if (!value)
-				return (NULL);
-			i++;
-			if (str[i] == '"')
-				i++;
-			while (str[i] != '\0')
-			{
-				value[j++] = str[i++];
-				if (str[i] == '"')
-					break ;
-			}
-		}
-		if (str[i] == '\0')
-		{
-			if (!value)
-				value = malloc(sizeof(char) + 1);
-			break ;
-		}
-	}
-	value[j] = '\0';
-	return (value);
 }
 
 t_env	*ft_lst_env_new(char *key, char *value)

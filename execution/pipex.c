@@ -6,7 +6,7 @@
 /*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 11:34:02 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/06/03 14:58:27 by ademaill         ###   ########.fr       */
+/*   Updated: 2024/06/03 17:44:54 by ademaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,8 @@ static void	ft_process(t_token *token, t_main *main, int *fd, bool last)
 
 int	check_parents_builtins(t_token *token, t_main *main)
 {
-	if (ft_strncmp(token->value[0], "exit", 5) == 0 && !token->prev && !token->next)
+	if (ft_strncmp(token->value[0], "exit", 5) == 0
+		&& !token->prev && !token->next)
 	{
 		printf("exit\n");
 		main->exit_code = ft_exit(main, main->token->value);
@@ -76,7 +77,8 @@ int	check_parents_builtins(t_token *token, t_main *main)
 		main->exit_code = ft_cd(main->token->value, main);
 	else if (ft_strncmp(token->value[0], "unset", 6) == 0)
 		main->exit_code = ft_unset(main->token->value, main->env);
-	else if (ft_strncmp(token->value[0], "export", 7) == 0 && token->value[1] && !token->prev && !token->next)
+	else if (ft_strncmp(token->value[0], "export", 7) == 0 && token->value[1]
+		&& !token->prev && !token->next)
 		main->exit_code = ft_export(main->token->value, main);
 	else
 		return (0);
@@ -101,7 +103,7 @@ int	mult_process(t_token *token, t_main *main, bool last)
 	}
 	else
 	{
-		if	(!last)
+		if (!last)
 			dup2(fd[0], STDIN_FILENO);
 		else
 			close(STDIN_FILENO);

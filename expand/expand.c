@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 15:50:46 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/06/03 11:42:54 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/06/03 17:38:03 by ademaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,31 @@ char	*ft_handle_dollars(char *str, int *i, t_main *main)
 	}
 	else if (!ft_is_valid_var_char(str[*i]))
 	{
-		(*i)++;
+		//(*i)++;
 		tmp = ft_strdup("$");
 		return (tmp);
 	}
 	tmp = handle_next(i, tmp, str, main);
 	return (tmp);
+}
+
+static char	*cmd_pre_join(char *str, char *ret, t_main *main, bool dquotes)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '$')
+			ret = ft_strjoin(ret, ft_handle_dollars(str, &i, main));
+		else if (str[i] == '"')
+			ret = ft_strjoin(ret, ft_handle_d_quotes(str, &i));
+		else if (str[i] == '\'')
+			ret = ft_strjoin(ret, ft_handle_s_quotes(str, &i, dquotes));
+		else
+			ret = ft_strjoin(ret, ft_handle_str(str, &i));
+	}
+	return (ret);
 }
 
 char	*ft_cmd_pre_expand(char *str, t_main *main)
@@ -92,17 +111,6 @@ char	*ft_cmd_pre_expand(char *str, t_main *main)
 		dquotes = false;
 		i++;
 	}
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == '$')
-			ret = ft_strjoin(ret, ft_handle_dollars(str, &i, main));
-		else if (str[i] == '"')
-			ret = ft_strjoin(ret, ft_handle_d_quotes(str, &i));
-		else if (str[i] == '\'')
-			ret = ft_strjoin(ret, ft_handle_s_quotes(str, &i, dquotes));
-		else
-			ret = ft_strjoin(ret, ft_handle_str(str, &i));
-	}
+	ret = cmd_pre_join(str, ret, main, dquotes);
 	return (ret);
 }

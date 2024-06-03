@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:36:44 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/06/03 12:17:34 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/06/03 17:40:05 by ademaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,48 +48,51 @@ static __int128_t	ft_exitatoi(const char *nptr, bool *error)
 	return (result);
 }
 
-int	ft_exit(t_main *main, char **value)
+static int	ft_exit_next(char *str, int *i, int code, bool error)
 {
-	int		code;
-	bool	error;
-	int		i;
-	char	*str;
-	int		size;
-
-	code = 0;
-	i = 0;
-	error = false;
-	str = NULL;
-	(void)main;
-	size = ft_len_tab(value);
-	if (size == 2)
+	if(!str)
 	{
-		str = clean_str(value[1]);
-		if(!str)
-		{
-				ft_putstr_fd(" numeric argument required", 2);
-				free(str);
-				exit(2);
-		}
-		if (str[i] == '-' || str[i] == '+')
-			i++;
-		while (str[i])
-		{
-			if (ft_isdigit(str[i]) != 1)
-			{
-				ft_putstr_fd(" numeric argument required", 2);
-				free(str);
-				exit(2);
-			}
-			i++;
-		}
-		code = ft_exitatoi(str, &error);
-		if (error)
+		ft_putstr_fd(" numeric argument required", 2);
+		free(str);
+		exit(2);
+	}
+	if (str[(*i)] == '-' || str[(*i)] == '+')
+		(*i)++;
+	while (str[(*i)])
+	{
+		if (ft_isdigit(str[(*i)]) != 1)
 		{
 			ft_putstr_fd(" numeric argument required", 2);
 			free(str);
 			exit(2);
 		}
+		(*i)++;
+	}
+	code = ft_exitatoi(str, &error);
+	if (error)
+	{
+		ft_putstr_fd(" numeric argument required", 2);
+		free(str);
+		exit(2);
+	}
+	return (code);
+}
+
+int	ft_exit(t_main *main, char **value)
+{
+	int		code;
+	bool	error;
+	int		i;
+	int		size;
+
+	code = 0;
+	i = 0;
+	error = false;
+	(void)main;
+	size = ft_len_tab(value);
+	if (size == 2)
+	{
+		code = ft_exit_next(clean_str(value[1]), &i, code, error);
 		//free_all(main);
 		exit(code);
 	}

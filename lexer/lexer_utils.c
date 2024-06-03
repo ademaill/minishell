@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 11:31:45 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/06/03 12:17:21 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/06/03 17:07:10 by ademaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,4 +114,42 @@ void	clear_token(t_main *main)
 		tmp = tmp->next;
 	}
 	main->token = ft_lstfirst(tmp);
+}
+
+static int	mini_while(t_token *tmp2, t_main *main, int count_cmdgr)
+{
+	while (tmp2)
+	{
+		token_type(tmp2, main);
+		if (tmp2->type == __cmdgr)
+			count_cmdgr++;
+		tmp2 = tmp2->next;
+	}
+	return (count_cmdgr);
+}
+
+void	ft_cmd_type(t_main *main)
+{
+	t_token	*tmp;
+	t_token	*tmp2;
+	int		count_cmdgr;
+
+	count_cmdgr = 0;
+	tmp = main->token;
+	while (tmp)
+	{
+		token_type(tmp, main);
+		if (tmp->type == __pipe)
+			count_cmdgr = 0;
+		if (tmp->type == __cmdgr)
+			count_cmdgr++;
+		if (tmp->type != __pipe && tmp->type != __cmdgr)
+		{
+			tmp2 = tmp;
+			count_cmdgr = mini_while(tmp2, main, count_cmdgr);
+			if (count_cmdgr == 0 && ft_len_tab(tmp->value) > 2)
+				ft_new_node(&main->token, creat_tab(tmp->value));
+		}
+		tmp = tmp->next;
+	}
 }
