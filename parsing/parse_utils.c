@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 11:36:12 by ademaill          #+#    #+#             */
-/*   Updated: 2024/05/30 17:32:04 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/06/03 11:02:12 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,7 @@ void	error_parse(char *str, t_token *token, t_main *main)
 		token = tmp;
 	}
 	free (token);
+	main->exit_code = 2;
 	ft_putstr_fd("Error synthax,\n", 2);
 	ft_putstr_fd(str, 2);
 	minishell_loop(main);
