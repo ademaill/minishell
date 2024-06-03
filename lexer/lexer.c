@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 14:01:37 by ademaill          #+#    #+#             */
-/*   Updated: 2024/06/03 14:15:55 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/06/03 14:58:49 by ademaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,11 @@ int	ft_token_join(t_token *src, t_token *add, int j)
 {
 	char	**tab;
 	int		i;
+	int		size;
 
 	i = 0;
-	tab = malloc(sizeof (char *) * (ft_len_tab(src->value) + ft_len_tab(add->value) - j + 1));
+	size = ft_len_tab(src->value) + ft_len_tab(add->value) - j + 1;
+	tab = ft_calloc(sizeof (char *), size);
 	if (!tab)
 		return (1);
 	while (src->value[i])
@@ -40,23 +42,6 @@ int	ft_token_join(t_token *src, t_token *add, int j)
 	src->value = tab;
 	return (0);
 }
-
-/*static int	ft_group_cmd(t_token *token)
-{
-	t_token	*tmp;
-	t_token	*tmp2;
-	t_token	*tmp3;
-
-	tmp = NULL;
-	tmp2 = NULL;
-	tmp3 = NULL;
-	if (!token)
-		return (0);
-	regroup(token, tmp, tmp2, tmp3);
-	//if (regroup(token, tmp, tmp2, tmp3) == 1)
-		//gestion d'erreur
-	return (0);
-}*/
 
 void	token_type(t_token *token, t_main *main)
 {
@@ -87,7 +72,7 @@ void	ft_sort(t_main *main)
 			tmp = token->next;
 			while (tmp)
 			{
-				if (tmp->type == __redirect_in || tmp->type == __redirect_out || tmp->type == __append || tmp->type == __here_doc)
+				if (tmp->type != __pipe && tmp->type != __cmdgr)
 				{
 					if (ft_len_tab(tmp->value) > 1)
 						ft_token_join(token, tmp, 2);
@@ -138,7 +123,7 @@ void	ft_cmd_type(t_main *main)
 			count_cmdgr = 0;
 		if (tmp->type == __cmdgr)
 			count_cmdgr++;
-		if (tmp->type == __redirect_in || tmp->type == __redirect_out || tmp->type == __here_doc || tmp->type == __append )
+		if (tmp->type != __pipe && tmp->type != __cmdgr)
 		{
 			tmp2 = tmp;
 			while (tmp2)
