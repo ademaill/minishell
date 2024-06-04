@@ -6,7 +6,7 @@
 /*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 15:48:14 by ademaill          #+#    #+#             */
-/*   Updated: 2024/06/03 17:03:54 by ademaill         ###   ########.fr       */
+/*   Updated: 2024/06/04 10:29:08 by ademaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <unistd.h>
 # include <stdbool.h>
 # include <signal.h>
+#include <stdio.h>
 # include <dirent.h>
 #include <readline/readline.h>
 #include <readline/history.h>

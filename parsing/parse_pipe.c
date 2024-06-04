@@ -6,7 +6,7 @@
 /*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 09:58:48 by ademaill          #+#    #+#             */
-/*   Updated: 2024/06/03 17:12:52 by ademaill         ###   ########.fr       */
+/*   Updated: 2024/06/04 10:35:36 by ademaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,9 @@ void	parse_here_doc(t_token *token, t_main *main)
 		if (token->value[1] && token->value[1][0] == '|')
 			error_parse("Here_doc can't be followed by a pipe\n", token, main);
 	}
+	if (token->value[0][0] == '<' && token->value[0][1] == '<'
+		&& !token->value[1])
+		error_parse("Missing limiter for here doc\n", token, main);
 	token->type = __here_doc;
 }
 
@@ -101,5 +104,8 @@ void	parse_append(t_token *token, t_main *main)
 		if (token->value[1] && token->value[1][0] == '|')
 			error_parse("Append cannot be followed by a pipe\n", token, main);
 	}
+	if (token->value[0][0] == '>' && token->value[0][1] == '>'
+		&& !token->value[1])
+		error_parse("Missing file for append\n", token, main);
 	token->type = __append;
 }

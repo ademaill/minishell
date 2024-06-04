@@ -6,18 +6,11 @@
 /*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 15:46:21 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/06/03 17:30:46 by ademaill         ###   ########.fr       */
+/*   Updated: 2024/06/04 10:29:48 by ademaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <signal.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include <unistd.h>
 #include "../minishell.h"
-
 
 int	g_sig_received;
 
@@ -56,12 +49,34 @@ static char	*ft_get_prompt(void)
 	return (prompt);
 }
 
+static void	exec_and_free(t_main *main)
+{
+	int		i;
+	t_token	*tmp;
+
+	i = 0;
+	ft_exec(main);
+	while (main->pid[i])
+	{
+		status_exit(main, main->pid[i]);
+		i++;
+	}
+	free(main->pid);
+	while (main->token)
+	{
+		tmp = main->token;
+		main->token = main->token->next;
+		free_tab(tmp->value);
+		free(tmp);
+	}
+	free(main->token);
+}
+
+
 void	minishell_loop(t_main *main)
 {
 	char	*buffer;
 	char	*prompt;
-	t_token	*tmp;
-	int		i;
 
 	while (1)
 	{
@@ -82,15 +97,31 @@ void	minishell_loop(t_main *main)
 		buffer = NULL;
 		if (!main->token)
 			minishell_loop(main);
-		ft_exec(main);
-		i = 0;
-		while (main->pid[i])
-		{
-			status_exit(main, main->pid[i]);
-			i++;
-		}
-		free(main->pid);
-		/*t_token	*arr;
+		exec_and_free(main);
+	}
+}
+
+int	main(int ac, char **av, char **envp)
+{
+	t_main	*data;
+
+	(void)av;
+	if (ac != 1)
+	{
+		ft_putstr_fd("Error\nToo many argument\n", 2);
+		return (0);
+	}
+	data = malloc(sizeof(t_main));
+	ft_memset(data, 0, sizeof(t_main));
+	data->envp = envp;
+	data->env = ft_env_int(data->envp);
+	ft_got_signal(1);
+	minishell_loop(data);
+	free(data);
+	return (0);
+}
+
+/*t_token	*arr;
 		int	j;
 		j= 0;
 		i = 0;
@@ -119,30 +150,3 @@ void	minishell_loop(t_main *main)
 				printf("type : _append\n\n");
 			arr = arr->next;
 		}*/
-		i = 0;
-		while (main->token)
-		{
-			tmp = main->token;
-			main->token = main->token->next;
-			free_tab(tmp->value);
-			free(tmp);
-		}
-		free(main->token);
-	}
-}
-
-int	main(int ac, char **av, char **envp)
-{
-	t_main	*data;
-
-	(void)ac;
-	(void)av;
-	data = malloc(sizeof(t_main));
-	ft_memset(data, 0, sizeof(t_main));
-	data->envp = envp;
-	data->env = ft_env_int(data->envp);
-	ft_got_signal(1);
-	minishell_loop(data);
-	free(data);
-	return (0);
-}
