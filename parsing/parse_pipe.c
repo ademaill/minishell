@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 09:58:48 by ademaill          #+#    #+#             */
-/*   Updated: 2024/05/31 17:13:59 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/06/05 10:24:09 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,9 @@ void	parse_pipe(t_token *token, t_main *main)
 	else if (token->prev && (token->prev->value[0][0] == '|'))
 		error_parse("Pipe cannot be preceded by a second pipe\n", token, main);
 	else if (!token->prev)
-		error_parse("near unexpected token '|'\n", token, main);
+		error_parse("Near unexpected token '|'\n", token, main);
+	else if (!token->next)
+		error_parse("Near unexpected token '|'\n", token, main);
 	else
 		token->type = __pipe;
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 09:05:06 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/06/03 14:53:02 by ademaill         ###   ########.fr       */
+/*   Updated: 2024/06/05 14:28:45 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,6 @@ void	handle_signal_here(int sgn)
 	}
 }
 
-static void	free_rest_gnl(int fd, char *line)
-{
-	free(line);
-	close(fd);
-	line = readline(fd);
-	free(line);
-}
-
 static char	*ft_expand_here_doc(char *str, t_main *main)
 {
 	char	*ret ;
@@ -53,7 +45,7 @@ static char	*ft_expand_here_doc(char *str, t_main *main)
 		if (str[i] == '$')
 			ret = ft_strjoin(ret, ft_handle_dollars(str, &i, main));
 		else if (str[i] == '"')
-			ret = ft_strjoin(ret, ft_handle_d_quotes(str, &i));
+			ret = ft_strjoin(ret, ft_handle_d_quotes(str, &i, true));
 		else if (str[i] == '\'')
 			ret = ft_strjoin(ret, ft_handle_s_quotes(str, &i, true));
 		else
@@ -62,7 +54,7 @@ static char	*ft_expand_here_doc(char *str, t_main *main)
 	return (ret);
 }
 
-static char	*clean_limiter(char *limiter)
+/*static char	*clean_limiter(char *limiter)
 {
 	int		i;
 	char	*str;
@@ -70,7 +62,7 @@ static char	*clean_limiter(char *limiter)
 
 	i = 0;
 	j = 0;
-	str = ft_calloc(sizeof(char), ft_strlen(limiter) + 2);
+	str = ft_calloc(sizeof(char), ft_strlen(limiter) + 1);
 	if (!str)
 		return (NULL);
 	if (limiter[i] == '"')
@@ -81,38 +73,41 @@ static char	*clean_limiter(char *limiter)
 		i++;
 		j++;
 	}
-	str[j] = '\n';
-	str[j + 1] = '\0';
+	str[j] = '\0';
 	return (str);
-}
+}*/
 
-char	*here_doc(char *limiter, t_main *main)
+void	here_doc(char *limiter, t_main *main)
 {
 	int		fd;
 	char	*line;
-	char	*path;
-	char	*tmp;
 
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, &handle_signal_here_doc);
-	path = rand_path();
-	tmp = limiter;
-	limiter = clean_limiter(limiter);
-	fd = open(path, O_CREAT | O_TRUNC | O_WRONLY | O_APPEND, 0644);
-	line = readline("> ");
-  while (ft_strncmp(line, limiter, ft_strlen(limiter)) != 0 || (ft_strlen(line) - 1) == ft_strlen(limiter))
+	main->heredoc_path = rand_path();
+	fd = open(main->heredoc_path, O_CREAT | O_TRUNC | O_WRONLY | O_APPEND, 0644);
+	dup2(main->here_doc_stdin, STDIN_FILENO);
+	while (1)
 	{
+		signal(SIGINT, &handle_signal_here_doc);
 		signal(SIGQUIT, SIG_IGN);
-		if ((tmp[0] != '"' && tmp[ft_strlen(tmp) - 1] != '"') && (tmp[0] != '\'' && tmp[ft_strlen(tmp) - 1] != '\''))
+		line = readline("> ");
+		if (!line)
+		{
+			ft_putstr_fd("bash: warning: ", 2);
+			ft_putstr_fd("here-document delimited by end-of-file (wanted `", 2);
+			ft_putstr_fd(clean_str(limiter), 2);
+			ft_putstr_fd("')\n", 2);
+			break;
+		}
+		if (ft_strncmp(line, clean_str(limiter), ft_strlen(limiter)) == 0 && (ft_strlen(line)) == ft_strlen(limiter))
+			break ;
+		if ((limiter[0] != '"' && limiter[ft_strlen(limiter) - 1] != '"') && (limiter[0] != '\'' && limiter[ft_strlen(limiter) - 1] != '\''))
 			line = ft_expand_here_doc(line, main);
 		write(fd, line, ft_strlen(line));
 		write(fd, "\n", 1);
 		free(line);
-		line = readline("> ");
-		if (!line)
-			break ;
 	}
-	free_rest_gnl(fd, line);
+	free(line);
 	close(fd);
-	return (path);
 }

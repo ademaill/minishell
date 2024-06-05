@@ -1,0 +1,14 @@
+builtins
+errors.txt
+execution
+expand
+lexer
+Libft
+Makefile
+minishell
+minishell.h
+minishell_tester
+parsing
+prompt
+test_files
+vsupp

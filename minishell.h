@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 15:48:14 by ademaill          #+#    #+#             */
-/*   Updated: 2024/06/03 12:08:34 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/06/05 14:28:43 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct s_main
 	t_token	*token;
 	int		exit_code;
 	int		pipe_count;
+	int		here_doc_stdin;
 	int		*pid;
 	char	**envp;
 	char	*heredoc_path;
@@ -60,7 +61,7 @@ bool	ft_env_exists(char *key, t_main *main);
 char	*handle_next(int *i, char *tmp, char *str, t_main *main);
 char	*ft_handle_dollars(char *str, int *i, t_main *main);
 char	*ft_handle_s_quotes(char *str, int *i, bool dquotes);
-char	*ft_handle_d_quotes(char *str, int *i);
+char	*ft_handle_d_quotes(char *str, int *i, bool dquotes);
 char	*ft_handle_str(char *str, int *i);
 void	minishell_loop(t_main *main);
 t_token	*ft_tokenizer(char *line, t_main *main);

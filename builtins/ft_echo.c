@@ -6,102 +6,25 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 14:47:48 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/05/31 11:06:40 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/06/04 11:06:50 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static char	*skip_dquotes(char *str)
+static unsigned long	option_check(char *str)
 {
-	char	*str_clean;
-	int		i;
-	int		j;
-	int		dquotes;
-
-	i = 0;
-	dquotes = 0;
-	while (str[i])
-	{
-		if (str[i] == '"')
-			dquotes++;
-		i++;
-	}
-	if (dquotes % 2 != 0)
-		return (NULL);
-	i = -1;
-	j = 0;
-	str_clean = ft_calloc(sizeof(char), ft_strlen(str) - dquotes + 1);
-	while (str[++i])
-	{
-		if (str[i] != '"')
-			str_clean[j++] = str[i];
-	}
-	str_clean[j] = '\0';
-	return (str_clean);
-}
-
-static char	*skip_squotes(char *str)
-{
-	char	*str_clean;
-	int		i;
-	int		j;
-	int		squotes;
-
-	i = 0;
-	squotes = 0;
-	while (str[i])
-	{
-		if (str[i] == '\'')
-			squotes++;
-		i++;
-	}
-	if (squotes % 2 != 0)
-		return (NULL);
-	i = -1;
-	j = 0;
-	str_clean = ft_calloc(sizeof(char), ft_strlen(str) - squotes);
-	while (str[++i])
-	{
-		if (str[i] != '\'')
-			str_clean[j++] = str[i];
-	}
-	str_clean[j] = '\0';
-	return (str_clean);
-}
-
-char	*clean_str(char *str)
-{
-	char	*str_clean;
-	int		i;
-
-	i = 0;
-	str_clean = str;
-	while (str[i])
-	{
-		if (str[i] == '"')
-		{
-			str_clean = skip_dquotes(str);
-			break ;
-		}
-		if (str[i] == '\'')
-		{
-			str_clean = skip_squotes(str);
-			break ;
-		}
-		i++;
-	}
-	return (str_clean);
-}
-
-static int	option_check(char *str)
-{
-	int	i;
+	unsigned long	i;
 
 	i = 0;
 	if (str[0] != '-')
 		return (0);
 	i++;
+	while (str[i] == '-')
+		i++;
+	if (i == ft_strlen(str) - 1)
+		return (0);
+	i = 0;
 	while (str[i])
 	{
 		if (str[i] != 'n')

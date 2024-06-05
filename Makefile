@@ -24,6 +24,7 @@ SRCS = execution/pipex.c \
 		expand/expand.c \
 		prompt/prompt.c \
 		prompt/utils_prompt.c \
+		parsing/clean_str.c \
 		parsing/parse_pipe.c \
 		parsing/parse_utils.c \
 		prompt/signal.c

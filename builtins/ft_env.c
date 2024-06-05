@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 14:36:27 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/05/30 10:36:24 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/06/03 18:22:57 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ char	*ft_value(char *str)
 		if (str[i] == '\0')
 		{
 			if (!value)
-				value = malloc(sizeof(char) + 1);
+				return (NULL);
 			break ;
 		}
 	}
@@ -128,7 +128,7 @@ t_env	*ft_env_int(char **envp)
 		ft_lstadd_back_env(&lst, ft_lst_env_new(key, value));
 		i++;
 	}
-	sort_lst(&lst);
+	//sort_lst(&lst);
 	return (lst);
 }
 
