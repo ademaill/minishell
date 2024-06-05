@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 09:05:06 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/06/05 14:28:45 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/06/05 14:42:48 by ademaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,29 +53,6 @@ static char	*ft_expand_here_doc(char *str, t_main *main)
 	}
 	return (ret);
 }
-
-/*static char	*clean_limiter(char *limiter)
-{
-	int		i;
-	char	*str;
-	int		j;
-
-	i = 0;
-	j = 0;
-	str = ft_calloc(sizeof(char), ft_strlen(limiter) + 1);
-	if (!str)
-		return (NULL);
-	if (limiter[i] == '"')
-		i++;
-	while (limiter[i] && limiter[i] != '"')
-	{
-		str[j] = limiter[i];
-		i++;
-		j++;
-	}
-	str[j] = '\0';
-	return (str);
-}*/
 
 void	here_doc(char *limiter, t_main *main)
 {
