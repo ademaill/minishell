@@ -21,6 +21,7 @@
 		"wait.h": "c",
 		"minishell.h": "c",
 		"typeinfo": "c",
-		"dirent.h": "c"
+		"dirent.h": "c",
+		"random": "c"
 	}
 }

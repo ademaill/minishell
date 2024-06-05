@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 15:50:46 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/06/04 13:24:57 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/06/05 15:21:43 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ char	*ft_handle_dollars(char *str, int *i, t_main *main)
 	tmp = NULL;
 	if (ft_isdigit(str[*i]) || str[*i] == '@')
 	{
-		if (str[*i + 1] != '\0')
-			(*i)++;
+		//if (str[*i + 1] != '\0')
+		(*i)++;
 		tmp = ft_strdup("");
 		return (tmp);
 	}
@@ -69,7 +69,10 @@ char	*ft_handle_dollars(char *str, int *i, t_main *main)
 	else if (!ft_is_valid_var_char(str[*i]))
 	{
 		//(*i)++;
-		tmp = ft_strdup("$");
+		if ((str[*i] == '"' || str[*i] == '\'') && str[(*i) + 1] != '\0')
+			tmp = ft_strdup("");
+		else
+			tmp = ft_strdup("$");
 		return (tmp);
 	}
 	tmp = handle_next(i, tmp, str, main);

@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 11:14:47 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/06/03 18:10:42 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/06/05 16:15:15 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,20 @@ static int	ft_export_error(char *identifier)
 	ft_putstr_fd(identifier, 2);
 	ft_putstr_fd("': not a valid identifier\n", 2);
 	return (1);
+}
+
+static int	find_char(char *str, char c)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == c)
+			return (1);
+		i++;
+	}
+	return (0);
 }
 
 bool	ft_env_exists(char *key, t_main *main)
@@ -99,7 +113,8 @@ int	ft_export(char **av, t_main *main)
 				{
 					if (ft_strncmp(key, env->key, ft_strlen(key)) == 0)
 					{
-						env->value = ft_value(av[i]);
+						if (find_char(av[i], '=') == 1)
+							env->value = ft_value(av[i]);
 						break ;
 					}
 					env = env->next;

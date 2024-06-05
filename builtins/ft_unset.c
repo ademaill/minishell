@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 10:14:24 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/06/04 16:54:58 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/06/05 18:59:26 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,23 @@
 void	unset_ut(char *str, t_main *main)
 {
 	t_env	*prev;
+	t_env	*env;
 
 	prev = NULL;
-	if (!main->env)
+	env = main->env;
+	if (!env)
 		return ;
-	while (main->env)
+	while (env)
 	{
-		if (!ft_strncmp(str, main->env->key, ft_strlen(str)))
+		if (!ft_strncmp(str, env->key, ft_strlen(str)))
 		{
 			if (prev)
-				prev->next = main->env->next;
-			free(main->env);
+				prev->next = env->next;
+			free(env);
+			break ;
 		}
-		prev = main->env;
-		main->env = main->env->next;
+		prev = env;
+		env = env->next;
 	}
 }
 

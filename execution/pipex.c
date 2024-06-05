@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 11:34:02 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/06/05 14:28:44 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/06/05 17:00:11 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,8 +105,8 @@ int	mult_process(t_token *token, t_main *main, bool last)
 	{
 		if	(!last)
 			dup2(fd[0], STDIN_FILENO);
-		else
-			close(STDIN_FILENO);
+		//else
+		//	close(STDIN_FILENO);
 		close(fd[0]);
 		close(fd[1]);
 		return (rd);

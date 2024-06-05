@@ -1,23 +1,3 @@
-- plus de var d'env = peux plus rien faire + commandes ne fonctionnent pas et aucun message d'erreur
-- PATH unset mais toutes les commandes fonctionnent
-- pas d'acces a un dossier sur cd = mauvais message d'erreur
-- env affiche les var d'env sans valeur, ne devrait pas
-- export affiche une valeur vide pour les var d'env sans valeur
-	ex: export a -> a=""        devrait afficher a
-- echo - aaa print "aaa" sans \n, devrait print "- aaa" avec \n
-	pareil pour echo -
-- echo $'a' print le dollar, la meme pour $"a"
-- unclosed quotes pas gerees
-- quand quotes successives (''"" ou ""''), print la deuxieme paire des quotes et tt les quotes similaires apres
-- echo '$a'"" print 'var'"", devrait print $a
-- env trie, export trie mais pas les var d'env rajoutees
-- export PWD n'actualise pas le chemin du prompt
-- print un msg d'erreur si le home est set a un path inexistant/pas d'acces
-- le heredoc a besoin d'un input supplementaire pour sortir
-- ctrl d dans un heredoc ferme seulement le heredoc actuel + print msg
-- ctrl c ne print pas ^C dans le heredoc, leger detail
-- ctrl \ ne set pas l'exit code a 131 + print core dumped pour autant de pipes qu'il y a
-- exit doit return minishell avec le dernier exit code
-- exit a 1 doit exit sur numeric argument
-- il manque le \n sur exit too many arguments
-- heredoc 'a' a pour delimiter 'a' et pas a
+-- Invalid HOME ex: '/4780934780923u740923/' -> print message
+-- OPTIONAL: handle sigterm
+-- vim > out | <out cat >> t | <<POTO cat >> t

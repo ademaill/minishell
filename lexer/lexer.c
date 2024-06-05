@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 14:01:37 by ademaill          #+#    #+#             */
-/*   Updated: 2024/06/03 15:25:20 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/06/05 18:42:06 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	ft_sort(t_main *main)
 			tmp = token->next;
 			while (tmp)
 			{
-				if (tmp->type != __pipe && tmp->type != __cmdgr)
+				if (tmp->type != __pipe)
 				{
 					if (ft_len_tab(tmp->value) > 1)
 						ft_token_join(token, tmp, 2);
@@ -123,7 +123,7 @@ void	ft_cmd_type(t_main *main)
 			count_cmdgr = 0;
 		if (tmp->type == __cmdgr)
 			count_cmdgr++;
-		if (tmp->type != __pipe && tmp->type != __cmdgr)
+		if (tmp->type == __redirect_in || tmp->type == __redirect_out || tmp->type == __append || tmp->type == __here_doc)
 		{
 			tmp2 = tmp;
 			while (tmp2)
@@ -156,13 +156,14 @@ t_token	*ft_tokenizer(char *line, t_main *main)
 			str = ft_cmd_pre_expand(tab[i], main);
 		else
 			str = tab[i];
-		content = ft_split_ms(str, " ");
+		content = ft_split_ms(str, " 	");
 		if (content && content[0] != NULL)
 			ft_new_node(&main->token, content);
 		i++;
 	}
 	ft_cmd_type(main);
 	ft_sort(main);
+	go_regroup(main);
 //	clear_token(main);
 	return (main->token);
 }

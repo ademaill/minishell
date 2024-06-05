@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 16:38:21 by ademaill          #+#    #+#             */
-/*   Updated: 2024/05/31 17:21:09 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/06/05 18:15:30 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,22 +62,25 @@ static int	get_next_sep(char *str, char *sep)
 	i = 0;
 	if (str[i] && ft_strchr(sep, str[i]))
 	{
-		++i;
-		if (str[i] && ft_strchr(sep, str[i]))
+		if (str[++i] && ft_strchr(sep, str[i]))
 			++i;
 		if (str[0] == '<' || str[0] == '>')
 		{
-			while (str[i] == ' ')
+			while (str[i] == ' ' || str[i] == '	')
 				++i;
-			i += get_next_sep(&str[i], sep);
+			while(str[i] && !ft_strchr(" <|>", str[i]))
+				i += quotes_jump(&str[i]) + 1;
 		}
 		return (i);
 	}
-	while (str[i] && !ft_strchr(sep, str[i]))
+	if (sep[0] == ' ' && (str[0] == '<' || str[0] == '>'))
 	{
-		i += quotes_jump(&str[i]);
-		++i;
+		while (str[i] == str[0])
+			i++;
+		return (i);
 	}
+	while (str[i] && !ft_strchr(sep, str[i]))
+		i += quotes_jump(&str[i]) + 1;
 	return (i);
 }
 
@@ -95,7 +98,7 @@ char	**ft_split_ms(char *str, char *sep)
 	k = -1;
 	while (str && str[i] && (i == 0 || str[i - 1]))
 	{
-		if (str[i] == ' ' && ++i)
+		if ((str[i] == ' ' || str[i] == '	') && ++i)
 			continue ;
 		j = get_next_sep(&str[i], sep);
 		tab[++k] = ft_strndup(&str[i], j);

@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 10:47:46 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/06/05 14:29:02 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/06/05 15:42:25 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	exec_cmd(char **cmd, char **envp)
 			ft_error(cmd[0], 127, " No such file or directory\n");
 		if (access(cmd[0], R_OK) != 0)
 			ft_error(cmd[0], 126, " Permission denied\n");
- 		if (access(cmd[0], X_OK) != 0)
+ 		if (execve(cmd[0], cmd, envp) != 0)
 			ft_error(cmd[0], 126, " command not found\n");
 	}
 	else
