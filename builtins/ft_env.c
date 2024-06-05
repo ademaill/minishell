@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 14:36:27 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/06/03 18:22:57 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/06/05 16:17:38 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,9 @@ char	*ft_value(char *str)
 				i++;
 			while (str[i] != '\0')
 			{
-				value[j++] = str[i++];
 				if (str[i] == '"')
 					break ;
+				value[j++] = str[i++];
 			}
 		}
 		if (str[i] == '\0')

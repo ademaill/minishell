@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 11:31:45 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/06/03 12:17:21 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/06/05 18:43:23 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,12 @@
 	free(main);
 }*/
 
-int	regroup(t_token *token, t_token	*tmp, t_token *tmp2, t_token *tmp3)
+void	regroup(t_token *token, t_token	*tmp, t_token *tmp2, t_token *tmp3)
 {
 	tmp = token;
-	while (tmp->type != __cmdgr && tmp->next)
+	if (!tmp)
+		return ;
+	while (tmp->next && tmp->type != __cmdgr)
 	{
 		tmp = tmp->next;
 	}
@@ -63,7 +65,6 @@ int	regroup(t_token *token, t_token	*tmp, t_token *tmp2, t_token *tmp3)
 		if (tmp2->type == __cmdgr && tmp != tmp2)
 		{
 			ft_token_join(tmp, tmp2, 0);
-			//	return (1);
 			if (tmp2->next)
 				tmp2->prev->next = tmp2->next;
 			else
@@ -74,7 +75,25 @@ int	regroup(t_token *token, t_token	*tmp, t_token *tmp2, t_token *tmp3)
 		}
 		tmp2 = tmp2->next;
 	}
-	return (0);
+}
+
+void	go_regroup(t_main *main)
+{
+	t_token *token;
+	t_token	*tmp;
+	t_token	*tmp2;
+	t_token	*tmp3;
+
+	tmp = NULL;
+	tmp2 = NULL;
+	tmp3 = NULL;
+	token = main->token;
+	while(token)
+	{
+		if (token->type == __cmdgr)
+			regroup(token, tmp, tmp2, tmp3);
+		token = token->next;
+	}
 }
 
 void	free_tab(char **tab)

@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 14:47:48 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/06/04 11:06:50 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/06/05 16:23:49 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,10 @@ static unsigned long	option_check(char *str)
 	i = 0;
 	if (str[0] != '-')
 		return (0);
-	i++;
 	while (str[i] == '-')
 		i++;
-	if (i == ft_strlen(str) - 1)
+	if (i == ft_strlen(str))
 		return (0);
-	i = 0;
 	while (str[i])
 	{
 		if (str[i] != 'n')
