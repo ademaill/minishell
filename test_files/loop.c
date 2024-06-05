@@ -1,26 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_len_tab.c                                       :+:      :+:    :+:   */
+/*   loop.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lalex-ku <lalex-ku@42sp.org.br>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/25 17:27:26 by ademaill          #+#    #+#             */
-/*   Updated: 2024/06/04 15:38:25 by vnavarre         ###   ########.fr       */
+/*   Created: 2022/06/22 17:32:45 by lalex-ku          #+#    #+#             */
+/*   Updated: 2022/06/22 17:32:50 by lalex-ku         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include <fcntl.h>
+#include <stdio.h>
+#include <unistd.h>
 
-int	ft_len_tab(char **tab)
+int	main(int argc, char const *argv[])
 {
-	int	i;
+	int	pid;
 
-	i = 0;
-	while (tab[i])
+	pid = fork();
+	open("infile", O_RDONLY);
+	while (1)
 	{
-		if (tab[i] != NULL)
-			i++;
+		printf("Helloo miniHELL %i\n", pid);
+		sleep(1);
 	}
-	return (i);
+	return (0);
 }

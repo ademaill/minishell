@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 11:14:47 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/05/29 16:16:56 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/06/03 18:10:42 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ static	void	ft_export_list(t_main *main)
 	int		k_s;
 
 	list = main->env;
+	sort_lst(&list);
 	while (list)
 	{
 		k_s = ft_strlen(list->key);

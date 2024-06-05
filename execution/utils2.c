@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 11:01:11 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/05/30 10:34:53 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/06/05 10:11:32 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	exec_builtins(t_token *token, t_main *main)
 	else if (ft_strncmp(token->value[0], "echo", 4) == 0)
 		main->exit_code = ft_echo(token->value);
 	else if (ft_strncmp(token->value[0], "unset", 5) == 0)
-		main->exit_code = ft_unset(token->value, main->env);
+		main->exit_code = ft_unset(token->value, main);
 	else if (ft_strncmp(token->value[0], "env", 3) == 0)
 		ft_env(main->env);
 	else if (ft_strncmp(token->value[0], "exit", 5) == 0)

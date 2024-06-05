@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:36:44 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/06/03 12:17:34 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/06/03 17:26:58 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,42 +62,47 @@ int	ft_exit(t_main *main, char **value)
 	str = NULL;
 	(void)main;
 	size = ft_len_tab(value);
-	if (size == 2)
-	{
+	if (value[1])
 		str = clean_str(value[1]);
-		if(!str)
-		{
-				ft_putstr_fd(" numeric argument required", 2);
-				free(str);
-				exit(2);
-		}
-		if (str[i] == '-' || str[i] == '+')
-			i++;
+	if(!str && size == 2)
+	{
+			ft_putstr_fd(" numeric argument required\n", 2);
+			free(str);
+			exit(2);
+	}
+	if (str && (str[i] == '-' || str[i] == '+'))
+		i++;
+	if (str)
+	{
 		while (str[i])
 		{
 			if (ft_isdigit(str[i]) != 1)
 			{
-				ft_putstr_fd(" numeric argument required", 2);
+				ft_putstr_fd(" numeric argument required\n", 2);
 				free(str);
 				exit(2);
 			}
 			i++;
 		}
-		code = ft_exitatoi(str, &error);
-		if (error)
-		{
-			ft_putstr_fd(" numeric argument required", 2);
-			free(str);
-			exit(2);
-		}
-		//free_all(main);
-		exit(code);
 	}
-	else if (size > 2)
+	if (str)
+		code = ft_exitatoi(str, &error);
+	if (error)
 	{
-		ft_putstr_fd(" too many arguments", 2);
-		return (1);
+		ft_putstr_fd(" numeric argument required\n", 2);
+		free(str);
+		exit(2);
 	}
 	//free_all(main);
-	exit(0);
+	if (size > 2)
+	{
+		ft_putstr_fd(" too many arguments\n", 2);
+		return (1);
+	}
+	if (str)
+		free(str);
+	if (code)
+		exit(code);
+	//free_all(main);
+	exit(main->exit_code);
 }

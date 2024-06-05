@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 14:23:31 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/06/01 14:12:48 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/06/05 14:28:47 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ int	do_in(t_token *token, t_main *main, bool *heredoc)
 		}
 		else if (tmp->type == __here_doc)
 		{
-			main->heredoc_path = here_doc(tmp->value[1], main);
-			in = open_file(main->heredoc_path, 2);
+			here_doc(tmp->value[1], main);
+			in = open(main->heredoc_path, O_RDONLY, 0777);;
 			*heredoc = true;
 		}
 		tmp = tmp->next;

@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 10:20:37 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/05/21 14:04:09 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/06/04 15:56:13 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,12 @@ static int	get_home(t_env *env)
 
 static int	ft_cd_error(char *err_msg)
 {
-	ft_putstr_fd("minishell: cd: `", 2);
+	ft_putstr_fd("minishell: cd: ", 2);
 	ft_putstr_fd(err_msg, 2);
-	ft_putstr_fd("': No such file or directory\n", 2);
+	if (open(err_msg, O_RDONLY) > 0)
+		ft_putstr_fd(": Not a Directory\n", 2);
+	else
+		ft_putstr_fd(": No such file or directory\n", 2);
 	return (1);
 }
 

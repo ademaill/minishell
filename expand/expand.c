@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 15:50:46 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/06/03 11:42:54 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/06/04 13:24:57 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ char	*handle_next(int *i, char *tmp, char *str, t_main *main)
 		tmp[ft_strlen(tmp)] = '\'';
 		(*i)++;
 	}
+	//if (str[(*i)] == '"' && str[(*i) + 1] != '\0')
+	 //(*i)++;
 	return (tmp);
 }
 
@@ -66,7 +68,7 @@ char	*ft_handle_dollars(char *str, int *i, t_main *main)
 	}
 	else if (!ft_is_valid_var_char(str[*i]))
 	{
-		(*i)++;
+		//(*i)++;
 		tmp = ft_strdup("$");
 		return (tmp);
 	}
@@ -82,23 +84,16 @@ char	*ft_cmd_pre_expand(char *str, t_main *main)
 
 	ret = ft_strdup("");
 	i = 0;
-	while (str[i])
-	{
-		if (str[i] == '"' && str[ft_strlen(str) - 1] == '"')
-		{
-			dquotes = true;
-			break ;
-		}
-		dquotes = false;
-		i++;
-	}
+	dquotes = false;
 	i = 0;
 	while (str[i])
 	{
+		if (str[i] == '"' && str[ft_strlen(str) - 1] == '"')
+			dquotes = true;
 		if (str[i] == '$')
 			ret = ft_strjoin(ret, ft_handle_dollars(str, &i, main));
 		else if (str[i] == '"')
-			ret = ft_strjoin(ret, ft_handle_d_quotes(str, &i));
+			ret = ft_strjoin(ret, ft_handle_d_quotes(str, &i, dquotes));
 		else if (str[i] == '\'')
 			ret = ft_strjoin(ret, ft_handle_s_quotes(str, &i, dquotes));
 		else

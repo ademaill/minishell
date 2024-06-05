@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 15:46:21 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/06/03 15:13:44 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/06/05 13:48:35 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 
 int	g_sig_received;
 
-static void	status_exit(t_main *main, int pid)
+static void	status_exit(t_main *main, int pid, bool last)
 {
 	int	status;
 
@@ -32,7 +32,11 @@ static void	status_exit(t_main *main, int pid)
 			kill(pid, g_sig_received);
 		waitpid(pid, &status, 0);
 		if (WTERMSIG(status) == SIGQUIT)
-			printf(" Quit (Core dumped)\n");
+		{
+			main->exit_code = 131;
+			if (last)
+				ft_putstr_fd(" Quit (Core dumped)\n", 2);
+		}
 		if (WIFEXITED(status))
 			main->exit_code = WEXITSTATUS(status);
 	}
@@ -40,14 +44,25 @@ static void	status_exit(t_main *main, int pid)
 		main->exit_code = EXIT_FAILURE;
 }
 
-static char	*ft_get_prompt(void)
+static char	*ft_get_prompt(t_env *env)
 {
 	char	*tmp_pwd;
+	t_env	*tmp;
 	char	*prompt;
 
+	tmp = env;
 	tmp_pwd = NULL;
 	prompt = NULL;
-	tmp_pwd = getcwd(tmp_pwd, 0);
+	while (tmp)
+	{
+		if (ft_strncmp(tmp->key, "PWD", 4) == 0)
+			break ;
+		tmp = tmp->next;
+	}
+	if (tmp && tmp->value)
+		tmp_pwd = ft_strdup(tmp->value);
+	else
+		tmp_pwd = ft_strdup("");
 	tmp_pwd = ft_strjoin(tmp_pwd, "$ ");
 	if (!tmp_pwd)
 		return (NULL);
@@ -61,12 +76,13 @@ void	minishell_loop(t_main *main)
 	char	*buffer;
 	char	*prompt;
 	t_token	*tmp;
+	bool	last;
 	int		i;
 
 	while (1)
 	{
 		main->token = NULL;
-		prompt = ft_get_prompt();
+		prompt = ft_get_prompt(main->env);
 		buffer = readline(prompt);
 		if (g_sig_received == SIGINT)
 		{
@@ -75,7 +91,7 @@ void	minishell_loop(t_main *main)
 		}
 		if (buffer == NULL)
 			ft_fullexit(main->token);
-		if (buffer)
+		if (buffer && buffer[0] != '\0')
 			add_history(buffer);
 		free(prompt);
 		main->token = ft_tokenizer(buffer, main);
@@ -84,13 +100,16 @@ void	minishell_loop(t_main *main)
 			minishell_loop(main);
 		ft_exec(main);
 		i = 0;
+		last = false;
 		while (main->pid[i])
 		{
-			status_exit(main, main->pid[i]);
+			if (!main->pid[i + 1])
+				last = true;
+			status_exit(main, main->pid[i], last);
 			i++;
 		}
 		free(main->pid);
-		t_token	*arr;
+		/*t_token	*arr;
 		int	j;
 		j= 0;
 		i = 0;
@@ -118,7 +137,7 @@ void	minishell_loop(t_main *main)
 			else if (arr->type == 5)
 				printf("type : _append\n\n");
 			arr = arr->next;
-		}
+		}*/
 		i = 0;
 		while (main->token)
 		{
@@ -139,6 +158,8 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	data = malloc(sizeof(t_main));
 	ft_memset(data, 0, sizeof(t_main));
+	if (!envp[0])
+		data->envp = NULL;
 	data->envp = envp;
 	data->env = ft_env_int(data->envp);
 	ft_got_signal(1);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 11:34:02 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/06/03 14:58:27 by ademaill         ###   ########.fr       */
+/*   Updated: 2024/06/05 14:28:44 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ static void	ft_process(t_token *token, t_main *main, int *fd, bool last)
 	tab = NULL;
 	in = do_in(token, main, &heredoc);
 	out = do_out(token);
+	if (token->type != __cmdgr)
+		exit(0);
 	if (in)
 		dup2(in, STDIN_FILENO);
 	if (heredoc)
@@ -51,8 +53,8 @@ static void	ft_process(t_token *token, t_main *main, int *fd, bool last)
 		close(in);
 	if (out)
 		close(out);
-	close(fd[1]);
 	close(fd[0]);
+	close(fd[1]);
 	if (is_builtins(token) == 1)
 	{
 		exec_builtins(token, main);
@@ -75,7 +77,7 @@ int	check_parents_builtins(t_token *token, t_main *main)
 	else if (ft_strncmp(token->value[0], "cd", 3) == 0)
 		main->exit_code = ft_cd(main->token->value, main);
 	else if (ft_strncmp(token->value[0], "unset", 6) == 0)
-		main->exit_code = ft_unset(main->token->value, main->env);
+		main->exit_code = ft_unset(main->token->value, main);
 	else if (ft_strncmp(token->value[0], "export", 7) == 0 && token->value[1] && !token->prev && !token->next)
 		main->exit_code = ft_export(main->token->value, main);
 	else
@@ -145,6 +147,7 @@ int	ft_exec(t_main *main)
 	pipecount = 0;
 	tmp = main->token;
 	original_stdin = dup(STDIN_FILENO);
+	main->here_doc_stdin = dup(STDIN_FILENO);
 	while (tmp)
 	{
 		if (tmp->type == __pipe)
@@ -156,5 +159,6 @@ int	ft_exec(t_main *main)
 	ft_got_signal(1);
 	dup2(original_stdin, STDIN_FILENO);
 	close(original_stdin);
+	close(main->here_doc_stdin);
 	return (0);
 }

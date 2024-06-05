@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 10:47:46 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/06/01 14:12:59 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/06/05 14:29:02 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,19 @@ char	*f_path(char *cmd, char **envp)
 	char	*tmp;
 
 	i = 0;
-	while ((ft_strnstr(envp[i], "PATH", 4)) == 0)
+	if (!envp || !envp[0])
+		return(NULL);
+	while (envp[i] && (ft_strnstr(envp[i], "PATH", 4)) == 0)
+	{
+		if (envp[i] == NULL)
+		{
+			ft_putstr_fd("Error, Path not set.\n", 2);
+			exit(0);
+		}
 		i++;
+	}
+	if (!envp[i])
+		return(NULL);
 	all_paths = ft_split(envp[i] + 5, ':');
 	i = 0;
 	while (all_paths[i])
@@ -61,7 +72,7 @@ void	exec_cmd(char **cmd, char **envp)
 			ft_error(cmd[0], 127, " No such file or directory\n");
 		if (access(cmd[0], R_OK) != 0)
 			ft_error(cmd[0], 126, " Permission denied\n");
- 		if (execve(cmd[0], cmd, envp) == -1)
+ 		if (access(cmd[0], X_OK) != 0)
 			ft_error(cmd[0], 126, " command not found\n");
 	}
 	else
