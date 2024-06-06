@@ -8,9 +8,11 @@ SRCS = execution/pipex.c \
 		execution/here_doc_utils.c \
 		execution/get_next_line/get_next_line.c \
 		execution/get_next_line/get_next_line_utils.c \
+		execution/ft_process.c \
 		lexer/lexer.c \
 		lexer/lexer_utils.c \
 		lexer/ft_split_ms.c \
+		lexer/ft_cmd_type.c \
 		builtins/env_utils.c \
 		builtins/ft_cd.c \
 		builtins/ft_echo.c \
@@ -19,7 +21,9 @@ SRCS = execution/pipex.c \
 		builtins/ft_pwd.c \
 		builtins/ft_unset.c \
 		builtins/ft_exit.c \
+		builtins/ft_value.c \
 		builtins/utils.c \
+		builtins/ft_export_list.c \
 		expand/expand_utils.c \
 		expand/expand.c \
 		prompt/prompt.c \

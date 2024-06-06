@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 14:47:48 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/06/05 16:23:49 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/06/06 16:35:27 by ademaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ int	ft_echo(char **av)
 		ft_putstr_fd(str, 1);
 		if (av[i + 1])
 			ft_putstr_fd(" ", 1);
+		free(str);
 		i++;
 	}
 	if (option == 0)

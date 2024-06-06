@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 15:38:51 by ademaill          #+#    #+#             */
-/*   Updated: 2024/06/05 18:30:21 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/06/06 13:20:50 by ademaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,7 @@ int		ft_token_join(t_token *src, t_token *add, int j);
 char	**ft_split_ms(char *str, char *sep);
 void	clear_token(t_main *main);
 void	go_regroup(t_main *main);
+void	ft_cmd_type(t_main *main);
+void	token_type(t_token *token, t_main *main);
 
 #endif

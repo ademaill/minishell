@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split_ms.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 16:38:21 by ademaill          #+#    #+#             */
-/*   Updated: 2024/06/05 18:15:30 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/06/06 16:37:25 by ademaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static int	get_next_sep(char *str, char *sep)
 		{
 			while (str[i] == ' ' || str[i] == '	')
 				++i;
-			while(str[i] && !ft_strchr(" <|>", str[i]))
+			while (str[i] && !ft_strchr(" <|>", str[i]))
 				i += quotes_jump(&str[i]) + 1;
 		}
 		return (i);
@@ -103,9 +103,7 @@ char	**ft_split_ms(char *str, char *sep)
 		j = get_next_sep(&str[i], sep);
 		tab[++k] = ft_strndup(&str[i], j);
 		if (!tab[k])
-		{
 			return (NULL);
-		}
 		i += j;
 	}
 	if (str)

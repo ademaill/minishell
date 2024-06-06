@@ -3,14 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 10:47:46 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/06/05 15:42:25 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/06/06 19:58:36 by ademaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+static void	while_path(char **envp, int *i)
+{
+	while (envp[(*i)] && (ft_strnstr(envp[(*i)], "PATH", 4)) == 0)
+	{
+		if (envp[(*i)] == NULL)
+		{
+			ft_putstr_fd("Error, Path not set.\n", 2);
+			exit(0);
+		}
+		(*i)++;
+	}
+}
 
 char	*f_path(char *cmd, char **envp)
 {
@@ -20,25 +33,17 @@ char	*f_path(char *cmd, char **envp)
 	char	*tmp;
 
 	i = 0;
-	if (!envp || !envp[0])
-		return(NULL);
-	while (envp[i] && (ft_strnstr(envp[i], "PATH", 4)) == 0)
-	{
-		if (envp[i] == NULL)
-		{
-			ft_putstr_fd("Error, Path not set.\n", 2);
-			exit(0);
-		}
-		i++;
-	}
+	if (envp || envp[0])
+		return (NULL);
+	while_path(envp, &i);
 	if (!envp[i])
-		return(NULL);
+		return (NULL);
 	all_paths = ft_split(envp[i] + 5, ':');
 	i = 0;
 	while (all_paths[i])
 	{
-		tmp = ft_strjoin(all_paths[i], "/");
-		path = ft_strjoin(tmp, cmd);
+		tmp = ft_strjoin(all_paths[i], "/", false);
+		path = ft_strjoin(tmp, cmd, false);
 		free(tmp);
 		if (access(path, F_OK) == 0)
 			return (path);
@@ -54,43 +59,6 @@ void	ft_error(char *str, int code, char *error)
 	ft_putstr_fd(error, 2);
 	free(str);
 	exit(code);
-}
-
-void	exec_cmd(char **cmd, char **envp)
-{
-	char	*path;
-	char	*tmp;
-	DIR*	directory;
-	tmp = NULL;
-
-	if (cmd[0][0] == '/' || (cmd[0][0] == '.' && cmd[0][1] == '/'))
-	{
-		directory = opendir(cmd[0]);
-		if(directory != NULL)
-			ft_error(cmd[0], 126, " Is a directory\n");
-		if (access(cmd[0], F_OK) != 0)
-			ft_error(cmd[0], 127, " No such file or directory\n");
-		if (access(cmd[0], R_OK) != 0)
-			ft_error(cmd[0], 126, " Permission denied\n");
- 		if (execve(cmd[0], cmd, envp) != 0)
-			ft_error(cmd[0], 126, " command not found\n");
-	}
-	else
-	{
-		path = f_path(cmd[0], envp);
-		if (!path)
-		{
-			tmp = ft_strdup(cmd[0]);
-			free_tab(cmd);
-			ft_error(tmp, 127, " command not found\n");
-		}
-		if (execve(path, cmd, envp) == -1)
-		{
-			tmp = cmd[0];
-			free(path);
-			ft_error(tmp, EXIT_FAILURE, " command not found\n");
-		}
-	}
 }
 
 int	open_file(char *name, int i)
@@ -111,12 +79,12 @@ int	open_file(char *name, int i)
 
 t_token	*ft_find(t_token *token, int i)
 {
-	int	count;
+	int		count;
 	t_token	*tmp;
 
 	count = 0;
 	tmp = token;
-	while (token)
+	while (token && token->next)
 	{
 		if (token->type == __cmdgr)
 			count++;
@@ -124,5 +92,7 @@ t_token	*ft_find(t_token *token, int i)
 			return (token);
 		token = token->next;
 	}
-	return (tmp);
+	if (!token->next)
+		return (token);
+	return(tmp);
 }

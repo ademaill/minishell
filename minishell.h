@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 15:48:14 by ademaill          #+#    #+#             */
-/*   Updated: 2024/06/05 14:28:43 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/06/06 18:22:18 by ademaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <unistd.h>
 # include <stdbool.h>
 # include <signal.h>
+#include <stdio.h>
 # include <dirent.h>
 #include <readline/readline.h>
 #include <readline/history.h>
@@ -42,8 +43,9 @@ typedef struct s_main
 	int		pipe_count;
 	int		here_doc_stdin;
 	int		*pid;
+	int		original_stdin;
 	char	**envp;
-	char	*heredoc_path;
+	char	*hpath;
 }	t_main;
 
 void	*ft_garbage_collector(void *ptr, bool clean);
@@ -65,7 +67,7 @@ char	*ft_handle_d_quotes(char *str, int *i, bool dquotes);
 char	*ft_handle_str(char *str, int *i);
 void	minishell_loop(t_main *main);
 t_token	*ft_tokenizer(char *line, t_main *main);
-void	ft_fullexit(t_token *token);
+void	ft_fullexit(t_token *token, char *prompt);
 char	*ft_cmd_pre_expand(char *str, t_main *main);
 int		ft_exec(t_main *main);
 void	exec_builtins(t_token *token, t_main *main);
@@ -73,5 +75,8 @@ int		is_builtins(t_token *token);
 char	*clean_str(char *str);
 void	ft_got_signal(int handle);
 void	free_all(t_main *main);
+char	*ft_value(char *str);
+void	ft_export_list(t_main *main);
+char	*skip_dquotes(char *str, int *i);
 
 #endif

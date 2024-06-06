@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:43:20 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/05/30 17:13:07 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/06/06 15:09:30 by ademaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	*rand_path(void)
 	if (r == -1)
 		ft_error(buff, 126, " No such file or directory\n");
 	buff[15] = '\0';
-	path = ft_strjoin("/tmp/minish_here_doc_", buff);
+	path = ft_strjoin("/tmp/minish_here_doc_", buff, false);
 	if (path == NULL)
 		ft_error(path, EXIT_FAILURE, " No such file or directory\n");
 	close(fd);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 14:36:27 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/06/05 16:17:38 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/06/05 19:19:42 by ademaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,43 +39,6 @@ char	*ft_key(char *str)
 		i++;
 	}
 	return (key);
-}
-
-char	*ft_value(char *str)
-{
-	int		i;
-	int		j;
-	char	*value;
-
-	i = 0;
-	j = 0;
-	value = NULL;
-	while (str[i++])
-	{
-		if (str[i] == '=')
-		{
-			value = malloc(sizeof(char) * (ft_strlen(str) - i));
-			if (!value)
-				return (NULL);
-			i++;
-			if (str[i] == '"')
-				i++;
-			while (str[i] != '\0')
-			{
-				if (str[i] == '"')
-					break ;
-				value[j++] = str[i++];
-			}
-		}
-		if (str[i] == '\0')
-		{
-			if (!value)
-				return (NULL);
-			break ;
-		}
-	}
-	value[j] = '\0';
-	return (value);
 }
 
 t_env	*ft_lst_env_new(char *key, char *value)
@@ -128,7 +91,6 @@ t_env	*ft_env_int(char **envp)
 		ft_lstadd_back_env(&lst, ft_lst_env_new(key, value));
 		i++;
 	}
-	//sort_lst(&lst);
 	return (lst);
 }
 
