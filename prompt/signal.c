@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 13:47:04 by ademaill          #+#    #+#             */
-/*   Updated: 2024/06/05 14:29:05 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/06/06 14:15:11 by ademaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	handle_fork(int sgn);
 void	handle_signal(int sgn, siginfo_t *info, void *context);
-
 
 void	ft_got_signal(int handle)
 {
@@ -40,15 +39,6 @@ void	handle_fork(int sgn)
 	g_sig_received = sgn;
 	printf("\n");
 }
-
-/*void	handle_signal(int sgn)
-{
-	g_sig_received = sgn;
-	printf("\n");
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-}*/
 
 void	handle_signal(int sgn, siginfo_t *info, void *context)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 11:36:21 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/06/05 14:28:44 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/06/06 17:53:36 by ademaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 typedef struct s_main	t_main;
 typedef struct s_env	t_env;
 
-void	exec_cmd(char **cmd, char **envp);
+void	exec_cmd(char **cmd, char **envp, t_main *main);
 void	ft_error(char *str, int code, char *error);
 int		open_file(char	*name, int i);
 void	here_doc(char *limiter, t_main *main);
@@ -42,5 +42,7 @@ int		ft_export(char **av, t_main *main);
 int		ft_pwd(void);
 int		ft_exit(t_main *main, char **value);
 char	*clean_str(char *str);
+void	ft_process(t_token *token, t_main *main, int *fd, bool last);
+char	*f_path(char *cmd, char **envp);
 
 #endif

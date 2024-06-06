@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 11:14:47 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/06/05 16:15:15 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/06/06 13:25:32 by ademaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,54 +47,42 @@ bool	ft_env_exists(char *key, t_main *main)
 	}
 	return (false);
 }
+//pas sur du void
 
-static	void	ft_export_list(t_main *main)
+static void	export_condition(char **av, int *i, t_main *main)
 {
-	t_env	*list;
-	int		i;
-	int		k_s;
+	char	*key;
+	t_env	*env;
+	t_env	*head;
 
-	list = main->env;
-	sort_lst(&list);
-	while (list)
+	env = main->env;
+	head = main->env;
+	key = ft_key(av[(*i)]);
+	if (ft_env_exists(key, main))
 	{
-		k_s = ft_strlen(list->key);
-		if (list->value != NULL && (ft_strncmp(list->key, "_", k_s) != 0))
+		while (env)
 		{
-			if (!list->value)
-				printf("declare -x %s\"", list->key);
-			else
+			if (ft_strncmp(key, env->key, ft_strlen(key)) == 0)
 			{
-				printf("declare -x %s=\"", list->key);
-				i = 0;
-				while (list->value[i])
-				{
-					if (list->value[i] == '$' || list->value[i] == '"')
-						printf("\\%c", list->value[i++]);
-					else
-						printf("%c", list->value[i++]);
-				}
-				printf("\"\n");
+				if (find_char(av[(*i)], '=') == 1)
+					env->value = ft_value(av[(*i)]);
+				break ;
 			}
+			env = env->next;
 		}
-		else if (list->value == NULL && (ft_strncmp(list->key, "_", k_s) != 0))
-			printf("declare -x %s\n", list->key);
-		list = list->next;
 	}
+	else
+		ft_lstadd_back_env(&env, ft_lst_env_new(key, ft_value(av[(*i)])));
+	main->env = head;
 }
 
 int	ft_export(char **av, t_main *main)
 {
-	char	*key;
 	int		i;
 	int		error_s;
-	t_env	*env;
-	t_env	*head;
 
 	i = 1;
 	error_s = 0;
-	env = main->env;
-	head = main->env;
 	if (!av[1])
 	{
 		ft_export_list(main);
@@ -105,25 +93,7 @@ int	ft_export(char **av, t_main *main)
 		if (check_key(av[i]) == 0)
 			error_s = ft_export_error(av[i]);
 		else
-		{
-			key = ft_key(av[i]);
-			if (ft_env_exists(key, main))
-			{
-				while (env)
-				{
-					if (ft_strncmp(key, env->key, ft_strlen(key)) == 0)
-					{
-						if (find_char(av[i], '=') == 1)
-							env->value = ft_value(av[i]);
-						break ;
-					}
-					env = env->next;
-				}
-			}
-			else
-				ft_lstadd_back_env(&env, ft_lst_env_new(key, ft_value(av[i])));
-			main->env = head;
-		}
+			export_condition(av, &i, main);
 		i++;
 	}
 	return (error_s);

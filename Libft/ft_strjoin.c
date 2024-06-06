@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 14:36:06 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/06/04 13:51:37 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/06/06 15:08:05 by ademaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static char	*ft_strcat(char const *dest, char const *src, char *str)
 	return (str);
 }
 
-char	*ft_strjoin(char *s1, char *s2)
+char	*ft_strjoin(char *s1, char *s2, bool mal)
 {
 	size_t	size;
 	char	*str;
@@ -49,5 +49,10 @@ char	*ft_strjoin(char *s1, char *s2)
 	if (!str)
 		return (NULL);
 	str = ft_strcat(s1, s2, str);
+	if (mal)
+	{
+		free(s1);
+		free(s2);
+	}
 	return (str);
 }

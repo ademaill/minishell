@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 11:31:45 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/06/05 18:43:23 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/06/06 14:59:36 by ademaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include "lexer.h"
 
-/*void	free_all(t_main *main)
+void	free_all(t_main *main)
 {
 	int		i;
 	t_token	*tmp;
@@ -31,11 +31,9 @@
 			free(tmpe->value);
 			free(tmpe);
 		}
-		free(main->token);
 	}
 	if (main->token)
 	{
-		i = 0;
 		while (main->token)
 		{
 			tmp = main->token;
@@ -43,12 +41,11 @@
 			free_tab(tmp->value);
 			free(tmp);
 		}
-		free(main->token);
 	}
 	if (main->pid)
 		free(main->pid);
 	free(main);
-}*/
+}
 
 void	regroup(t_token *token, t_token	*tmp, t_token *tmp2, t_token *tmp3)
 {
@@ -79,7 +76,7 @@ void	regroup(t_token *token, t_token	*tmp, t_token *tmp2, t_token *tmp3)
 
 void	go_regroup(t_main *main)
 {
-	t_token *token;
+	t_token	*token;
 	t_token	*tmp;
 	t_token	*tmp2;
 	t_token	*tmp3;
@@ -88,7 +85,7 @@ void	go_regroup(t_main *main)
 	tmp2 = NULL;
 	tmp3 = NULL;
 	token = main->token;
-	while(token)
+	while (token)
 	{
 		if (token->type == __cmdgr)
 			regroup(token, tmp, tmp2, tmp3);

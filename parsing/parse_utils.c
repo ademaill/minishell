@@ -3,41 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 11:36:12 by ademaill          #+#    #+#             */
-/*   Updated: 2024/06/03 11:02:12 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/06/06 14:12:26 by ademaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-/*void	str_modify(t_token *token)
-{
-	char	*str;
-	char	*tmp;
-	int		i;
-
-	tmp = ft_calloc(sizeof(char ), ft_strlen(token->value[0]));
-	token->value[1] = ft_calloc(sizeof(char *), 1);
-	i = 1;
-	str = token->value[0];
-	while (str[i])
-	{
-		tmp[i - 1] = str[i];
-		i++;
-	}
-	token->value[0][0] = str[0];
-	token->value[0][1] = '\0';
-	i = 0;
-	while (tmp[i])
-	{
-		token->value[1][i] = tmp[i];
-		i++;
-	}
-	token->value[1][i] = '\0';
-	token->value[2] = NULL;
-}*/
 void	str_modify(t_token *token)
 {
 	char	**tab;
@@ -51,7 +25,7 @@ void	str_modify(t_token *token)
 	tab[0] = ft_calloc(sizeof(char), 2);
 	tab[0][0] = token->value[0][0];
 	tab[1] = ft_calloc(sizeof(char), ft_strlen(token->value[0]));
-	while(token->value[0][i] && token->value[0][i + 1])
+	while (token->value[0][i] && token->value[0][i + 1])
 	{
 		tab[1][i] = token->value[0][i + 1];
 		i++;
@@ -67,7 +41,6 @@ void	str_modify(t_token *token)
 	token->value = tab;
 }
 
-
 void	str_modify2(t_token *token)
 {
 	char	**tab;
@@ -82,7 +55,7 @@ void	str_modify2(t_token *token)
 	tab[0][0] = token->value[0][0];
 	tab[0][1] = token->value[0][1];
 	tab[1] = ft_calloc(sizeof(char), ft_strlen(token->value[0]));
-	while(token->value[0][i] && token->value[0][i + 1])
+	while (token->value[0][i] && token->value[0][i + 1])
 	{
 		tab[1][i] = token->value[0][i + 2];
 		i++;
@@ -90,11 +63,7 @@ void	str_modify2(t_token *token)
 	i = 1;
 	j = 2;
 	while (i < size)
-	{
-		tab[j] = ft_strdup(token->value[i]);
-		i++;
-		j++;
-	}
+		tab[j++] = ft_strdup(token->value[i++]);
 	token->value = tab;
 }
 
@@ -122,4 +91,45 @@ void	error_parse(char *str, t_token *token, t_main *main)
 	ft_putstr_fd("Error synthax,\n", 2);
 	ft_putstr_fd(str, 2);
 	minishell_loop(main);
+}
+
+static char	*skip_again(char *str_clean, char *str, int dquotes, int *i)
+{
+	int	j;
+
+	j = 0;
+	str_clean = ft_calloc(sizeof(char), ft_strlen(str) - dquotes + 1);
+	(*i)++;
+	while (str[(*i)] && str[(*i)] != '"')
+	{
+		str_clean[j++] = str[(*i)++];
+	}
+	str_clean[j] = '\0';
+	if (str[(*i)])
+		(*i)++;
+	return (str_clean);
+}
+
+char	*skip_dquotes(char *str, int *i)
+{
+	char	*str_clean;
+	int		d;
+	int		dquotes;
+
+	dquotes = 0;
+	d = 0;
+	str_clean = NULL;
+	while (str[d])
+	{
+		if (str[d] == '"')
+			dquotes++;
+		d++;
+	}
+	if (dquotes % 2 != 0)
+	{
+		ft_putstr_fd("Symtax error, quote unclosed\n", 2);
+		exit(0);
+	}
+	str_clean = skip_again(str_clean, str, dquotes, i);
+	return (str_clean);
 }

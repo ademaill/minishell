@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 09:05:06 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/06/05 14:28:45 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/06/06 18:43:23 by ademaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,39 +43,56 @@ static char	*ft_expand_here_doc(char *str, t_main *main)
 	while (str[i])
 	{
 		if (str[i] == '$')
-			ret = ft_strjoin(ret, ft_handle_dollars(str, &i, main));
+			ret = ft_strjoin(ret, ft_handle_dollars(str, &i, main), true);
 		else if (str[i] == '"')
-			ret = ft_strjoin(ret, ft_handle_d_quotes(str, &i, true));
+			ret = ft_strjoin(ret, ft_handle_d_quotes(str, &i, true), true);
 		else if (str[i] == '\'')
-			ret = ft_strjoin(ret, ft_handle_s_quotes(str, &i, true));
+			ret = ft_strjoin(ret, ft_handle_s_quotes(str, &i, true), true);
 		else
-			ret = ft_strjoin(ret, ft_handle_str(str, &i));
+			ret = ft_strjoin(ret, ft_handle_str(str, &i), true);
 	}
+	free(str);
 	return (ret);
 }
 
-/*static char	*clean_limiter(char *limiter)
+static char	*while_here_doc(t_main *main, char *limiter, int fd)
 {
-	int		i;
-	char	*str;
-	int		j;
+	char	*line;
+	char	*tmp;
 
-	i = 0;
-	j = 0;
-	str = ft_calloc(sizeof(char), ft_strlen(limiter) + 1);
-	if (!str)
-		return (NULL);
-	if (limiter[i] == '"')
-		i++;
-	while (limiter[i] && limiter[i] != '"')
+	line = NULL;
+	tmp = NULL;
+	while (1)
 	{
-		str[j] = limiter[i];
-		i++;
-		j++;
+		//signal(SIGINT, &handle_signal_here_doc);
+		//gnal(SIGQUIT, SIG_IGN);
+		line = readline("> ");
+		tmp = clean_str(limiter);
+		if (!line)
+		{
+			ft_putstr_fd("here-document delimited by end-of-file (wanted `", 2);
+			ft_putstr_fd(tmp, 2);
+			ft_putstr_fd("')\n", 2);
+			free(tmp);
+			break ;
+		}
+		if (ft_strncmp(line, tmp, ft_strlen(limiter)) == 0
+			&& (ft_strlen(line)) == ft_strlen(limiter))
+		{
+			free(tmp);
+			break ;
+		}
+		if ((limiter[0] != '"' && limiter[ft_strlen(limiter) - 1] != '"')
+			&& (limiter[0] != '\''
+				&& limiter[ft_strlen(limiter) - 1] != '\''))
+			line = ft_expand_here_doc(line, main);
+		write(fd, line, ft_strlen(line));
+		write(fd, "\n", 1);
+		free(line);
+		free(tmp);
 	}
-	str[j] = '\0';
-	return (str);
-}*/
+	return (line);
+}
 
 void	here_doc(char *limiter, t_main *main)
 {
@@ -84,30 +101,11 @@ void	here_doc(char *limiter, t_main *main)
 
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, &handle_signal_here_doc);
-	main->heredoc_path = rand_path();
-	fd = open(main->heredoc_path, O_CREAT | O_TRUNC | O_WRONLY | O_APPEND, 0644);
+	main->hpath = rand_path();
+	fd = open(main->hpath, O_CREAT | O_TRUNC | O_WRONLY | O_APPEND, 0644);
 	dup2(main->here_doc_stdin, STDIN_FILENO);
-	while (1)
-	{
-		signal(SIGINT, &handle_signal_here_doc);
-		signal(SIGQUIT, SIG_IGN);
-		line = readline("> ");
-		if (!line)
-		{
-			ft_putstr_fd("bash: warning: ", 2);
-			ft_putstr_fd("here-document delimited by end-of-file (wanted `", 2);
-			ft_putstr_fd(clean_str(limiter), 2);
-			ft_putstr_fd("')\n", 2);
-			break;
-		}
-		if (ft_strncmp(line, clean_str(limiter), ft_strlen(limiter)) == 0 && (ft_strlen(line)) == ft_strlen(limiter))
-			break ;
-		if ((limiter[0] != '"' && limiter[ft_strlen(limiter) - 1] != '"') && (limiter[0] != '\'' && limiter[ft_strlen(limiter) - 1] != '\''))
-			line = ft_expand_here_doc(line, main);
-		write(fd, line, ft_strlen(line));
-		write(fd, "\n", 1);
-		free(line);
-	}
+	line = while_here_doc(main, limiter, fd);
 	free(line);
+	free(limiter);
 	close(fd);
 }

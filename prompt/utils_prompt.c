@@ -6,13 +6,13 @@
 /*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 13:03:20 by ademaill          #+#    #+#             */
-/*   Updated: 2024/05/31 14:00:10 by ademaill         ###   ########.fr       */
+/*   Updated: 2024/06/06 14:50:09 by ademaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_fullexit(t_token *token)
+void	ft_fullexit(t_token *token, char *prompt)
 {
 	t_token	*tmp;
 	int		i;
@@ -35,6 +35,7 @@ void	ft_fullexit(t_token *token)
 		}
 		free (token);
 	}
+	free(prompt);
 	printf("exit\n");
 	exit(EXIT_SUCCESS);
 }
