@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:36:44 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/06/06 15:01:19 by ademaill         ###   ########.fr       */
+/*   Updated: 2024/06/06 20:26:29 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,8 @@ int	ft_exit(t_main *main, char **value)
 	i = 0;
 	str = NULL;
 	size = ft_len_tab(value);
+	close(main->original_stdin);
+	close(main->here_doc_stdin);
 	if (value[1])
 		str = clean_str(value[1]);
 	if (!str && size == 2)

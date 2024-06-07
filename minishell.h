@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 15:48:14 by ademaill          #+#    #+#             */
-/*   Updated: 2024/06/06 18:22:18 by ademaill         ###   ########.fr       */
+/*   Updated: 2024/06/07 11:43:36 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct s_main
 	t_env	*env;
 	t_token	*token;
 	int		exit_code;
+	int		fd[2];
 	int		pipe_count;
 	int		here_doc_stdin;
 	int		*pid;

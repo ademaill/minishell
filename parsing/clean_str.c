@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean_str.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 11:00:56 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/06/06 17:00:21 by ademaill         ###   ########.fr       */
+/*   Updated: 2024/06/07 10:52:06 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,8 @@ char	*clean_str(char *str)
 	int		i;
 
 	i = 0;
+	if (!str)
+		return (NULL);
 	str_clean = NULL;
 	while (str[i])
 	{

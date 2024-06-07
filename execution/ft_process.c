@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_process.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 20:08:40 by ademaill          #+#    #+#             */
-/*   Updated: 2024/06/06 17:53:45 by ademaill         ###   ########.fr       */
+/*   Updated: 2024/06/06 22:18:56 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,10 @@ static void	end_process(int *fd, t_token *token, t_main *main)
 	tab = NULL;
 	close(fd[0]);
 	close(fd[1]);
+	close(main->original_stdin);
+	close(main->here_doc_stdin);
+	if (token->type != __cmdgr)
+		exit(0);
 	if (is_builtins(token) == 1)
 	{
 		exec_builtins(token, main);
@@ -56,8 +60,6 @@ void	ft_process(t_token *token, t_main *main, int *fd, bool last)
 	heredoc = false;
 	out = do_out(token);
 	in = do_in(token, main, &heredoc);
-	if (token->type != __cmdgr)
-		exit(0);
 	if (in)
 		dup2(in, STDIN_FILENO);
 	if (heredoc)

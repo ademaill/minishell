@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_pipe.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 09:58:48 by ademaill          #+#    #+#             */
-/*   Updated: 2024/06/06 14:11:57 by ademaill         ###   ########.fr       */
+/*   Updated: 2024/06/07 11:03:13 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ void	parse_here_doc(t_token *token, t_main *main)
 		if (token->value[1] && token->value[1][0] == '|')
 			error_parse("Here_doc cannot be followed by a pipe\n", token, main);
 	}
+	if (!token->value[1])
+		error_parse("Here_doc need limiter\n", token, main);
 	token->type = __here_doc;
 }
 
@@ -60,13 +62,16 @@ static void	parse_out(t_token *token, t_main *main)
 		error_parse(" syntax error near unexpected token\n", token, main);
 	if (!token->value[1])
 		error_parse("Redirect need file\n", token, main);
-	if (!open(token->value[1], O_RDONLY))
-		error_parse("File doesn't exist\n", token, main);
 	token->type = __redirect_out;
 }
 
 void	parse_redirect(t_token *token, t_main *main)
 {
+	char	*tmp;
+
+	tmp = NULL;
+	if (token->value[1])
+		tmp = clean_str(token->value[1]);
 	if (token->value[0][0] == '<')
 	{
 		if (token->value[0][1] != '\0')
@@ -78,10 +83,11 @@ void	parse_redirect(t_token *token, t_main *main)
 			error_parse(" syntax error near unexpected token\n", token, main);
 		if (!token->value[1])
 			error_parse("Redirect need file\n", token, main);
-		if (!open(token->value[1], O_RDONLY))
+		if (access(tmp, F_OK) != 0)
 			error_parse("File doesn't exist\n", token, main);
 		token->type = __redirect_in;
 	}
+	free(tmp);
 	if (token->value[0][0] == '>')
 		parse_out(token, main);
 }
@@ -103,5 +109,7 @@ void	parse_append(t_token *token, t_main *main)
 		if (token->value[1] && token->value[1][0] == '|')
 			error_parse("Append cannot be followed by a pipe\n", token, main);
 	}
+	if (!token->value[1])
+		error_parse("Append need file\n", token, main);
 	token->type = __append;
 }

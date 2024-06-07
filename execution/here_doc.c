@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 09:05:06 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/06/06 18:43:23 by ademaill         ###   ########.fr       */
+/*   Updated: 2024/06/07 14:00:28 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 void	handle_signal_here_doc(int sgn)
 {
 	g_sig_received = sgn;
-	exit(1);
+	//(void)sgn;
+	close(STDIN_FILENO);
 }
 
 void	handle_signal_here(int sgn)
@@ -65,9 +66,20 @@ static char	*while_here_doc(t_main *main, char *limiter, int fd)
 	while (1)
 	{
 		//signal(SIGINT, &handle_signal_here_doc);
-		//gnal(SIGQUIT, SIG_IGN);
-		line = readline("> ");
+		//signal(SIGQUIT, SIG_IGN);
 		tmp = clean_str(limiter);
+		line = readline("> ");
+		if (g_sig_received == SIGINT)
+		{
+			g_sig_received = 0;
+			close(fd);
+			close(main->fd[0]);
+			close(main->fd[1]);
+			dup2(main->original_stdin, STDIN_FILENO);
+			close(main->original_stdin);
+			close(main->here_doc_stdin);
+			exit(0);
+		}
 		if (!line)
 		{
 			ft_putstr_fd("here-document delimited by end-of-file (wanted `", 2);
@@ -76,7 +88,7 @@ static char	*while_here_doc(t_main *main, char *limiter, int fd)
 			free(tmp);
 			break ;
 		}
-		if (ft_strncmp(line, tmp, ft_strlen(limiter)) == 0
+		else if (ft_strncmp(line, tmp, ft_strlen(limiter)) == 0
 			&& (ft_strlen(line)) == ft_strlen(limiter))
 		{
 			free(tmp);
@@ -91,7 +103,7 @@ static char	*while_here_doc(t_main *main, char *limiter, int fd)
 		free(line);
 		free(tmp);
 	}
-	return (line);
+	return(line);
 }
 
 void	here_doc(char *limiter, t_main *main)
@@ -106,6 +118,9 @@ void	here_doc(char *limiter, t_main *main)
 	dup2(main->here_doc_stdin, STDIN_FILENO);
 	line = while_here_doc(main, limiter, fd);
 	free(line);
+	if (g_sig_received != SIGINT)
+		close(STDIN_FILENO);
 	free(limiter);
 	close(fd);
+	ft_got_signal(1);
 }

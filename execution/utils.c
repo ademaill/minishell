@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 10:47:46 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/06/06 19:58:36 by ademaill         ###   ########.fr       */
+/*   Updated: 2024/06/07 13:14:34 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char	*f_path(char *cmd, char **envp)
 	char	*tmp;
 
 	i = 0;
-	if (envp || envp[0])
+	if (!envp || !envp[0])
 		return (NULL);
 	while_path(envp, &i);
 	if (!envp[i])
@@ -77,20 +77,27 @@ int	open_file(char *name, int i)
 	return (file);
 }
 
-t_token	*ft_find(t_token *token, int i)
+t_token	*ft_find(t_token *token, int i, int pipecount)
 {
 	int		count;
+	int		pipe;
 	t_token	*tmp;
 
 	count = 0;
+	pipe = 1;
+	//(void)pipecount;
 	tmp = token;
 	while (token && token->next)
 	{
+		if (token->type == __pipe)
+			pipe++;
 		if (token->type == __cmdgr)
 			count++;
 		if (count == i)
 			return (token);
 		token = token->next;
+		if (pipe == pipecount + 1 && !token->next)
+			return(token);
 	}
 	if (!token->next)
 		return (token);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 11:36:21 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/06/06 17:53:36 by ademaill         ###   ########.fr       */
+/*   Updated: 2024/06/07 12:05:49 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	ft_error(char *str, int code, char *error);
 int		open_file(char	*name, int i);
 void	here_doc(char *limiter, t_main *main);
 char	*rand_path(void);
-t_token	*ft_find(t_token *token, int i);
+t_token	*ft_find(t_token *token, int i, int pipecount);
 int		do_in(t_token *token, t_main *main, bool *heredoc);
 int		do_out(t_token *token);
 int		ft_cd(char **path, t_main *main);

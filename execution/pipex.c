@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 11:34:02 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/06/06 19:56:17 by ademaill         ###   ########.fr       */
+/*   Updated: 2024/06/07 13:44:44 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,29 +35,28 @@ int	check_parents_builtins(t_token *token, t_main *main)
 int	mult_process(t_token *token, t_main *main, bool last)
 {
 	pid_t	rd;
-	int		fd[2];
 
 	if (check_parents_builtins(token, main))
 		return (0);
-	if (pipe(fd) == -1)
+	if (pipe(main->fd) == -1)
 		ft_error("error pipe", EXIT_FAILURE, "pipe\n");
 	rd = fork();
 	if (rd == -1)
 		ft_error("error fork", EXIT_FAILURE, "fork\n");
 	if (rd == 0)
 	{
-		close(main->original_stdin);
-		close(main->here_doc_stdin);
-		ft_process(token, main, fd, last);
+		ft_got_signal(0);
+		ft_process(token, main, main->fd, last);
 	}
 	else
 	{
 		if (!last)
-			dup2(fd[0], STDIN_FILENO);
+			dup2(main->fd[0], STDIN_FILENO);
 		else
 			close(STDIN_FILENO);
-		close(fd[0]);
-		close(fd[1]);
+		ft_got_signal(1);
+		close(main->fd[0]);
+		close(main->fd[1]);
 		return (rd);
 	}
 	return (0);
@@ -79,7 +78,7 @@ void	mult_pipe(int pipecount, t_main *main)
 		last = false;
 		if (i == pipecount + 1)
 			last = true;
-		tmp = ft_find(main->token, i);
+		tmp = ft_find(main->token, i, pipecount);
 		main->pid[j] = mult_process(tmp, main, last);
 		j++;
 		i++;
@@ -102,9 +101,7 @@ int	ft_exec(t_main *main)
 			pipecount++;
 		tmp = tmp->next;
 	}
-	ft_got_signal(0);
 	mult_pipe(pipecount, main);
-	ft_got_signal(1);
 	dup2(main->original_stdin, STDIN_FILENO);
 	close(main->original_stdin);
 	close(main->here_doc_stdin);

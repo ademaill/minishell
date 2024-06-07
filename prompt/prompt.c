@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 15:46:21 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/06/06 20:01:39 by ademaill         ###   ########.fr       */
+/*   Updated: 2024/06/07 10:59:09 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static char	*ft_get_prompt(t_env *env)
 	prompt = NULL;
 	while (tmp)
 	{
-		if (ft_strncmp(tmp->key, "PWD", 4) == 0)
+		if (ft_strncmp(tmp->key, "PWD", 3) == 0)
 			break ;
 		tmp = tmp->next;
 	}
@@ -129,6 +129,8 @@ int	main(int ac, char **av, char **envp)
 
 	(void)ac;
 	(void)av;
+	if (g_sig_received)
+		printf("lala");
 	data = malloc(sizeof(t_main));
 	ft_memset(data, 0, sizeof(t_main));
 	if (!envp[0])
