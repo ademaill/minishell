@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 15:50:46 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/06/06 16:50:33 by ademaill         ###   ########.fr       */
+/*   Updated: 2024/06/13 18:45:24 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char	*handle_next(int *i, char *tmp, char *str, t_main *main)
 	tmp = ft_strdup(env_val);
 	if (str[*i] == '\'')
 	{
-		tmp[ft_strlen(tmp)] = '\'';
+		tmp = ft_strjoin(tmp, ft_strdup("\'"), true);
 		(*i)++;
 	}
 	return (tmp);
@@ -83,15 +83,15 @@ char	*ft_handle_dollars(char *str, int *i, t_main *main)
 
 char	*ft_cmd_pre_expand(char *str, t_main *main)
 {
-	char	*ret;
-	int		i;
-	bool	dquotes;
+	const int	len = ft_strlen(str);
+	char		*ret;
+	int			i;
+	bool		dquotes;
 
 	ret = ft_strdup("");
 	i = 0;
 	dquotes = false;
-	i = 0;
-	while (str[i])
+	while (i < len && str[i])
 	{
 		if (str[i] == '"' && str[ft_strlen(str) - 1] == '"')
 			dquotes = true;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 14:01:37 by ademaill          #+#    #+#             */
-/*   Updated: 2024/06/06 16:50:44 by ademaill         ###   ########.fr       */
+/*   Updated: 2024/06/13 18:28:19 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ int	ft_token_join(t_token *src, t_token *add, int j)
 	while (add->value[j])
 	{
 		tab[i] = add->value[j];
-		add->value[j] = NULL;
 		i++;
 		j++;
 	}
@@ -60,10 +59,8 @@ void	ft_sort(t_main *main)
 {
 	t_token	*token;
 	t_token	*tmp;
-	int		i;
 
 	token = main->token;
-	i = 2;
 	while (token)
 	{
 		if (token->type == __cmdgr && token->next)
@@ -85,35 +82,44 @@ void	ft_sort(t_main *main)
 	}
 }
 
-t_token	*ft_tokenizer(char *line, t_main *main)
+static int	while_token(char **tab, t_main *main, char **content)
 {
 	int		i;
-	char	**content;
-	char	**tab;
 	char	*str;
 
-	i = 0;
-	str = NULL;
-	tab = ft_split_ms(line, "<>|");
-	if (!tab)
-		return (NULL);
-	while (tab[i])
+	i = -1;
+	while (tab[++i])
 	{
+		str = tab[i];
 		if (ft_strncmp(tab[i], "<<", 2) != 0)
-		{
 			str = ft_cmd_pre_expand(tab[i], main);
-		}
-		else
-			str = tab[i];
 		content = ft_split_ms(str, " 	");
 		if (!content)
-		{
 			free_all(main);
-			return (NULL);
+		if (!content)
+			return (1);
+		if (content && !content[0])
+		{
+			free(content);
+			content = NULL;
 		}
 		if (content && content[0] != NULL)
 			ft_new_node(&main->token, content);
-		i++;
+	}
+	return (0);
+}
+
+t_token	*ft_tokenizer(char *line, t_main *main)
+{
+	char	**tab;
+
+	tab = ft_split_ms(line, "<>|");
+	if (!tab)
+		return (NULL);
+	if (while_token(tab, main, NULL) == 1)
+	{
+		free(tab);
+		return (NULL);
 	}
 	free(tab);
 	ft_cmd_type(main);

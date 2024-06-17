@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 12:36:44 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/06/06 20:26:29 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/06/17 08:24:25 by ademaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,15 +71,15 @@ static int	check_exit(char *str, int size, t_main *main)
 	if (size > 2)
 	{
 		ft_putstr_fd(" too many arguments\n", 2);
+		free(str);
 		return (1);
 	}
 	if (str)
 		free(str);
 	if (code)
-	{
 		free_all(main);
+	if (code)
 		exit(code);
-	}
 	code = main->exit_code;
 	free_all(main);
 	exit(code);
@@ -95,8 +95,7 @@ int	ft_exit(t_main *main, char **value)
 	i = 0;
 	str = NULL;
 	size = ft_len_tab(value);
-	close(main->original_stdin);
-	close(main->here_doc_stdin);
+	close_in_exit(main);
 	if (value[1])
 		str = clean_str(value[1]);
 	if (!str && size == 2)

@@ -1,16 +1,19 @@
 NAME = minishell
 CC = cc
-SRCS = execution/pipex.c \
+SRCS = main.c \
+		execution/pipex.c \
+		execution/pipex_utils.c \
 		execution/utils.c \
 		execution/redirection.c \
 		execution/utils2.c \
 		execution/here_doc.c \
 		execution/here_doc_utils.c \
-		execution/get_next_line/get_next_line.c \
-		execution/get_next_line/get_next_line_utils.c \
+		execution/ft_find.c \
 		execution/ft_process.c \
+		execution/redirection_utils.c \
 		lexer/lexer.c \
 		lexer/lexer_utils.c \
+		lexer/lexer_utils2.c \
 		lexer/ft_split_ms.c \
 		lexer/ft_cmd_type.c \
 		builtins/env_utils.c \
@@ -26,11 +29,10 @@ SRCS = execution/pipex.c \
 		builtins/ft_export_list.c \
 		expand/expand_utils.c \
 		expand/expand.c \
-		prompt/prompt.c \
-		prompt/utils_prompt.c \
 		parsing/clean_str.c \
 		parsing/parse_pipe.c \
 		parsing/parse_utils.c \
+		prompt/prompt.c \
 		prompt/signal.c
 
 
@@ -43,7 +45,7 @@ LIBFT_PATH = "Libft"
 all: $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT)
-	$(CC) -o $(NAME) -L$(LIBFT_PATH) $^ -o $@ -lreadline
+	$(CC) $(CFLAGS) -o $(NAME) -L$(LIBFT_PATH) $^ -o $@ -lreadline
 
 %.o: %.c $(HEADER)
 	$(CC) $(CFLAGS) -c $< -o $@ -Iinclude -I$(READLINE_PATH)/include

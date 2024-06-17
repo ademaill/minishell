@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 11:34:02 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/06/07 13:44:44 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/06/13 13:51:03 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,10 @@ int	mult_process(t_token *token, t_main *main, bool last)
 	if (check_parents_builtins(token, main))
 		return (0);
 	if (pipe(main->fd) == -1)
-		ft_error("error pipe", EXIT_FAILURE, "pipe\n");
+		ft_error("error pipe", EXIT_FAILURE, "pipe\n", main);
 	rd = fork();
 	if (rd == -1)
-		ft_error("error fork", EXIT_FAILURE, "fork\n");
+		ft_error("error fork", EXIT_FAILURE, "fork\n", main);
 	if (rd == 0)
 	{
 		ft_got_signal(0);
@@ -50,13 +50,8 @@ int	mult_process(t_token *token, t_main *main, bool last)
 	}
 	else
 	{
-		if (!last)
-			dup2(main->fd[0], STDIN_FILENO);
-		else
-			close(STDIN_FILENO);
-		ft_got_signal(1);
-		close(main->fd[0]);
-		close(main->fd[1]);
+		else_pipex(last, main, token, rd);
+		close_process(main);
 		return (rd);
 	}
 	return (0);
@@ -78,7 +73,8 @@ void	mult_pipe(int pipecount, t_main *main)
 		last = false;
 		if (i == pipecount + 1)
 			last = true;
-		tmp = ft_find(main->token, i, pipecount);
+		tmp = ft_find(main->token, last, i);
+		tmp = ft_find_cmdgr(tmp);
 		main->pid[j] = mult_process(tmp, main, last);
 		j++;
 		i++;
@@ -93,8 +89,8 @@ int	ft_exec(t_main *main)
 
 	pipecount = 0;
 	tmp = main->token;
-	main->original_stdin = dup(STDIN_FILENO);
 	main->here_doc_stdin = dup(STDIN_FILENO);
+	main->original_stdin = dup(STDIN_FILENO);
 	while (tmp)
 	{
 		if (tmp->type == __pipe)

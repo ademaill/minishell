@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 10:14:24 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/06/06 21:04:56 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/06/17 09:08:57 by ademaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ void	unset_ut(char *str, t_main *main)
 	{
 		if (!ft_strncmp(str, env->key, ft_strlen(str)))
 		{
+			if (!prev)
+				main->env = env->next;
 			if (prev)
 				prev->next = env->next;
 			free(env->key);

@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 20:08:40 by ademaill          #+#    #+#             */
-/*   Updated: 2024/06/06 22:18:56 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/06/13 14:18:56 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static char	**clean_tab(char **src)
 
 	i = 1;
 	tab = ft_calloc(sizeof(char *), ft_len_tab(src) + 1);
-	tab[0] = src[0];
+	tab[0] = ft_strdup(src[0]);
 	while (src[i])
 	{
 		tab[i] = clean_str(src[i]);
@@ -30,15 +30,18 @@ static char	**clean_tab(char **src)
 
 static void	end_process(int *fd, t_token *token, t_main *main)
 {
-	char	**tab;
-
-	tab = NULL;
-	close(fd[0]);
-	close(fd[1]);
+	(void)fd;
+	close(main->fd[0]);
+	close(main->fd[1]);
 	close(main->original_stdin);
 	close(main->here_doc_stdin);
 	if (token->type != __cmdgr)
+	{
+		if (main->hpath)
+			free(main->hpath);
+		free_all(main);
 		exit(0);
+	}
 	if (is_builtins(token) == 1)
 	{
 		exec_builtins(token, main);
@@ -46,8 +49,8 @@ static void	end_process(int *fd, t_token *token, t_main *main)
 	}
 	else
 	{
-		tab = clean_tab(token->value);
-		exec_cmd(tab, main->envp, main);
+		main->cmd_cpy = clean_tab(token->value);
+		exec_cmd(main->cmd_cpy, main->envp, main);
 	}
 }
 
@@ -58,19 +61,19 @@ void	ft_process(t_token *token, t_main *main, int *fd, bool last)
 	bool	heredoc;
 
 	heredoc = false;
-	out = do_out(token);
 	in = do_in(token, main, &heredoc);
 	if (in)
 		dup2(in, STDIN_FILENO);
+	if (in)
+		close(in);
 	if (heredoc)
 		unlink(main->hpath);
+	out = do_out(token, main);
 	if (out)
 		dup2(out, STDOUT_FILENO);
 	if (!last && !out)
 		dup2(fd[1], STDOUT_FILENO);
 	if (out)
 		close(out);
-	if (in)
-		close(in);
 	end_process(fd, token, main);
 }

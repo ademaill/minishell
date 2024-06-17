@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 13:36:19 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/06/04 16:37:32 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/06/13 14:10:24 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,33 +40,19 @@ void	ft_lst_add_back(t_list **lst, t_list *new)
 	curr_node->next = new;
 }
 
-void	*ft_garbage_collector(void *ptr, bool clean)
+t_env	*ft_get_envlst(char *key, t_env *envlst)
 {
-	static t_list	*garbage_list;
-
-	if (clean)
+	while (envlst)
 	{
-		return (NULL);
+		if (!ft_strncmp(key, envlst->key, ft_strlen(key)))
+			return (envlst);
+		envlst = envlst->next;
 	}
-	else
-	{
-		ft_lst_add_back(&garbage_list, ft_lst_new(ptr));
-		return (ptr);
-	}
+	return (NULL);
 }
 
-void	ft_update(char *key, char *value, t_env *env, bool c)
+void	close_in_exit(t_main *main)
 {
-	while (env)
-	{
-		if (!ft_strncmp(key, env->key, ft_strlen(key)))
-		{
-			if (value)
-				env->value = ft_garbage_collector(ft_strdup(value), false);
-			return ;
-		}
-		env = env->next;
-	}
-	if (c)
-		ft_lstadd_back_env(&env, ft_lst_env_new(key, value));
+	close(main->original_stdin);
+	close(main->here_doc_stdin);
 }

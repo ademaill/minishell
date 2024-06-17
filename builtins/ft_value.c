@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 19:14:51 by ademaill          #+#    #+#             */
-/*   Updated: 2024/06/06 20:53:48 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/06/13 14:10:26 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,19 @@
 
 static char	*value_condition(char *str, int *i, int *j, char *value)
 {
-	if (str[(*i)] == '=')
+	if (str[(*i)] == '=' && str[(*i) + 1] != '\'')
 	{
 		value = ft_calloc(sizeof(char), (ft_strlen(str) - (*i)));
 		(*i)++;
-		if (str[(*i)] == '"')
-			(*i)++;
 		while (str[(*i)] != '\0')
-		{
-			if (str[(*i)] == '"')
-				break ;
 			value[(*j)++] = str[(*i)++];
-		}
+	}
+	else if (str[(*i)] == '=' && str[(*i) + 1] == '\'')
+	{
+		value = ft_calloc(sizeof(char), (ft_strlen(str) - (*i)));
+		(*i)++;
+		while (str[(*i)] != '\0')
+			value[(*j)++] = str[(*i)++];
 	}
 	return (value);
 }

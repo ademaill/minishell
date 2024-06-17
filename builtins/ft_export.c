@@ -6,7 +6,7 @@
 /*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 11:14:47 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/06/06 13:25:32 by ademaill         ###   ########.fr       */
+/*   Updated: 2024/06/17 10:00:47 by ademaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,20 +18,6 @@ static int	ft_export_error(char *identifier)
 	ft_putstr_fd(identifier, 2);
 	ft_putstr_fd("': not a valid identifier\n", 2);
 	return (1);
-}
-
-static int	find_char(char *str, char c)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == c)
-			return (1);
-		i++;
-	}
-	return (0);
 }
 
 bool	ft_env_exists(char *key, t_main *main)
@@ -47,7 +33,6 @@ bool	ft_env_exists(char *key, t_main *main)
 	}
 	return (false);
 }
-//pas sur du void
 
 static void	export_condition(char **av, int *i, t_main *main)
 {
@@ -64,8 +49,7 @@ static void	export_condition(char **av, int *i, t_main *main)
 		{
 			if (ft_strncmp(key, env->key, ft_strlen(key)) == 0)
 			{
-				if (find_char(av[(*i)], '=') == 1)
-					env->value = ft_value(av[(*i)]);
+				export_next(key, av, i, env);
 				break ;
 			}
 			env = env->next;
@@ -73,7 +57,10 @@ static void	export_condition(char **av, int *i, t_main *main)
 	}
 	else
 		ft_lstadd_back_env(&env, ft_lst_env_new(key, ft_value(av[(*i)])));
-	main->env = head;
+	if (head != NULL)
+		main->env = head;
+	else
+		main->env = env;
 }
 
 int	ft_export(char **av, t_main *main)

@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 13:47:04 by ademaill          #+#    #+#             */
-/*   Updated: 2024/06/06 23:03:42 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/06/10 16:40:39 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	ft_got_signal(int handle)
 	}
 	else
 	{
+		signal(SIGPIPE, SIG_IGN);
 		signal(SIGQUIT, handle_fork);
 		signal(SIGINT, handle_fork);
 	}

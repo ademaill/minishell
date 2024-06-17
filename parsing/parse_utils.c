@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 11:36:12 by ademaill          #+#    #+#             */
-/*   Updated: 2024/06/06 14:12:26 by ademaill         ###   ########.fr       */
+/*   Updated: 2024/06/08 18:50:30 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ char	*skip_dquotes(char *str, int *i)
 	}
 	if (dquotes % 2 != 0)
 	{
-		ft_putstr_fd("Symtax error, quote unclosed\n", 2);
+		ft_putstr_fd("Syntax error, quote unclosed\n", 2);
 		exit(0);
 	}
 	str_clean = skip_again(str_clean, str, dquotes, i);

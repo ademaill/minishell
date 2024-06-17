@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split_ms.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 16:38:21 by ademaill          #+#    #+#             */
-/*   Updated: 2024/06/06 16:37:25 by ademaill         ###   ########.fr       */
+/*   Updated: 2024/06/13 16:37:27 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ static int	quotes_jump(char *str)
 
 	if (!str)
 		return (0);
-	if (str && str[0] != '\'' && str[0] != '"')
+	if ((str && str[0] != '\'' && str[0] != '"')
+		|| !ft_strchr(&str[1], str[0]))
 		return (0);
 	c = str[0];
 	i = 1;
@@ -40,7 +41,8 @@ static int	ft_count_words(char *str, char *sep)
 	while (str && str[i])
 	{
 		i += quotes_jump(&str[i]);
-		if (ft_strchr(sep, str[i]) && str[i] == str[i + 1] && str[i] == '|')
+		if (str[i] && ft_strchr(sep, str[i])
+			&& str[i] == str[i + 1] && str[i] == '|')
 		{
 			++i;
 			count += 2;
@@ -62,7 +64,7 @@ static int	get_next_sep(char *str, char *sep)
 	i = 0;
 	if (str[i] && ft_strchr(sep, str[i]))
 	{
-		if (str[++i] && ft_strchr(sep, str[i]))
+		if (str[++i] == str[0])
 			++i;
 		if (str[0] == '<' || str[0] == '>')
 		{
@@ -79,7 +81,7 @@ static int	get_next_sep(char *str, char *sep)
 			i++;
 		return (i);
 	}
-	while (str[i] && !ft_strchr(sep, str[i]))
+	while (!ft_strchr(sep, str[i]))
 		i += quotes_jump(&str[i]) + 1;
 	return (i);
 }
@@ -91,12 +93,14 @@ char	**ft_split_ms(char *str, char *sep)
 	int		j;
 	int		k;
 
-	tab = ft_calloc(sizeof(char *), ft_count_words(str, sep));
-	if (!tab)
+	tab = NULL;
+	if (str && str[0])
+		tab = ft_calloc(sizeof(char *), ft_count_words(str, sep));
+	if (str && str[0] && !tab)
 		return (NULL);
 	i = 0;
 	k = -1;
-	while (str && str[i] && (i == 0 || str[i - 1]))
+	while (str && str[0] && str[i] && (i == 0 || str[i - 1]))
 	{
 		if ((str[i] == ' ' || str[i] == '	') && ++i)
 			continue ;

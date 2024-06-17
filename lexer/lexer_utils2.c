@@ -1,38 +1,47 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstnew_node.c                                   :+:      :+:    :+:   */
+/*   lexer_utils2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/09 09:31:53 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/06/10 13:58:14 by vnavarre         ###   ########.fr       */
+/*   Created: 2024/06/07 14:54:31 by ademaill          #+#    #+#             */
+/*   Updated: 2024/06/12 18:52:10 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../minishell.h"
+#include "lexer.h"
 
-void	ft_new_node(t_token **lst, char	**content)
+void	free_main_token(t_token *token)
 {
-	t_token	*last;
-	t_token	*new_node;
+	t_token	*tmp;
 
-	if (lst == NULL)
-		return ;
-	new_node = malloc(sizeof(t_token));
-	if (new_node == NULL)
-		return ;
-	new_node->next = NULL;
-	new_node->value = content;
-	if ((*lst) == NULL)
+	while (token)
 	{
-		(*lst) = new_node;
-		new_node->prev = NULL;
+		tmp = token;
+		token = token->next;
+		if (tmp->value)
+			free_tab(tmp->value);
+		free(tmp);
 	}
-	else
+}
+
+void	free_tab(char **tab)
+{
+	int	i;
+	int	height;
+
+	i = 0;
+	height = ft_len_tab(tab);
+	if (!height)
+		return ;
+	if (tab == NULL || *tab == NULL)
+		return ;
+	while (i < height)
 	{
-		last = ft_lstlast((*lst));
-		last->next = new_node;
-		new_node->prev = last;
+		free(tab[i]);
+		i++;
 	}
+	free(tab);
 }

@@ -3,27 +3,49 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 14:47:48 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/06/06 16:35:27 by ademaill         ###   ########.fr       */
+/*   Updated: 2024/06/13 18:28:49 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int	count_quotes(char *str)
+{
+	int	i;
+	int	count;
+
+	i = 0;
+	count = 0;
+	while (str[i])
+	{
+		if (str[i] == '"' || str[i] == '\'')
+			count++;
+		i++;
+	}
+	if (count == i)
+		return (0);
+	return (1);
+}
 
 static unsigned long	option_check(char *str)
 {
 	unsigned long	i;
 
 	i = 0;
-	if (str[0] != '-')
+	if (!str)
 		return (0);
-	while (str[i] == '-')
+	while (str[i] == '"' || str[i] == '\'')
+		i++;
+	if (str[i] != '-')
+		return (0);
+	if (str[i] == '-')
 		i++;
 	if (i == ft_strlen(str))
 		return (0);
-	while (str[i])
+	while (str[i] && (str[i] != '"' && str[i] != '\''))
 	{
 		if (str[i] != 'n')
 			return (0);
@@ -38,13 +60,10 @@ int	ft_echo(char **av)
 	int		option;
 	char	*str;
 
-	i = 1;
+	i = 0;
 	option = 0;
-	while (av[i] != NULL && option_check(av[i]) == 1)
-	{
+	while (av[i++] != NULL && option_check(av[i]) == 1)
 		option = 1;
-		i++;
-	}
 	while (av[i])
 	{
 		str = clean_str(av[i]);

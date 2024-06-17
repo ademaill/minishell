@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:35:32 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/06/04 14:31:12 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/06/07 19:41:41 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,5 +21,6 @@ int	ft_pwd(void)
 	if (!dir)
 		return (1);
 	printf("%s\n", dir);
+	free(dir);
 	return (0);
 }

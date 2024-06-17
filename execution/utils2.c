@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 11:01:11 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/06/06 17:56:30 by ademaill         ###   ########.fr       */
+/*   Updated: 2024/06/12 17:05:15 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,52 +50,72 @@ void	exec_builtins(t_token *token, t_main *main)
 		ft_env(main->env);
 	else if (ft_strncmp(token->value[0], "exit", 5) == 0)
 	{
-		printf("exit\n");
 		main->exit_code = ft_exit(main, token->value);
 	}
+	free_all(main);
 }
 
-static void	exec_else(char **cmd, char **envp)
+static void	exec_else(char **cmd, char **envp, t_main *main, char *str)
 {
 	char	*path;
 	char	*tmp;
+	char	*clean;
 
 	tmp = NULL;
-	path = f_path(cmd[0], envp);
+	free(str);
+	if (count_quotes(cmd[0]))
+		clean = clean_str(cmd[0]);
+	else
+		clean = ft_strdup(cmd[0]);
+	path = f_path(clean, envp);
 	if (!path)
 	{
 		tmp = ft_strdup(cmd[0]);
-		free_tab(cmd);
-		ft_error(tmp, 127, " command not found\n");
+		free(clean);
+		ft_error(tmp, 127, " command not found\n", main);
 	}
 	if (execve(path, cmd, envp) == -1)
 	{
 		tmp = cmd[0];
 		free(path);
-		ft_error(tmp, EXIT_FAILURE, " command not found\n");
+		free(clean);
+		ft_error(tmp, EXIT_FAILURE, " command not found\n", main);
 	}
 }
 
 void	exec_cmd(char **cmd, char **envp, t_main *main)
 {
+	t_dir	*directory;
 	char	*tmp;
-	DIR		*directory;
+	char	*clean;
 
-	tmp = NULL;
+	clean = clean_str(cmd[0]);
+	tmp = ft_strdup(clean);
+	free(clean);
 	if (!ft_env_exists("PATH", main))
-		ft_error(cmd[0], 127, " command not found\n");
-	if (cmd[0][0] == '/' || (cmd[0][0] == '.' && cmd[0][1] == '/'))
+		ft_error(tmp, 127, " command not found\n", main);
+	if (tmp[0] == '/' || (tmp[0] == '.' && tmp[1] == '/'))
 	{
 		directory = opendir(cmd[0]);
 		if (directory != NULL)
-			ft_error(cmd[0], 126, " Is a directory\n");
-		if (access(cmd[0], F_OK) != 0)
-			ft_error(cmd[0], 127, " No such file or directory\n");
-		if (access(cmd[0], R_OK) != 0)
-			ft_error(cmd[0], 126, " Permission denied\n");
-		if (execve(cmd[0], cmd, envp) != 0)
-			ft_error(cmd[0], 126, " command not found\n");
+			ft_error(tmp, 126, " Is a directory\n", main);
+		if (access(tmp, F_OK) != 0)
+			ft_error(tmp, 127, " No such file or directory\n", main);
+		if (access(tmp, R_OK) != 0)
+			ft_error(tmp, 126, " Permission denied\n", main);
+		if (execve(tmp, cmd, envp) != 0)
+			ft_error(tmp, 126, " command not found\n", main);
+		else
+			free(tmp);
 	}
 	else
-		exec_else(cmd, envp);
+		exec_else(cmd, envp, main, tmp);
+}
+
+void	close_all(t_main *main)
+{
+	close(main->fd[0]);
+	close(main->fd[1]);
+	close(main->here_doc_stdin);
+	close(main->original_stdin);
 }

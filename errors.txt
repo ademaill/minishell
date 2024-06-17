@@ -1,3 +1,0 @@
--- Invalid HOME ex: '/4780934780923u740923/' -> print message
--- OPTIONAL: handle sigterm
--- vim > out | <out cat >> t | <<POTO cat >> t

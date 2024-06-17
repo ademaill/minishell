@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 10:47:46 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/06/07 13:14:34 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/06/13 14:18:55 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,19 @@ char	*f_path(char *cmd, char **envp)
 	return (0);
 }
 
-void	ft_error(char *str, int code, char *error)
+void	ft_error(char *str, int code, char *error, t_main *main)
 {
+	(void)str;
 	ft_putstr_fd(error, 2);
-	free(str);
+	if (main->hpath)
+		free(main->hpath);
+	free_all(main);
+	if (str)
+		free(str);
 	exit(code);
 }
 
-int	open_file(char *name, int i)
+int	open_file(char *name, int i, t_main *main)
 {
 	int	file;
 
@@ -73,33 +78,8 @@ int	open_file(char *name, int i)
 	else if (i == 2)
 		file = open(name, O_RDONLY, 0777);
 	if (file == -1)
-		ft_error(name, EXIT_FAILURE, " Permission denied\n");
+		close_all(main);
+	if (file == -1)
+		ft_error(name, EXIT_FAILURE, " Permission denied\n", main);
 	return (file);
-}
-
-t_token	*ft_find(t_token *token, int i, int pipecount)
-{
-	int		count;
-	int		pipe;
-	t_token	*tmp;
-
-	count = 0;
-	pipe = 1;
-	//(void)pipecount;
-	tmp = token;
-	while (token && token->next)
-	{
-		if (token->type == __pipe)
-			pipe++;
-		if (token->type == __cmdgr)
-			count++;
-		if (count == i)
-			return (token);
-		token = token->next;
-		if (pipe == pipecount + 1 && !token->next)
-			return(token);
-	}
-	if (!token->next)
-		return (token);
-	return(tmp);
 }

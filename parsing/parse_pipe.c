@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 09:58:48 by ademaill          #+#    #+#             */
-/*   Updated: 2024/06/07 11:03:13 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/06/08 11:38:04 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,6 @@ void	parse_redirect(t_token *token, t_main *main)
 			error_parse(" syntax error near unexpected token\n", token, main);
 		if (!token->value[1])
 			error_parse("Redirect need file\n", token, main);
-		if (access(tmp, F_OK) != 0)
-			error_parse("File doesn't exist\n", token, main);
 		token->type = __redirect_in;
 	}
 	free(tmp);

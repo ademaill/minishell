@@ -1,30 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/17 10:12:33 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/05/17 12:21:16 by vnavarre         ###   ########.fr       */
+/*   Created: 2024/06/08 15:45:28 by vnavarre          #+#    #+#             */
+/*   Updated: 2024/06/08 16:40:38 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "minishell.h"
 
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 4242
-# endif
+int	g_sig_received;
 
-# include <stdlib.h>
-# include <unistd.h>
-# include <stdbool.h>
+int	main(int ac, char **av, char **envp)
+{
+	t_main	*data;
 
-char	*get_next_line(int fd);
-int		ft_slen_gnl(char *str);
-char	*ft_strjoin_gnl(char *s1, char *s2);
-int		ft_strchr_gnl(char *s, int c);
-char	*ft_calloc_gnl(int size, int len);
-
-#endif
+	(void)ac;
+	(void)av;
+	data = malloc(sizeof(t_main));
+	ft_memset(data, 0, sizeof(t_main));
+	if (!envp[0])
+		data->envp = NULL;
+	data->envp = envp;
+	data->env = ft_env_int(data->envp);
+	ft_got_signal(1);
+	minishell_loop(data);
+	free(data);
+	return (0);
+}
