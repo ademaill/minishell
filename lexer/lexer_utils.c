@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 11:31:45 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/06/12 18:44:03 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/06/17 14:54:08 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,10 @@ void	free_all(t_main *main)
 			*env = tmpe;
 		}
 	}
-	if (main->token)
-		free_main_token(main->token);
-	if (main->cmd_cpy && main->cmd_cpy[0])
-		free_tab(main->cmd_cpy);
+
+	free_main_token(main->token);
+	free_tab(main->cmd_cpy);
+	free_tab(main->envp);
 	if (main->pid)
 		free(main->pid);
 	free(main);

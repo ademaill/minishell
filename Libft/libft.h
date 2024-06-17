@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 10:19:24 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/06/06 15:08:12 by ademaill         ###   ########.fr       */
+/*   Updated: 2024/06/17 14:14:52 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include "../minishell.h"
 
 typedef struct s_token	t_token;
+typedef struct s_env	t_env;
 typedef struct s_main	t_main;
 
 int		ft_isalpha(int a);
@@ -58,7 +59,7 @@ void	ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
 void	ft_lstadd_front(t_token **lst, t_token *new);
-int		ft_lstsize(t_token *lst);
+int		ft_lstsize(t_env *lst);
 t_token	*ft_lstlast(t_token *lst);
 void	ft_lstadd_back(t_token **lst, t_token *new);
 void	ft_lstdelone(t_token *lst, void (*del)(void*));

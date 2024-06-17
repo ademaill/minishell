@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 14:54:31 by ademaill          #+#    #+#             */
-/*   Updated: 2024/06/12 18:52:10 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/06/17 14:53:47 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	free_main_token(t_token *token)
 {
 	t_token	*tmp;
 
+	if (!token)
+		return ;
 	while (token)
 	{
 		tmp = token;
@@ -33,6 +35,8 @@ void	free_tab(char **tab)
 	int	height;
 
 	i = 0;
+	if (!tab || !tab[0])
+		return ;
 	height = ft_len_tab(tab);
 	if (!height)
 		return ;

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstsize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 10:32:39 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/04/16 15:58:58 by ademaill         ###   ########.fr       */
+/*   Updated: 2024/06/17 14:47:30 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_lstsize(t_token *lst)
+int	ft_lstsize(t_env *lst)
 {
 	int	i;
 

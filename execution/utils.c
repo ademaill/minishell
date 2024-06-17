@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 10:47:46 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/06/13 14:18:55 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/06/17 14:49:38 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ char	*f_path(char *cmd, char **envp)
 		path = ft_strjoin(tmp, cmd, false);
 		free(tmp);
 		if (access(path, F_OK) == 0)
+			free_tab(all_paths);
+		if (access(path, F_OK) == 0)
 			return (path);
 		i++;
 		free(path);
@@ -61,8 +63,7 @@ void	ft_error(char *str, int code, char *error, t_main *main)
 	if (main->hpath)
 		free(main->hpath);
 	free_all(main);
-	if (str)
-		free(str);
+	free(str);
 	exit(code);
 }
 
@@ -82,4 +83,34 @@ int	open_file(char *name, int i, t_main *main)
 	if (file == -1)
 		ft_error(name, EXIT_FAILURE, " Permission denied\n", main);
 	return (file);
+}
+
+char	**t_env_to_strtab(t_env *env)
+{
+	char	**envp;
+	t_env	*tmp_env;
+	char	*tmp;
+	int		k;
+
+
+	envp = ft_calloc(sizeof(char *), (ft_lstsize(env) + 1));
+	if (!envp)
+		return (NULL);
+	tmp_env = env;
+	k = 0;
+	while (tmp_env)
+	{
+		if (tmp_env->value)
+		{
+			tmp = ft_strjoin(tmp_env->key, "=", false);
+			envp[k] = ft_strjoin(tmp, tmp_env->value, false);
+			if (tmp)
+				free(tmp);
+			if (!envp[k++])
+				return (free_tab(envp), NULL);
+		}
+		tmp_env = tmp_env->next;
+	}
+	envp[k] = NULL;
+	return (envp);
 }

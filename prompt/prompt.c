@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademaill <ademaill@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 15:46:21 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/06/17 10:00:50 by ademaill         ###   ########.fr       */
+/*   Updated: 2024/06/17 14:36:14 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,7 @@ void	minishell_loop(t_main *main)
 
 	while (1)
 	{
+		//main->envp = t_env_to_strtab(main->env);
 		main->token = NULL;
 		ft_get_prompt(main->env, &prompt);
 		buffer = readline(prompt);

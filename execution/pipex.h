@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 11:36:21 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/06/13 14:19:07 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/06/17 14:40:55 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,5 +50,6 @@ void	core_while(int fd, t_main *main, char *tmp, char *line);
 void	else_pipex(bool last, t_main *main, t_token *token, pid_t rd);
 void	close_process(t_main *main);
 int		do_redirect_out(int out, char *path, t_token *tmp, t_main *main);
+char	**t_env_to_strtab(t_env *env);
 
 #endif

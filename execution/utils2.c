@@ -6,7 +6,7 @@
 /*   By: vnavarre <vnavarre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 11:01:11 by vnavarre          #+#    #+#             */
-/*   Updated: 2024/06/12 17:05:15 by vnavarre         ###   ########.fr       */
+/*   Updated: 2024/06/17 14:39:45 by vnavarre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,12 @@ static void	exec_else(char **cmd, char **envp, t_main *main, char *str)
 	{
 		tmp = ft_strdup(cmd[0]);
 		free(clean);
+		free(path);
 		ft_error(tmp, 127, " command not found\n", main);
 	}
 	if (execve(path, cmd, envp) == -1)
 	{
-		tmp = cmd[0];
+		tmp = ft_strdup(cmd[0]);
 		free(path);
 		free(clean);
 		ft_error(tmp, EXIT_FAILURE, " command not found\n", main);
@@ -91,11 +92,12 @@ void	exec_cmd(char **cmd, char **envp, t_main *main)
 
 	clean = clean_str(cmd[0]);
 	tmp = ft_strdup(clean);
+	envp = t_env_to_strtab(main->env);
 	free(clean);
-	if (!ft_env_exists("PATH", main))
-		ft_error(tmp, 127, " command not found\n", main);
 	if (tmp[0] == '/' || (tmp[0] == '.' && tmp[1] == '/'))
 	{
+		if (!tmp[1])
+			ft_error(tmp, 127, " No such file or directory\n", main);
 		directory = opendir(cmd[0]);
 		if (directory != NULL)
 			ft_error(tmp, 126, " Is a directory\n", main);
